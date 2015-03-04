@@ -2,32 +2,46 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jar="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
-        <dex dex="C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\classes-c2eded5c56d3b763cd29c8b65aa956eda110d87c.jar" />
+        <dex dex="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\classes-ffa1f7dd229ce95947a0ea9b8fde1c0277df99d8.jar" />
     </item>
     <item
-        jar="C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jar="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\libs\ormlite-android-4.48.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
-        <dex dex="C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-583e7ab63bb672128b80247b695715a89f9ad7b8.jar" />
+        sha1="afa06f539a4026c10b247386312aa67404b80a16">
+        <dex dex="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\ormlite-android-4.48-c8b3e6c11571952256816269b32857cb68179231.jar" />
     </item>
     <item
-        jar="C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
-        <dex dex="C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\classes-a10c27511b43fc927ef1dc19665125796a5cd455.jar" />
-    </item>
-    <item
-        jar="E:\Java\SDK\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jar="S:\Users\King\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
         jumboMode="false"
         revision="21.1.2"
         sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
-        <dex dex="C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-9d2842d83f04feaa59b7bf317013450e939d20a9.jar" />
+        <dex dex="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-38d1bfe2bd5605fde64ab8cf4938ced284337aeb.jar" />
+    </item>
+    <item
+        jar="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\libs\ormlite-core-4.48.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="e579bd2905d0399af5029aaaf9817d5fa0ca88a5">
+        <dex dex="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\ormlite-core-4.48-09d82722eeedb957343e53358d8274bd37c7050d.jar" />
+    </item>
+    <item
+        jar="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="2c91c949a45a21cdecf26e03951e46c7beec9ad8">
+        <dex dex="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\classes-f204b5f462ad382fa1d10dcc8da4c007cde4cff7.jar" />
+    </item>
+    <item
+        jar="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\libs\internal_impl-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
+        <dex dex="S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-9087d79a0ac6df76af2e18325e9b9b48a4ce2876.jar" />
     </item>
 
 </items>

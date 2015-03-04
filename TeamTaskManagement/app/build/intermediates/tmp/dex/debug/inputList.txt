@@ -1,5 +1,7 @@
-C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\classes\debug
-C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-9d2842d83f04feaa59b7bf317013450e939d20a9.jar
-C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-583e7ab63bb672128b80247b695715a89f9ad7b8.jar
-C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\classes-c2eded5c56d3b763cd29c8b65aa956eda110d87c.jar
-C:\Users\comet_000\AndroidStudioProjects\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\classes-a10c27511b43fc927ef1dc19665125796a5cd455.jar
+S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\classes\debug
+S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-38d1bfe2bd5605fde64ab8cf4938ced284337aeb.jar
+S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\ormlite-android-4.48-c8b3e6c11571952256816269b32857cb68179231.jar
+S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-9087d79a0ac6df76af2e18325e9b9b48a4ce2876.jar
+S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\ormlite-core-4.48-09d82722eeedb957343e53358d8274bd37c7050d.jar
+S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\classes-ffa1f7dd229ce95947a0ea9b8fde1c0277df99d8.jar
+S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\classes-f204b5f462ad382fa1d10dcc8da4c007cde4cff7.jar
