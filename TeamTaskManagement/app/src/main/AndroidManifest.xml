@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.comet_000.myapplication" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:noHistory="true" >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".Project"
+            android:label="@string/title_activity_project" >
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".Task"
+            android:label="@string/title_activity_task"
+            android:parentActivityName=".Project" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.comet_000.myapplication.Project" />
+        </activity>
+        <activity
+            android:name=".Member"
+            android:label="@string/title_activity_member"
+            android:parentActivityName=".Project" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.comet_000.myapplication.Project" />
+        </activity>
+        <activity
+            android:name=".TaskMember"
+            android:label="@string/title_activity_task_member"
+            android:parentActivityName=".Project" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.comet_000.myapplication.Project" />
+        </activity>
+        <activity
+            android:name=".Home"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".project_items_layout"
+            android:label="@string/title_activity_project_items_layout" >
+        </activity>
+        <activity
+            android:name=".UpdateTask"
+            android:label="@string/title_activity_update_task"
+            android:noHistory="true" >
+        </activity>
+    </application>
+
+</manifest>
