@@ -1,7 +1,7 @@
-S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\classes\debug
-S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-38d1bfe2bd5605fde64ab8cf4938ced284337aeb.jar
-S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\ormlite-android-4.48-c8b3e6c11571952256816269b32857cb68179231.jar
-S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-9087d79a0ac6df76af2e18325e9b9b48a4ce2876.jar
-S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\ormlite-core-4.48-09d82722eeedb957343e53358d8274bd37c7050d.jar
-S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\classes-ffa1f7dd229ce95947a0ea9b8fde1c0277df99d8.jar
-S:\Users\King\AndroidStudioProjects\TeamTaskManagementTest\app\build\intermediates\pre-dexed\debug\classes-f204b5f462ad382fa1d10dcc8da4c007cde4cff7.jar
+S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\classes\debug
+S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-38d1bfe2bd5605fde64ab8cf4938ced284337aeb.jar
+S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\ormlite-android-4.48-37f9eaf5e401a420ffe0b1a162fca6b373411b79.jar
+S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-a1e658e3ebdf5540f3d35cb61d87b6f381ec29f4.jar
+S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\ormlite-core-4.48-af8627ee4f6b8025af3480bef6ee083569603a85.jar
+S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\classes-e6d7026a71dfb1a2a6d96b9705a5c469dc681942.jar
+S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\classes-2bf62d52db59ffe121b380138d71681e71382a79.jar

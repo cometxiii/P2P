@@ -76,9 +76,10 @@ public class Project extends Activity {
                     Toast.makeText(getApplicationContext(),"Please enter project descriptions", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    if(dataProvider.checkProjectByFieldName("ProjectName",eName.toString()))
+                    if(dataProvider.checkProjectByFieldName("ProjectName",(eName.getText()).toString()))
                             Toast.makeText(getApplicationContext(), "This project has already been created by you!", Toast.LENGTH_SHORT).show();
-                    else {
+                    else
+                    {
                         MyAsync ma=new MyAsync();
                         ma.execute();
                         Toast.makeText(getApplicationContext(),"Add new project successfully!", Toast.LENGTH_SHORT).show();

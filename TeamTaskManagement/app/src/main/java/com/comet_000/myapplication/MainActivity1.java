@@ -7,9 +7,13 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity1 extends ActionBarActivity {
@@ -27,16 +31,29 @@ public class MainActivity1 extends ActionBarActivity {
         RuntimeExceptionDao<TableAccount, Integer> accountDao = dbHelper.getTableAccount();
         RuntimeExceptionDao<TableProject, Integer> myTableProjects = dbHelper.getTableProject();
         DataProvider Dp = new DataProvider();
-        Dp.myAccountTable = accountDao;
-        TableAccount num = Dp.getAccountById(1);
+        Dp.myProjectTable = myTableProjects;
         Dp.setTableProject(myTableProjects);
-        Integer numProject = Dp.getNumOfProject();
         TextView t1 = (TextView)findViewById(R.id.text);
-        t1.setText(numProject.toString());
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.item, Dp.GetAllNoteString());
+        //List<TableProject> myProjectList = Dp.getProjectByFieldName("ProjectName", "asdfasdf");
+        boolean empty = Dp.checkProjectByFieldName("ProjectName","sjs");
+
+        t1.setText(String.valueOf(empty));
+
+        if(Dp.checkProjectByFieldName("ProjectName","sjs"))
+            Toast.makeText(getApplicationContext(), "This project has already been created by you!", Toast.LENGTH_SHORT).show();
+        else
+        {
+            Toast.makeText(getApplicationContext(),"Add new project successfully!", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+//        List<String> listString = new ArrayList<String>();
+//        for (TableProject n : myProjectList) listString.add(n.toString());
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.item, listString);
 //        ListView list = (ListView) findViewById(R.id.listView);
 //        list.setAdapter(adapter);
-//        OpenHelperManager.releaseHelper();
+        OpenHelperManager.releaseHelper();
     }
 
     @Override

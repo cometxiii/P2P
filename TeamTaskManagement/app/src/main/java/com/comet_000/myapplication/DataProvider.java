@@ -207,10 +207,10 @@ public class DataProvider {
     public boolean checkProjectByFieldName(String fieldName, String arg)
     {
         List<TableProject> myList = this.getProjectByFieldName(fieldName, arg);
-        if (myList.isEmpty())
+        if(myList.isEmpty())
             return false;
-        return true;
-
+        else
+            return true;
     }
 
 
