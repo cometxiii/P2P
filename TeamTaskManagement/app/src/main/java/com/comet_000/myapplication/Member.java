@@ -17,6 +17,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +31,8 @@ public class Member extends Activity {
     Button add;
     SQLController sqlController;
     ProgressDialog PD;
+    DatabaseHelper dbHelper;
+    DataProvider dataProvider = new DataProvider();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,10 @@ public class Member extends Activity {
         setContentView(R.layout.activity_member);
 
         sqlController=new SQLController(this);
+        dbHelper = OpenHelperManager.getHelper(Member.this, DatabaseHelper.class);
+        RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
+        dataProvider.setTableProjectMember(myTableProjectMember);
+
         Intent intent=getIntent();
         loadProjectName=intent.getStringExtra(TaskMember.PROJECT_INTENT);
         msg=(TextView)findViewById(R.id.txtMsg);
@@ -49,7 +58,7 @@ public class Member extends Activity {
                     Toast.makeText(getApplicationContext(), "Please enter Google account to invite", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    if(checkMember().size()>0){
+                    if(dataProvider.checkProjectByFieldName("ProjectName", eMail.getText().toString().toLowerCase())){
                         Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
                     }
                     else {
@@ -78,8 +87,7 @@ public class Member extends Activity {
         protected Void doInBackground(Void... params) {
             String project=loadProjectName;
             String mail=eMail.getText().toString().toLowerCase();
-            sqlController.open();
-            sqlController.insertMemberData(project, mail);
+            dataProvider.addProjectMember(new TableProjectMember(project, mail));
             return null;
         }
 
@@ -95,14 +103,14 @@ public class Member extends Activity {
 
     //Check member
     private List<String> checkMember(){
-        String project=loadProjectName;
-        String mail=eMail.getText().toString().toLowerCase();
+        String project = loadProjectName;
+        String mail = eMail.getText().toString().toLowerCase();
 
         sqlController.open();
-        Cursor ProjectMemberCursor=sqlController.checkMemberEntry(project, mail);
-        List<String> items=new ArrayList<String>();
-        String result="";
-        int mName=ProjectMemberCursor.getColumnIndex(MyDbHelper.PROJECT_MEMBER_MEMBER_NAME);
+        Cursor ProjectMemberCursor = sqlController.checkMemberEntry(project, mail);
+        List<String> items = new ArrayList<String>();
+        String result = "";
+        int mName = ProjectMemberCursor.getColumnIndex(MyDbHelper.PROJECT_MEMBER_MEMBER_NAME);
         for (ProjectMemberCursor.moveToFirst(); !ProjectMemberCursor.isAfterLast(); ProjectMemberCursor.moveToNext()){
             result=ProjectMemberCursor.getString(mName);
             items.add(result);

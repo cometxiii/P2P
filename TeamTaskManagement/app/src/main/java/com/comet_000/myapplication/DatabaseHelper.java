@@ -16,13 +16,11 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "TeamTaskManagement.db";
     private static final Integer DATABASE_VERSION = 1;
 
-
-    private Dao<Note, Integer> noteDao = null;
-    private RuntimeExceptionDao<Note, Integer> noteRuntimeDao = null;
-
     private RuntimeExceptionDao<TableAccount, Integer> accountRuntimeDao = null;
     private RuntimeExceptionDao<TableProject, Integer> projectRuntimeDao= null;
     private RuntimeExceptionDao<TableTask, Integer> taskRuntimeDao= null;
+    private RuntimeExceptionDao<TableProjectMember, Integer> projectMemberRuntimeDao= null;
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION,R.raw.ormlite_config);
     }
@@ -30,10 +28,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, Note.class);
             TableUtils.createTable(connectionSource, TableAccount.class);
             TableUtils.createTable(connectionSource, TableProject.class);
             TableUtils.createTable(connectionSource, TableTask.class);
+            TableUtils.createTable(connectionSource, TableProjectMember.class);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -42,32 +40,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, ConnectionSource connectionSource, int i, int i2) {
         try {
-            TableUtils.dropTable(connectionSource, Note.class, true);
             TableUtils.dropTable(connectionSource, TableAccount.class, true);
             TableUtils.dropTable(connectionSource, TableProject.class, true);
             TableUtils.dropTable(connectionSource, TableTask.class, true);
+            TableUtils.dropTable(connectionSource, TableProjectMember.class, true);
             onCreate(sqLiteDatabase, connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-
-    public Dao<Note, Integer> getNoteDao() throws SQLException {
-        if (noteDao == null) {
-            noteDao = getDao(Note.class);
-        }
-        return noteDao;
-    }
-
-    public RuntimeExceptionDao<Note, Integer> getNoteRuntimeExceptionDao()
-    {
-        if (noteRuntimeDao == null)
-        {
-            noteRuntimeDao = getRuntimeExceptionDao(Note.class);
-        }
-        return  noteRuntimeDao;
-    }
 
     public RuntimeExceptionDao<TableAccount, Integer> getTableAccount()
     {
@@ -94,5 +76,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             taskRuntimeDao = getRuntimeExceptionDao(TableTask.class);
         }
         return  taskRuntimeDao;
+    }
+
+    public RuntimeExceptionDao<TableProjectMember, Integer> getTableProjectMember()
+    {
+        if (projectMemberRuntimeDao == null)
+        {
+            projectMemberRuntimeDao= getRuntimeExceptionDao(TableProjectMember.class);
+        }
+        return  projectMemberRuntimeDao;
     }
 }

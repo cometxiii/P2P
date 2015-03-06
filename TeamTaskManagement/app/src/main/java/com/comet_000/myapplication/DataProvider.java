@@ -21,6 +21,7 @@ public class DataProvider {
     public RuntimeExceptionDao<TableAccount, Integer> myAccountTable = null;
     public RuntimeExceptionDao<TableProject, Integer> myProjectTable = null;
     public RuntimeExceptionDao<TableTask, Integer> myTaskTable = null;
+    public RuntimeExceptionDao<TableProjectMember, Integer> myProjectMemberTable = null;
 
     public DataProvider() {
     }
@@ -204,10 +205,9 @@ public class DataProvider {
         return (int) myProjectTable.countOf();
     }
 
-    public boolean checkProjectByFieldName(String fieldName, String arg)
-    {
+    public boolean checkProjectByFieldName(String fieldName, String arg) {
         List<TableProject> myList = this.getProjectByFieldName(fieldName, arg);
-        if(myList.isEmpty())
+        if (myList.isEmpty())
             return false;
         else
             return true;
@@ -277,9 +277,79 @@ public class DataProvider {
         return (int) myTaskTable.countOf();
     }
 
-    public boolean checkTaskByFieldName(String fieldName, String arg)
-    {
+    public boolean checkTaskByFieldName(String fieldName, String arg) {
         List<TableTask> myList = this.getTaskByFieldName(fieldName, arg);
+        if (myList.isEmpty())
+            return false;
+        return true;
+    }
+
+
+/////////////////
+/////////////////
+//ProjectMember//
+/////////////////
+/////////////////
+
+
+    public void setTableProjectMember(RuntimeExceptionDao<TableProjectMember, Integer> ProjectMemberDao) {
+        myProjectMemberTable = ProjectMemberDao;
+    }
+
+    public void addProjectMember(TableProjectMember myProjectMember) {
+        myProjectMemberTable.create(myProjectMember);
+    }
+
+    public List<TableProjectMember> getAllProjectMember() {
+        return myProjectMemberTable.queryForAll();
+    }
+
+    public void updateProjectMemberById(Integer id, String fieldName, String arg) {
+        UpdateBuilder<TableProjectMember, Integer> updateBuilder = myProjectMemberTable.updateBuilder();
+        try {
+            updateBuilder.where().eq("id", id);
+            updateBuilder.updateColumnValue(fieldName, arg);
+            updateBuilder.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public TableProjectMember getProjectMemberById(int id) {
+        return myProjectMemberTable.queryForId(id);
+    }
+
+    public List<TableProjectMember> getProjectMemberByFieldName(String fieldName, String arg) {
+        return myProjectMemberTable.queryForEq(fieldName, arg);
+    }
+
+    public List<String> getProjectMemberByFieldNameString(String fieldName, String arg) {
+        List<TableProjectMember> projectMemberList = getProjectMemberByFieldName(fieldName, arg);
+        List<String> listString = new ArrayList<String>();
+        for (TableProjectMember n : projectMemberList) listString.add(n.getMemberName());
+        return listString;
+    }
+
+    public void deleteProjectMemberById(int id) {
+        myProjectMemberTable.deleteById(id);
+    }
+
+    public void deleteProjectMemberByFieldName(String fieldName, String arg) {
+        DeleteBuilder<TableProjectMember, Integer> deleteBuilder = myProjectMemberTable.deleteBuilder();
+        try {
+            deleteBuilder.where().eq(fieldName, arg);
+            deleteBuilder.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getNumOfProjectMember() {
+        return (int) myProjectMemberTable.countOf();
+    }
+
+    public boolean checkProjectMemberByFieldName(String fieldName, String arg) {
+        List<TableProjectMember> myList = this.getProjectMemberByFieldName(fieldName, arg);
         if (myList.isEmpty())
             return false;
         return true;

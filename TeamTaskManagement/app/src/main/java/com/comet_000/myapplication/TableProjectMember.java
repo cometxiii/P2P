@@ -20,4 +20,8 @@ public class TableProjectMember {
     }
 
     public TableProjectMember(){}
+
+    public String getMemberName() {
+        return MemberName;
+    }
 }
