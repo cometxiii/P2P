@@ -46,8 +46,10 @@ public class Task extends Activity implements AdapterView.OnItemSelectedListener
         setContentView(R.layout.activity_task);
 
         dbHelper = OpenHelperManager.getHelper(Task.this, DatabaseHelper.class);
+        RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
         RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
         dataProvider.setTableTask(myTableTask);
+        dataProvider.setTableProjectMember(myTableProjectMember);
 
         Intent intent = getIntent();
         loadProjectName = intent.getStringExtra(TaskMember.PROJECT_INTENT);

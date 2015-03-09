@@ -58,8 +58,9 @@ public class Project extends Activity {
         //connect to database using ORMLite
         dbHelper = OpenHelperManager.getHelper(Project.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
+        RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
         dataProvider.setTableProject(myTableProject);
-
+        dataProvider.setTableProjectMember(myTableProjectMember);
         //Add new project
         add = (Button) findViewById(R.id.btnAdd);
         add.setOnClickListener(new View.OnClickListener() {
@@ -144,6 +145,7 @@ public class Project extends Activity {
             String des = eDes.getText().toString();
             String user = display.getText().toString();
             dataProvider.addProject(new TableProject(name, des, user));
+            dataProvider.addProjectMember(new TableProjectMember(name,user));
 //            sqlController.open();
 //            sqlController.insertProjectData(name,des,user);
 

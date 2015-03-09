@@ -13,6 +13,9 @@ import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,8 @@ public class TaskMember extends Activity {
     ListView listViewTask, listViewMember;
     TextView tPName1, tPName2, tDes1, tDes2;
     Button addTask, addMember;
+    DatabaseHelper dbHelper;
+    DataProvider dataProvider = new DataProvider();
     public static final String PROJECT_INTENT="com.comet_000.myapplication.PROJECT";
     String loadProjectName;
 
@@ -34,6 +39,12 @@ public class TaskMember extends Activity {
         Intent intent=getIntent();
 //        loadProjectName=intent.getStringExtra(Project.PROJECT_INTENT);
         sqlController=new SQLController(this);
+
+        dbHelper = OpenHelperManager.getHelper(TaskMember.this, DatabaseHelper.class);
+        RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
+        RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
+        dataProvider.setTableProject(myTableProject);
+        dataProvider.setTableTask(myTableTask);
 
         String loadProjectNameFromProject=intent.getStringExtra(Project.PROJECT_INTENT);
         String loadProjectNameFromUpdateTask=intent.getStringExtra(UpdateTask.PROJECT_INTENT);
@@ -151,7 +162,7 @@ public class TaskMember extends Activity {
 
     //Load list of task names in ListView
     private void loadTasks(){
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, getTaskName());
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getTaskByFieldNameString("ProjectName", loadProjectName));
         listViewTask.setAdapter(adapter);
     }
 
@@ -238,16 +249,9 @@ public class TaskMember extends Activity {
 
     //Load project descriptions
     private void loadProjectDescriptions(){
-        sqlController.open();
-        Cursor c=sqlController.readSelectedProject(loadProjectName);
-        c.moveToFirst();
-        int rows=c.getCount();
-        for (int i=0; i<rows; i++){
-            String projectDescriptions=c.getString(1);
-            tDes1.setText(projectDescriptions);
-            tDes2.setText(projectDescriptions);
-            c.moveToNext();
-        }
-        sqlController.close();
+        TableProject myProject = dataProvider.get1ProjectByFieldName("ProjectName", loadProjectName);
+        tDes1.setText(myProject.getProjectDescriptions());
+        tDes2.setText(myProject.getProjectDescriptions());
+
     }
 }

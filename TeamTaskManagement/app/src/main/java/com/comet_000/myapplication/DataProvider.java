@@ -8,6 +8,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.DeleteBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
+import com.j256.ormlite.stmt.Where;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ public class DataProvider {
     public RuntimeExceptionDao<TableProject, Integer> myProjectTable = null;
     public RuntimeExceptionDao<TableTask, Integer> myTaskTable = null;
     public RuntimeExceptionDao<TableProjectMember, Integer> myProjectMemberTable = null;
+
 
     public DataProvider() {
     }
@@ -161,6 +163,17 @@ public class DataProvider {
         return myProjectTable.queryForAll();
     }
 
+    public TableProject get1ProjectByFieldName(String fieldName, String arg)
+    {
+        List<TableProject> myProject = this.getProjectByFieldName(fieldName, arg);
+        return myProject.get(0);
+    }
+    public List<String> getProjectByFieldNameString(String fieldName, String arg) {
+        List<TableProject> projectList = getProjectByFieldName(fieldName, arg);
+        List<String> listString = new ArrayList<String>();
+        for (TableProject n : projectList) listString.add(n.getProjectDescriptions());
+        return listString;
+    }
     public List<String> getAllProjectString() {
         List<TableProject> listProject = this.getAllProject();
         List<String> listString = new ArrayList<String>();
@@ -239,7 +252,12 @@ public class DataProvider {
         for (TableTask n : listTask) listString.add(n.getTaskName());
         return listString;
     }
-
+    public List<String> getTaskByFieldNameString(String fieldName, String arg) {
+        List<TableTask> taskList = getTaskByFieldName(fieldName, arg);
+        List<String> listString = new ArrayList<String>();
+        for (TableTask n : taskList) listString.add(n.getTaskName());
+        return listString;
+    }
     public void updateTaskById(Integer id, String fieldName, String arg) {
         UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
         try {
@@ -284,6 +302,15 @@ public class DataProvider {
         return true;
     }
 
+    public void updateTaskMember(String ProjectName, String TaskName, String newValue) throws SQLException {
+        UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
+        // set the criteria like you would a QueryBuilder
+        TableTask myTask = new TableTask();
+        updateBuilder.where().;
+        // update the value of your field(s)
+        updateBuilder.updateColumnValue("catType" /* column */, "BarType" /* value */);
+        updateBuilder.update();
+    }
 
 /////////////////
 /////////////////
