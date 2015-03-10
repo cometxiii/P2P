@@ -1,12 +1,14 @@
 package com.comet_000.myapplication;
 
 
+import android.accounts.Account;
 import android.support.v7.app.ActionBarActivity;
 import android.widget.ArrayAdapter;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 import com.j256.ormlite.stmt.DeleteBuilder;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.j256.ormlite.stmt.UpdateBuilder;
 import com.j256.ormlite.stmt.Where;
 
@@ -252,17 +254,30 @@ public class DataProvider {
         for (TableTask n : listTask) listString.add(n.getTaskName());
         return listString;
     }
+    public TableTask get1TaskByFieldName(String taskName, String projectName){
+        QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
+        List<TableTask> taskList = null;
+        try {
+            taskList = myTaskTable.queryBuilder().where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return taskList.get(0);
+    }
     public List<String> getTaskByFieldNameString(String fieldName, String arg) {
         List<TableTask> taskList = getTaskByFieldName(fieldName, arg);
         List<String> listString = new ArrayList<String>();
         for (TableTask n : taskList) listString.add(n.getTaskName());
         return listString;
     }
-    public void updateTaskById(Integer id, String fieldName, String arg) {
+    public void updateTaskDesByTaskName(String taskName, String des) {
         UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
         try {
-            updateBuilder.where().eq("id", id);
-            updateBuilder.updateColumnValue(fieldName, arg);
+            updateBuilder.where().eq("TaskName", taskName);
+            updateBuilder.updateColumnValue("TaskDescriptions", des);
             updateBuilder.update();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -302,13 +317,13 @@ public class DataProvider {
         return true;
     }
 
-    public void updateTaskMember(String ProjectName, String TaskName, String newValue) throws SQLException {
+    public void updateTaskMember(String projectName, String taskName, String newValue) throws SQLException {
         UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
-        // set the criteria like you would a QueryBuilder
-        TableTask myTask = new TableTask();
-        updateBuilder.where().;
-        // update the value of your field(s)
-        updateBuilder.updateColumnValue("catType" /* column */, "BarType" /* value */);
+        updateBuilder.where()
+                .eq("TaskName", taskName)
+                .and()
+                .eq("ProjectName", projectName);
+        updateBuilder.updateColumnValue("MemberName", newValue);
         updateBuilder.update();
     }
 

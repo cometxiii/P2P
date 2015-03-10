@@ -29,4 +29,8 @@ public class TableTask {
     public String getTaskName() {
         return TaskName;
     }
+
+    public String getTaskDescriptions() {
+        return TaskDescriptions;
+    }
 }

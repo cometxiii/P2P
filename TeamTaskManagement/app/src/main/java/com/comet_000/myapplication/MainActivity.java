@@ -22,22 +22,23 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.LinkedList;
 import java.util.List;
+
 import android.widget.TableRow.LayoutParams;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 public class MainActivity extends Activity {
-//    TableLayout tableLayout;
-    TextView tUser,tAlert;
+    TextView tUser, tAlert;
     EditText eName;
     Button reg;
-    SQLController sqlController;
     DatabaseHelper dbHelper;
     ProgressDialog PD;
-    public static final String ACCOUNT_INTENT="com.comet_000.myapplication.MESSAGE";
+    DataProvider dataProvider = new DataProvider();
+    public static final String ACCOUNT_INTENT = "com.comet_000.myapplication.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,25 +48,24 @@ public class MainActivity extends Activity {
 
         dbHelper = OpenHelperManager.getHelper(MainActivity.this, DatabaseHelper.class);
 
-        ListView lv = (ListView)findViewById(R.id.listView);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, getUsername());
+        ListView lv = (ListView) findViewById(R.id.listView);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getUsername());
         lv.setAdapter(adapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                List<String> items=getUsername();
+                List<String> items = getUsername();
                 String item = items.get(position);
-                tUser=(TextView)findViewById(R.id.txtMsg);
+                tUser = (TextView) findViewById(R.id.txtMsg);
                 tUser.setText(item);
                 tAlert.setVisibility(View.VISIBLE);
                 eName.setEnabled(true);
             }
         });
 
-        sqlController=new SQLController(this);
-        eName=(EditText)findViewById(R.id.txtName);
-        reg=(Button)findViewById(R.id.btnAdd);
-        tAlert=(TextView)findViewById(R.id.txtAlert);
+        eName = (EditText) findViewById(R.id.txtName);
+        reg = (Button) findViewById(R.id.btnAdd);
+        tAlert = (TextView) findViewById(R.id.txtAlert);
 
         eName.addTextChangedListener(new TextWatcher() {
             @Override
@@ -84,17 +84,13 @@ public class MainActivity extends Activity {
             }
         });
 
-//        tableLayout=(TableLayout)findViewById(R.id.tableLayout);
-//        BuildTable();
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (eName.getText().toString().trim().isEmpty())
-                {
+                if (eName.getText().toString().trim().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter display name", Toast.LENGTH_SHORT).show();
                     return;
-                }
-                else {
+                } else {
                     MyAsync ma = new MyAsync();
                     ma.execute();
                     intent.putExtra(ACCOUNT_INTENT, tUser.getText().toString());
@@ -115,39 +111,13 @@ public class MainActivity extends Activity {
             // values.
             possibleEmails.add(account.name);
         }
-    return possibleEmails;
+        return possibleEmails;
     }
-
-//    private void BuildTable(){
-//        sqlController.open();
-//        Cursor c=sqlController.readAccountEntry();
-//        int rows=c.getCount();
-//        int cols=c.getColumnCount();
-//        c.moveToFirst();
-//        for(int i=0; i<rows; i++){
-//            TableRow row=new TableRow(this);
-//            row.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-//            for (int j = 0; j < cols; j++) {
-//                TextView tv = new TextView(this);
-//                tv.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-//                        LayoutParams.WRAP_CONTENT));
-//                tv.setGravity(Gravity.CENTER);
-//                tv.setTextSize(18);
-//                tv.setPadding(0, 5, 0, 5);
-//                tv.setText(c.getString(j));
-//                row.addView(tv);
-//            }
-//            tableLayout.addView(row);
-//            c.moveToNext();
-//        }
-//        sqlController.close();
-//    }
 
     private class MyAsync extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-//            tableLayout.removeAllViews();
             PD = new ProgressDialog(MainActivity.this);
             PD.setTitle("Please Wait..");
             PD.setMessage("Loading...");
@@ -159,23 +129,16 @@ public class MainActivity extends Activity {
         protected Void doInBackground(Void... params) {
             String user = tUser.getText().toString();
             String name = eName.getText().toString();
-            // inserting data
             RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
-            DataProvider dataProvider = new DataProvider();
             dataProvider.setTableAccount(myTableAccount);
-            dataProvider.addAccount(new TableAccount(user,name));
+            dataProvider.addAccount(new TableAccount(user, name));
 
-//           List<TableAccount> listAccount = dataProvider.getAllAccount();
-//            Toast.makeText(getApplicationContext(), listAccount.toString(), Toast.LENGTH_SHORT).show();
-
-//            BuildTable();
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-//            BuildTable();
             PD.dismiss();
         }
     }

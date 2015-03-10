@@ -20,8 +20,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.j256.ormlite.android.apptools.OpenHelperManager;
+import com.j256.ormlite.dao.RuntimeExceptionDao;
+
 import org.w3c.dom.Text;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,35 +35,35 @@ public class UpdateTask extends Activity {
     Button update;
     EditText eDes;
     Spinner spinner;
-    SQLController sqlController;
     ProgressDialog PD;
     String loadProjectName, loadTaskName;
+    DatabaseHelper dbHelper;
+    DataProvider dataProvider = new DataProvider();
     public static final String PROJECT_INTENT="com.comet_000.myapplication.PROJECT";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_task);
-
-        sqlController=new SQLController(this);
-
         txtMsg=(TextView)findViewById(R.id.txtMsg);
         tName=(TextView)findViewById(R.id.txtName);
         eDes=(EditText)findViewById(R.id.txtDescriptions);
         spinner=(Spinner)findViewById(R.id.spinner);
         update=(Button)findViewById(R.id.btnUpdate);
-
         final Intent intent=getIntent();
         Bundle loadBundle=intent.getExtras();
         loadProjectName=loadBundle.getString("projectName");
         loadTaskName=loadBundle.getString("taskName");
         txtMsg.setText("Project: "+loadProjectName);
         tName.setText(loadTaskName);
-
+        dbHelper = OpenHelperManager.getHelper(UpdateTask.this, DatabaseHelper.class);
+        RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
+        RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
+        dataProvider.setTableProjectMember(myTableProjectMember);
+        dataProvider.setTableTask(myTableTask);
         loadTaskDescriptions();
         //Load members of project
         loadSpinner();
-
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,8 +71,7 @@ public class UpdateTask extends Activity {
                     Toast.makeText(getApplicationContext(), "Please enter task descriptions", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    MyAsync ma=new MyAsync();
-                    ma.execute();
+                    updateTask();
                     Toast.makeText(getApplicationContext(),"Update task successfully!", Toast.LENGTH_SHORT).show();
                     Intent intentToTaskMember=new Intent(UpdateTask.this, TaskMember.class);
                     intentToTaskMember.putExtra(PROJECT_INTENT, loadProjectName);
@@ -80,37 +83,13 @@ public class UpdateTask extends Activity {
 
     //Load task descriptions
     private void loadTaskDescriptions(){
-        sqlController.open();
-        Cursor c=sqlController.readSelectedTaskEntry(loadTaskName, loadProjectName);
-        c.moveToFirst();
-        int rows=c.getCount();
-        for (int i=0; i<rows; i++){
-            String taskDescriptions=c.getString(1);
-            eDes.setText(taskDescriptions);
-            c.moveToNext();
-        }
-        sqlController.close();
-    }
-
-    //Get list of members in a project
-    private List<String> getMemberName(){
-        sqlController.open();
-        Cursor TaskCursor=sqlController.readMemberEntry(loadProjectName);
-        List<String> items=new ArrayList<String>();
-        String result="";
-        int mName=TaskCursor.getColumnIndex(MyDbHelper.PROJECT_MEMBER_MEMBER_NAME);
-        for (TaskCursor.moveToFirst(); !TaskCursor.isAfterLast(); TaskCursor.moveToNext()){
-            result=TaskCursor.getString(mName);
-            items.add(result);
-        }
-        TaskCursor.close();
-        return items;
+        TableTask myTask = dataProvider.get1TaskByFieldName(loadTaskName,loadProjectName);
+        eDes.setText(myTask.getTaskDescriptions());
     }
 
     //Load member of a project to spinner
     private void loadSpinner(){
-        sqlController.open();
-        List<String> members=getMemberName();
+        List<String> members = dataProvider.getProjectMemberByFieldNameString("ProjectName", loadProjectName);
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, members){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -128,47 +107,19 @@ public class UpdateTask extends Activity {
             }
         };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-        Cursor AssigneeCursor=sqlController.readSelectedTaskEntry(loadTaskName, loadProjectName);
-        AssigneeCursor.moveToFirst();
-        String taskAssignee=AssigneeCursor.getString(3);
         adapter.add("");
-        adapter.add(taskAssignee);
+        adapter.add("");
         spinner.setAdapter(adapter);
         spinner.setSelection(adapter.getCount());
     }
-
     //Update new task
     //Save new task to database
-    private class MyAsync extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-            PD = new ProgressDialog(UpdateTask.this);
-            PD.setTitle("Please Wait..");
-            PD.setMessage("Loading...");
-            PD.setCancelable(false);
-            PD.show();
-//            tableLayout.removeAllViews();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            String name=tName.getText().toString();
-            String des=eDes.getText().toString();
-            String project=loadProjectName;
-            String member=spinner.getSelectedItem().toString();
-            sqlController.open();
-            sqlController.updateTaskData(name, des, project, member);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result){
-            super.onPostExecute(result);
-            PD.dismiss();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
-//            BuildTable();
-        }
+    protected Void updateTask() {
+        String name=tName.getText().toString();
+        String des=eDes.getText().toString();
+        dataProvider.updateTaskDesByTaskName(name, des);
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
+        return null;
     }
 }

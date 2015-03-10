@@ -29,8 +29,6 @@ import java.util.List;
 public class Project extends Activity {
     Button add;
     EditText eName, eDes;
-    SQLController sqlController;
-    TableLayout tableLayout;
     ListView listView;
     TextView display;
     ProgressDialog PD;
@@ -42,19 +40,15 @@ public class Project extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
-
         final Intent intentToTaskMember = new Intent(this, TaskMember.class);
-
         Intent intent = getIntent();
         String loadAccountFromHome = intent.getStringExtra(Home.ACCOUNT_INTENT);
         String loadAccountFromMain = intent.getStringExtra(MainActivity.ACCOUNT_INTENT);
         display = (TextView) findViewById(R.id.txtDisplay);
         display.setText(loadAccountFromHome);
         display.setText(loadAccountFromMain);
-
         eName = (EditText) findViewById(R.id.txtTitle);
         eDes = (EditText) findViewById(R.id.txtDes);
-
         //connect to database using ORMLite
         dbHelper = OpenHelperManager.getHelper(Project.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
@@ -76,28 +70,20 @@ public class Project extends Activity {
                     if (dataProvider.checkProjectByFieldName("ProjectName", (eName.getText()).toString()))
                         Toast.makeText(getApplicationContext(), "This project has already been created by you!", Toast.LENGTH_SHORT).show();
                     else {
-                        MyAsync ma = new MyAsync();
-                        ma.execute();
+                        addProject();
                         Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
-
         //Select a project
-//        tableLayout=(TableLayout)findViewById(R.id.tableLayoutProject);
         listView = (ListView) findViewById(R.id.listView);
-//        populateListView();
-
         loadProjects();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                List<String> lItems=getProjectName();
                 List<String> lItems = dataProvider.getAllProjectString();
                 String item = lItems.get(position);
-//                TextView msg=(TextView)findViewById(R.id.txtMsg);
-//                msg.setText(item);
                 intentToTaskMember.putExtra(PROJECT_INTENT, item);
                 startActivity(intentToTaskMember);
             }
@@ -109,83 +95,18 @@ public class Project extends Activity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataProvider.getAllProjectString());
         listView.setAdapter(adapter);
     }
-
-    //Get List<String> from SQLite
-    private List<String> getProjectName() {
-        sqlController.open();
-        Cursor ProjectCursor = sqlController.readProjectEntry();
-        List<String> items = new ArrayList<String>();
-        String result = "";
-        int pName = ProjectCursor.getColumnIndex(MyDbHelper.PROJECT_NAME);
-        for (ProjectCursor.moveToFirst(); !ProjectCursor.isAfterLast(); ProjectCursor.moveToNext()) {
-            result = ProjectCursor.getString(pName);
-            items.add(result);
-        }
-        ProjectCursor.close();
-        return items;
+    protected Void addProject() {
+        String name = eName.getText().toString();
+        String des = eDes.getText().toString();
+        String user = display.getText().toString();
+        dataProvider.addProject(new TableProject(name, des, user));
+        dataProvider.addProjectMember(new TableProjectMember(name, user));
+        loadProjects();
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(eName.getWindowToken(), 0);
+        imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
+        eName.setText("");
+        eDes.setText("");
+        return null;
     }
-
-    //Save new project to database
-    private class MyAsync extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-//            tableLayout.removeAllViews();
-            PD = new ProgressDialog(Project.this);
-            PD.setTitle("Please Wait..");
-            PD.setMessage("Loading...");
-            PD.setCancelable(false);
-            PD.show();
-        }
-
-        @Override
-        //add new project to database
-        protected Void doInBackground(Void... params) {
-            String name = eName.getText().toString();
-            String des = eDes.getText().toString();
-            String user = display.getText().toString();
-            dataProvider.addProject(new TableProject(name, des, user));
-            dataProvider.addProjectMember(new TableProjectMember(name,user));
-//            sqlController.open();
-//            sqlController.insertProjectData(name,des,user);
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-//            populateListView();
-            loadProjects();
-            PD.dismiss();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(eName.getWindowToken(), 0);
-            imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
-            eName.setText("");
-            eDes.setText("");
-        }
-    }
-
-    //Load project information to ListView
-//    private void populateListView(){
-//        sqlController.open();
-//        Cursor cursor=sqlController.readProjectEntry();
-//        String[] fromFieldNames=new String[] {MyDbHelper.PROJECT_NAME};
-//        int[] toViewIDs=new int[]{R.id.txtProjectName};
-//        SimpleCursorAdapter myCursorAdapter;
-//        myCursorAdapter=new SimpleCursorAdapter(getBaseContext(),R.layout.project_items_layout, cursor, fromFieldNames, toViewIDs, 0);
-////        myCursorAdapter=new SimpleCursorAdapter(this,R.layout.project_items_layout, cursor, fromFieldNames, toViewIDs);
-//        listView.setAdapter(myCursorAdapter);
-//    }
-
-
-//    //Load project descriptions
-//    private void loadProjectName(){
-//        sqlController.open();
-//        Cursor c=sqlController.checkProjectEntry(eName.getText().toString(),display.getText().toString());
-//        c.moveToFirst();
-//        int rows=c.getCount();
-//            String projectName=c.getString(0);
-//        sqlController.close();
-//    }
 }

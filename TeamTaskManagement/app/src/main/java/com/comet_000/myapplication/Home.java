@@ -12,28 +12,21 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 public class Home extends Activity {
     public static final String ACCOUNT_INTENT="com.comet_000.myapplication.MESSAGE";
-    SQLController sqlController;
     DatabaseHelper dbHelper;
-
+    DataProvider dataProvider = new DataProvider();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         Button btnGo=(Button)findViewById(R.id.btnGo);
-
-        sqlController=new SQLController(this);
-        sqlController.open();
         final Intent intent = new Intent(this, MainActivity.class);
         final Intent intent2 = new Intent(this, Project.class);
 
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String[] accounts = sqlController.checkAccount(sqlController.database);
                 dbHelper = OpenHelperManager.getHelper(Home.this, DatabaseHelper.class);
                 RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
-                DataProvider dataProvider = new DataProvider();
                 dataProvider.setTableAccount(myTableAccount);
                 if (dataProvider.getNumOfAccount() == 0)
                 {

@@ -21,7 +21,6 @@ import java.util.List;
 
 
 public class TaskMember extends Activity {
-    SQLController sqlController;
     ListView listViewTask, listViewMember;
     TextView tPName1, tPName2, tDes1, tDes2;
     Button addTask, addMember;
@@ -37,12 +36,12 @@ public class TaskMember extends Activity {
 
         TabHost tabHost=(TabHost)findViewById(R.id.tabHost);
         Intent intent=getIntent();
-//        loadProjectName=intent.getStringExtra(Project.PROJECT_INTENT);
-        sqlController=new SQLController(this);
 
         dbHelper = OpenHelperManager.getHelper(TaskMember.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
         RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
+        RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
+        dataProvider.setTableProjectMember(myTableProjectMember);
         dataProvider.setTableProject(myTableProject);
         dataProvider.setTableTask(myTableTask);
 
@@ -64,9 +63,6 @@ public class TaskMember extends Activity {
         tPName2=(TextView)findViewById(R.id.txtProjectName2);
         tDes1=(TextView)findViewById(R.id.txtDes);
         tDes2=(TextView)findViewById(R.id.txtDes2);
-
-//        tPName1.setText(loadProjectName);
-//        tPName2.setText(loadProjectName);
 
         tPName1.setText(loadProjectNameFromProject);
         tPName2.setText(loadProjectNameFromProject);
@@ -148,7 +144,7 @@ public class TaskMember extends Activity {
         listViewTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                List<String> tItems=getTaskName();
+                List<String> tItems = dataProvider.getTaskByFieldNameString("ProjectName", loadProjectName);
                 String item=tItems.get(position);
                 myBundle.putString("projectName", loadProjectName);
                 myBundle.putString("taskName", item);
@@ -168,83 +164,8 @@ public class TaskMember extends Activity {
 
     //Load list of members in ListView
     private void loadMembers(){
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, getMemberName());
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getProjectMemberByFieldNameString("ProjectName", loadProjectName));
         listViewMember.setAdapter(adapter);
-    }
-
-    //Get project description
-    private List<String> getDescriptions(){
-        sqlController.open();
-        Cursor DescriptionsCursor=sqlController.readSelectedProject(loadProjectName);
-        List<String> items=new ArrayList<String>();
-        String result="";
-        int pDes=DescriptionsCursor.getColumnIndex(MyDbHelper.PROJECT_DESCRIPTION);
-        for (DescriptionsCursor.moveToFirst(); !DescriptionsCursor.isAfterLast(); DescriptionsCursor.moveToNext()){
-            result=DescriptionsCursor.getString(pDes);
-            items.add(result);
-        }
-        DescriptionsCursor.close();
-        return items;
-    }
-
-    //Get list of task names in a project
-    private List<String> getTaskName(){
-        sqlController.open();
-        Cursor TaskCursor=sqlController.readTaskEntry(loadProjectName);
-        List<String> items=new ArrayList<String>();
-        String result="";
-        int tName=TaskCursor.getColumnIndex(MyDbHelper.TASK_NAME);
-        for (TaskCursor.moveToFirst(); !TaskCursor.isAfterLast(); TaskCursor.moveToNext()){
-            result=TaskCursor.getString(tName);
-            items.add(result);
-        }
-        TaskCursor.close();
-        return items;
-    }
-
-    //Get list of task names in a project
-    private List<String> getTaskMember(){
-        sqlController.open();
-        Cursor TaskCursor=sqlController.readTaskEntry(loadProjectName);
-        List<String> items=new ArrayList<String>();
-        String result="";
-        int tMember=TaskCursor.getColumnIndex(MyDbHelper.TASK_PROJECT_MEMBER_TASK_MEMBER_NAME);
-        for (TaskCursor.moveToFirst(); !TaskCursor.isAfterLast(); TaskCursor.moveToNext()){
-            result=TaskCursor.getString(tMember);
-            items.add(result);
-        }
-        TaskCursor.close();
-        return items;
-    }
-
-    //Get list of task descriptions in a project
-    private List<String> getTaskDescriptions(){
-        sqlController.open();
-        Cursor TaskCursor=sqlController.readTaskEntry(loadProjectName);
-        List<String> items=new ArrayList<String>();
-        String result="";
-        int tDes=TaskCursor.getColumnIndex(MyDbHelper.TASK_DESCRIPTION);
-        for (TaskCursor.moveToFirst(); !TaskCursor.isAfterLast(); TaskCursor.moveToNext()){
-            result=TaskCursor.getString(tDes);
-            items.add(result);
-        }
-        TaskCursor.close();
-        return items;
-    }
-
-    //Get list of members in a project
-    private List<String> getMemberName(){
-        sqlController.open();
-        Cursor TaskCursor=sqlController.readMemberEntry(loadProjectName);
-        List<String> items=new ArrayList<String>();
-        String result="";
-        int mName=TaskCursor.getColumnIndex(MyDbHelper.PROJECT_MEMBER_MEMBER_NAME);
-        for (TaskCursor.moveToFirst(); !TaskCursor.isAfterLast(); TaskCursor.moveToNext()){
-            result=TaskCursor.getString(mName);
-            items.add(result);
-        }
-        TaskCursor.close();
-        return items;
     }
 
     //Load project descriptions
