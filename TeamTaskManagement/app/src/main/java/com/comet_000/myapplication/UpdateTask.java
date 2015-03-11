@@ -106,9 +106,11 @@ public class UpdateTask extends Activity {
                 return super.getCount()-1; // you don't display last item. It is used as hint.
             }
         };
+        TableTask myTask = dataProvider.get1TaskByFieldName(loadTaskName, loadProjectName);
+        String myMember = myTask.MemberName;
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         adapter.add("");
-        adapter.add("");
+        adapter.add(myMember);
         spinner.setAdapter(adapter);
         spinner.setSelection(adapter.getCount());
     }
@@ -117,7 +119,8 @@ public class UpdateTask extends Activity {
     protected Void updateTask() {
         String name=tName.getText().toString();
         String des=eDes.getText().toString();
-        dataProvider.updateTaskDesByTaskName(name, des);
+        String member = spinner.getSelectedItem().toString();
+        dataProvider.updateTask(loadProjectName, name, des, member);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
         return null;

@@ -273,16 +273,6 @@ public class DataProvider {
         for (TableTask n : taskList) listString.add(n.getTaskName());
         return listString;
     }
-    public void updateTaskDesByTaskName(String taskName, String des) {
-        UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
-        try {
-            updateBuilder.where().eq("TaskName", taskName);
-            updateBuilder.updateColumnValue("TaskDescriptions", des);
-            updateBuilder.update();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     public TableTask getTaskById(int id) {
         return myTaskTable.queryForId(id);
@@ -317,14 +307,19 @@ public class DataProvider {
         return true;
     }
 
-    public void updateTaskMember(String projectName, String taskName, String newValue) throws SQLException {
+    public void updateTask(String projectName, String taskName, String des,String member){
         UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
-        updateBuilder.where()
-                .eq("TaskName", taskName)
-                .and()
-                .eq("ProjectName", projectName);
-        updateBuilder.updateColumnValue("MemberName", newValue);
-        updateBuilder.update();
+        try {
+            updateBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName);
+            updateBuilder.updateColumnValue("MemberName", member);
+            updateBuilder.updateColumnValue("TaskDescriptions", des);
+            updateBuilder.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 /////////////////
