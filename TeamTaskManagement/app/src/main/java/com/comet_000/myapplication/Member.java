@@ -24,7 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Member extends Activity {
+public class Member extends ActionBarActivity
+{
     String loadProjectName;
     TextView msg;
     EditText eMail;

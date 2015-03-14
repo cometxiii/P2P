@@ -94,6 +94,10 @@
             android:label="@string/title_activity_update_task"
             android:noHistory="true" >
         </activity>
+        <activity
+            android:name="com.comet_000.myapplication.Material"
+            android:label="@string/title_activity_material" >
+        </activity>
     </application>
 
 </manifest>

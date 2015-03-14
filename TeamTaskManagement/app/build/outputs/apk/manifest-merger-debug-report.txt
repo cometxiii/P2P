@@ -119,6 +119,12 @@ ADDED from AndroidManifest.xml:86:9
 		ADDED from AndroidManifest.xml:89:13
 	android:name
 		ADDED from AndroidManifest.xml:87:13
+activity#com.comet_000.myapplication.Material
+ADDED from AndroidManifest.xml:91:9
+	android:label
+		ADDED from AndroidManifest.xml:93:13
+	android:name
+		ADDED from AndroidManifest.xml:92:13
 uses-sdk
 INJECTED from AndroidManifest.xml:0:0 reason: use-sdk injection requested
 MERGED from com.android.support:appcompat-v7:21.0.3:15:5

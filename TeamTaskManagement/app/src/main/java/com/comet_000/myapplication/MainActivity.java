@@ -31,7 +31,7 @@ import android.widget.TableRow.LayoutParams;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
     TextView tUser, tAlert;
     EditText eName;
     Button reg;

@@ -12,5 +12,6 @@
     <string name="title_activity_home">Welcome</string>
     <string name="title_activity_project_items_layout">project_items_layout</string>
     <string name="title_activity_update_task">Edit Task</string>
+    <string name="title_activity_material">Material</string>
 
 </resources>
