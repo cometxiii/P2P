@@ -9,9 +9,12 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -32,6 +35,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 public class MainActivity extends ActionBarActivity {
+    private Toolbar toolbar;
     TextView tUser, tAlert;
     EditText eName;
     Button reg;
@@ -39,15 +43,16 @@ public class MainActivity extends ActionBarActivity {
     ProgressDialog PD;
     DataProvider dataProvider = new DataProvider();
     public static final String ACCOUNT_INTENT = "com.comet_000.myapplication.MESSAGE";
-
+    public static final String NAME_INTENT = "com.comet_000.myapplication.MESSAGE";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
         final Intent intent = new Intent(this, Home.class);
-
         dbHelper = OpenHelperManager.getHelper(MainActivity.this, DatabaseHelper.class);
-
         ListView lv = (ListView) findViewById(R.id.listView);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getUsername());
         lv.setAdapter(adapter);
@@ -94,7 +99,8 @@ public class MainActivity extends ActionBarActivity {
                     MyAsync ma = new MyAsync();
                     ma.execute();
                     intent.putExtra(ACCOUNT_INTENT, tUser.getText().toString());
-                    startActivity(intent);
+                    intent.putExtra(NAME_INTENT, eName.getText().toString());
+                            startActivity(intent);
                 }
             }
         });
@@ -141,5 +147,26 @@ public class MainActivity extends ActionBarActivity {
             super.onPostExecute(result);
             PD.dismiss();
         }
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_material, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,27 +1,30 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="fill_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    tools:context="com.comet_000.myapplication.Home"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.comet_000.myapplication.Home">
+
     <include
         android:id="@+id/app_bar"
-        layout="@layout/app_bar"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Welcome"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:layout_gravity="center_vertical"
-            android:id="@+id/textView6"
-            android:layout_centerInParent="true" />
-        <Button
-            android:id="@+id/btnGo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start"
-            android:layout_below="@+id/textView6"
-            android:layout_centerHorizontal="true" />
+        layout="@layout/app_bar" />
 
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center_vertical"
+        android:text="Welcome"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/btnGo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView6"
+        android:layout_centerHorizontal="true"
+        android:text="Start" />
 
 
 </RelativeLayout>

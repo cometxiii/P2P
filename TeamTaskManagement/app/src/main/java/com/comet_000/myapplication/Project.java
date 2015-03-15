@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Project extends ActionBarActivity {
+    private Toolbar toolbar;
     Button add;
     EditText eName, eDes;
     ListView listView;
@@ -42,13 +44,17 @@ public class Project extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project);
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
         final Intent intentToTaskMember = new Intent(this, TaskMember.class);
         Intent intent = getIntent();
         String loadAccountFromHome = intent.getStringExtra(Home.ACCOUNT_INTENT);
         String loadAccountFromMain = intent.getStringExtra(MainActivity.ACCOUNT_INTENT);
+        String LoadNameFromHome = intent.getStringExtra(Home.NAME_INTENT);
         display = (TextView) findViewById(R.id.txtDisplay);
         display.setText(loadAccountFromHome);
-        display.setText(loadAccountFromMain);
+        display.setText(LoadNameFromHome);
         eName = (EditText) findViewById(R.id.txtTitle);
         eDes = (EditText) findViewById(R.id.txtDes);
         //connect to database using ORMLite

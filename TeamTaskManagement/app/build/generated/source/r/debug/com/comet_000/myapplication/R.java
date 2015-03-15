@@ -1349,7 +1349,7 @@ containing a value of this type.
         public static final int icon=0x7f090026;
         public static final int ifRoom=0x7f090018;
         public static final int image=0x7f090023;
-        public static final int lblDes=0x7f09004e;
+        public static final int lblDes=0x7f09004d;
         public static final int listMode=0x7f090009;
         public static final int listView=0x7f090042;
         public static final int listViewMember=0x7f09005c;
@@ -1385,7 +1385,7 @@ containing a value of this type.
         public static final int tabMode=0x7f09000b;
         public static final int tabTask=0x7f090054;
         public static final int text=0x7f090047;
-        public static final int textView=0x7f09004c;
+        public static final int textView=0x7f09004b;
         public static final int textView2=0x7f09004f;
         public static final int textView3=0x7f090050;
         public static final int textView4=0x7f090051;
@@ -1396,7 +1396,7 @@ containing a value of this type.
         public static final int textView9=0x7f090062;
         public static final int title=0x7f090027;
         public static final int txtAlert=0x7f090043;
-        public static final int txtDes=0x7f09004d;
+        public static final int txtDes=0x7f09004e;
         public static final int txtDes2=0x7f09005a;
         public static final int txtDescriptions=0x7f090061;
         public static final int txtDisplay=0x7f09004a;
@@ -1404,7 +1404,7 @@ containing a value of this type.
         public static final int txtName=0x7f090045;
         public static final int txtProjectName=0x7f090055;
         public static final int txtProjectName2=0x7f09005b;
-        public static final int txtTitle=0x7f09004b;
+        public static final int txtTitle=0x7f09004c;
         public static final int txtUser=0x7f090048;
         public static final int up=0x7f090008;
         public static final int useLogo=0x7f090012;
@@ -1451,6 +1451,7 @@ containing a value of this type.
         public static final int item=0x7f030021;
         public static final int project_items_layout=0x7f030022;
         public static final int support_simple_spinner_dropdown_item=0x7f030023;
+        public static final int test=0x7f030024;
     }
     public static final class menu {
         public static final int menu_home=0x7f0d0000;

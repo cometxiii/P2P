@@ -18,6 +18,7 @@ import java.util.TooManyListenersException;
 public class Home extends ActionBarActivity {
     private Toolbar toolbar;
     public static final String ACCOUNT_INTENT="com.comet_000.myapplication.MESSAGE";
+    public static final String NAME_INTENT="com.comet_000.myapplication.MESSAGE";
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
     @Override
@@ -46,6 +47,7 @@ public class Home extends ActionBarActivity {
                 {
                     TableAccount myAccount = dataProvider.getAccountById(1);
                     intent2.putExtra(ACCOUNT_INTENT, myAccount.Account);
+                    intent2.putExtra(NAME_INTENT, myAccount.DisplayName);
                     startActivity(intent2);
                 }
             }
