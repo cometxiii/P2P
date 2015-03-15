@@ -49,7 +49,7 @@
         android:layout_toRightOf="@+id/textView"
         android:layout_toEndOf="@+id/textView"
         android:layout_marginLeft="80dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="15dp" />
     <TextView
         android:id="@+id/lblDes"
         android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
         android:layout_below="@+id/textView"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView"
-        android:layout_marginTop="25dp" />
+        android:layout_marginTop="30dp" />
     <EditText
         android:id="@+id/txtDes"
         android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
         android:layout_alignLeft="@+id/txtTitle"
         android:layout_alignStart="@+id/txtTitle"
         android:layout_alignRight="@+id/txtTitle"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="15dp" />
     <Button
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"

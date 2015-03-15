@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,6 +32,7 @@ import java.util.List;
 
 
 public class UpdateTask extends ActionBarActivity {
+    private Toolbar toolbar;
     TextView txtMsg, tName;
     Button update;
     EditText eDes;
@@ -45,6 +47,9 @@ public class UpdateTask extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_task);
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
         txtMsg=(TextView)findViewById(R.id.txtMsg);
         tName=(TextView)findViewById(R.id.txtName);
         eDes=(EditText)findViewById(R.id.txtDescriptions);

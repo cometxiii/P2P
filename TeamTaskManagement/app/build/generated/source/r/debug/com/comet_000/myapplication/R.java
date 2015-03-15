@@ -1332,7 +1332,7 @@ containing a value of this type.
         public static final int btnAddMember=0x7f090059;
         public static final int btnAddTask=0x7f090056;
         public static final int btnGo=0x7f090041;
-        public static final int btnUpdate=0x7f09005d;
+        public static final int btnUpdate=0x7f090062;
         public static final int checkbox=0x7f090029;
         public static final int collapseActionView=0x7f090017;
         public static final int decor_content_parent=0x7f09002f;
@@ -1376,7 +1376,7 @@ containing a value of this type.
         public static final int showCustom=0x7f09000f;
         public static final int showHome=0x7f090010;
         public static final int showTitle=0x7f090011;
-        public static final int spinner=0x7f090060;
+        public static final int spinner=0x7f090061;
         public static final int spinnerMember=0x7f090052;
         public static final int split_action_bar=0x7f090007;
         public static final int submit_area=0x7f09003c;
@@ -1389,16 +1389,16 @@ containing a value of this type.
         public static final int textView2=0x7f09004f;
         public static final int textView3=0x7f090050;
         public static final int textView4=0x7f090051;
-        public static final int textView5=0x7f09005e;
+        public static final int textView5=0x7f090060;
         public static final int textView6=0x7f090040;
         public static final int textView7=0x7f090049;
-        public static final int textView8=0x7f09005f;
-        public static final int textView9=0x7f090062;
+        public static final int textView8=0x7f09005e;
+        public static final int textView9=0x7f09005d;
         public static final int title=0x7f090027;
         public static final int txtAlert=0x7f090043;
         public static final int txtDes=0x7f09004e;
         public static final int txtDes2=0x7f09005a;
-        public static final int txtDescriptions=0x7f090061;
+        public static final int txtDescriptions=0x7f09005f;
         public static final int txtDisplay=0x7f09004a;
         public static final int txtMsg=0x7f090044;
         public static final int txtName=0x7f090045;
@@ -1503,6 +1503,8 @@ containing a value of this type.
         /**  Customize your theme here. 
          */
         public static final int AppTheme=0x7f0c0000;
+        /** <item name="android:background">#eee</item>
+         */
         public static final int AppTheme_Base=0x7f0c0001;
         public static final int Base_TextAppearance_AppCompat=0x7f0c0002;
         public static final int Base_TextAppearance_AppCompat_Body1=0x7f0c0003;

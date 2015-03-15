@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +24,7 @@ import java.util.List;
 
 
 public class TaskMember extends ActionBarActivity {
+    private Toolbar toolbar;
     ListView listViewTask, listViewMember;
     TextView tPName1, tPName2, tDes1, tDes2;
     Button addTask, addMember;
@@ -36,6 +38,8 @@ public class TaskMember extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_member);
 
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
         TabHost tabHost=(TabHost)findViewById(R.id.tabHost);
         Intent intent=getIntent();
 

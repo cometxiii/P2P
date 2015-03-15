@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Task extends ActionBarActivity {
+    private Toolbar toolbar;
     TextView txtMsg;
     Button add;
     EditText eName, eDes;
@@ -44,6 +46,9 @@ public class Task extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
+
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
         dbHelper = OpenHelperManager.getHelper(Task.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
         RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
