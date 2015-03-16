@@ -8,6 +8,7 @@ import android.database.Cursor;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.util.List;
 
 public class Member extends ActionBarActivity
 {
+    private Toolbar toolbar;
     String loadProjectName;
     TextView msg;
     EditText eMail;
@@ -40,11 +42,12 @@ public class Member extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member);
 
+        toolbar = (Toolbar) findViewById(R.id.app_bar);
+        setSupportActionBar(toolbar);
         sqlController=new SQLController(this);
         dbHelper = OpenHelperManager.getHelper(Member.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
         dataProvider.setTableProjectMember(myTableProjectMember);
-
         Intent intent=getIntent();
         loadProjectName=intent.getStringExtra(TaskMember.PROJECT_INTENT);
         msg=(TextView)findViewById(R.id.txtMsg);
