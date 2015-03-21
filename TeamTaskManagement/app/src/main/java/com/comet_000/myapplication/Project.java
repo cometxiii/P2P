@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -47,6 +48,7 @@ public class Project extends ActionBarActivity {
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+
         final Intent intentToTaskMember = new Intent(this, TaskMember.class);
         Intent intent = getIntent();
         String loadAccountFromHome = intent.getStringExtra(Home.ACCOUNT_INTENT);

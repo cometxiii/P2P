@@ -161,6 +161,11 @@
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
+    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/dimens.xml -->
+    <eat-comment/>
+    <dimen name="nav_drawer_width">280dp</dimen>
+    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <eat-comment/>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
     <item name="action_menu_divider" type="id"/>
@@ -191,6 +196,9 @@
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">Team Task Management</string>
+    <string name="drawer_close">Close</string>
+    <string name="drawer_open">Open</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_home">Welcome</string>
     <string name="title_activity_material">Material</string>
