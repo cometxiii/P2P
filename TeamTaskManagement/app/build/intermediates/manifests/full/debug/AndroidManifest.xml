@@ -100,6 +100,9 @@
             android:name="com.comet_000.myapplication.Material"
             android:label="@string/title_activity_material" >
         </activity>
+        <activity
+            android:name="android.support.v7.widget.TestActivity"
+            android:label="RecyclerViewTestActivity" />
     </application>
 
 </manifest>

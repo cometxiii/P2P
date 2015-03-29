@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.comet_000.myapplication.SlidingTabLayout.MailSender;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
@@ -62,64 +63,17 @@ public class Member extends ActionBarActivity
                     Toast.makeText(getApplicationContext(), "Please enter Google account to invite", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    if(dataProvider.checkProjectByFieldName("ProjectName", eMail.getText().toString().toLowerCase())){
+                    if(dataProvider.checkProjectMemberByFieldName("ProjectName", eMail.getText().toString().toLowerCase())){
                         Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        MyAsync ma = new MyAsync();
-                        ma.execute();
-                        Toast.makeText(getApplicationContext(), "Invite new member successfully!", Toast.LENGTH_SHORT).show();
+                        MailSender myMailSender = new MailSender(eMail.getText().toString(), "test invite member", "message");
+                        myMailSender.send();
+                        eMail.setText("");
+                        Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
         });
-    }
-
-    //Save member to a project
-    private class MyAsync extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute(){
-            super.onPreExecute();
-            PD = new ProgressDialog(Member.this);
-            PD.setTitle("Please Wait..");
-            PD.setMessage("Loading...");
-            PD.setCancelable(false);
-            PD.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            String project=loadProjectName;
-            String mail=eMail.getText().toString().toLowerCase();
-            dataProvider.addProjectMember(new TableProjectMember(project, mail));
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result){
-            super.onPostExecute(result);
-            PD.dismiss();
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(eMail.getWindowToken(), 0);
-            eMail.setText("");
-        }
-    }
-
-    //Check member
-    private List<String> checkMember(){
-        String project = loadProjectName;
-        String mail = eMail.getText().toString().toLowerCase();
-
-        sqlController.open();
-        Cursor ProjectMemberCursor = sqlController.checkMemberEntry(project, mail);
-        List<String> items = new ArrayList<String>();
-        String result = "";
-        int mName = ProjectMemberCursor.getColumnIndex(MyDbHelper.PROJECT_MEMBER_MEMBER_NAME);
-        for (ProjectMemberCursor.moveToFirst(); !ProjectMemberCursor.isAfterLast(); ProjectMemberCursor.moveToNext()){
-            result=ProjectMemberCursor.getString(mName);
-            items.add(result);
-        }
-        ProjectMemberCursor.close();
-        return items;
     }
 }
