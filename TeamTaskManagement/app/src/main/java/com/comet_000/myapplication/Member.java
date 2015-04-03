@@ -1,35 +1,27 @@
 package com.comet_000.myapplication;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.comet_000.myapplication.SlidingTabLayout.MailSender;
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 
 public class Member extends ActionBarActivity
 {
     private Toolbar toolbar;
     String loadProjectName;
+    String result = null;
     TextView msg;
     EditText eMail;
     Button add;
@@ -68,9 +60,21 @@ public class Member extends ActionBarActivity
                     }
                     else {
                         MailSender myMailSender = new MailSender(eMail.getText().toString(), "test invite member", "message");
-                        myMailSender.send();
-                        eMail.setText("");
-                        Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();
+                        try {
+                            result = myMailSender.send();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        if (result.equals("Ok")) {
+                            eMail.setText("");
+                            Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();
+                        }
+                        if (result.equals("Wrong password")) {
+                            eMail.setText("");
+                            Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }

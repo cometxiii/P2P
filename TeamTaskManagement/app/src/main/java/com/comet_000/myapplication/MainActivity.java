@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import android.widget.TableRow.LayoutParams;
 
@@ -43,6 +44,7 @@ public class MainActivity extends ActionBarActivity {
     DatabaseHelper dbHelper;
     ProgressDialog PD;
     DataProvider dataProvider = new DataProvider();
+    String result = null;
     public static final String ACCOUNT_INTENT = "com.comet_000.myapplication.MESSAGE";
     public static final String NAME_INTENT = "com.comet_000.myapplication.MESSAGE";
     @Override
@@ -50,7 +52,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         final Intent intent = new Intent(this, Home.class);
@@ -96,13 +97,34 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 if (eName.getText().toString().trim().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter display name", Toast.LENGTH_SHORT).show();
+
+
                     return;
                 } else {
-                    MyAsync ma = new MyAsync();
-                    ma.execute();
-                    intent.putExtra(ACCOUNT_INTENT, tUser.getText().toString());
-                    intent.putExtra(NAME_INTENT, eName.getText().toString());
-                            startActivity(intent);
+                    MailSender myMailSender = new MailSender();
+                    try {
+                        result = myMailSender.check("pop.gmail.com", "pop3", tUser.getText().toString(), eName.getText().toString());
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    if (result.equals("Ok")) {
+                        Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_SHORT).show();
+                        addUser();
+                        intent.putExtra(ACCOUNT_INTENT, tUser.getText().toString());
+                        intent.putExtra(NAME_INTENT, eName.getText().toString());
+                        startActivity(intent);
+                    }
+                    if (result.equals("foo")) {
+                        Toast.makeText(getApplicationContext(), "foo", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (result.equals("Wrong password")) {
+                        Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                 }
             }
         });
@@ -112,7 +134,6 @@ public class MainActivity extends ActionBarActivity {
         AccountManager manager = AccountManager.get(this);
         Account[] accounts = manager.getAccountsByType("com.google");
         List<String> possibleEmails = new LinkedList<String>();
-
         for (Account account : accounts) {
             // TODO: Check possibleEmail against an email regex or treat
             // account.name as an email address only for certain account.type
@@ -121,54 +142,12 @@ public class MainActivity extends ActionBarActivity {
         }
         return possibleEmails;
     }
-
-    private class MyAsync extends AsyncTask<Void, Void, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            PD = new ProgressDialog(MainActivity.this);
-            PD.setTitle("Please Wait..");
-            PD.setMessage("Loading...");
-            PD.setCancelable(false);
-            PD.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            String user = tUser.getText().toString();
-            String name = eName.getText().toString();
-            RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
-            dataProvider.setTableAccount(myTableAccount);
-            dataProvider.addAccount(new TableAccount(user, name));
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            super.onPostExecute(result);
-            PD.dismiss();
-        }
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_material, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+    public Void addUser() {
+        String user = tUser.getText().toString();
+        String name = eName.getText().toString();
+        RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
+        dataProvider.setTableAccount(myTableAccount);
+        dataProvider.addAccount(new TableAccount(user, name));
+        return null;
     }
 }
