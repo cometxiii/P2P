@@ -32,6 +32,9 @@ import java.util.List;
 
 public class Project extends ActionBarActivity {
     private Toolbar toolbar;
+    String loadAccount = null;
+    String loadPassword = null;
+    String loadCallingActivity = null;
     Button add;
     EditText eName, eDes;
     ListView listView;
@@ -39,8 +42,8 @@ public class Project extends ActionBarActivity {
     ProgressDialog PD;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
-    public static final String PROJECT_INTENT = "com.comet_000.myapplication.PROJECT";
-
+    public static String ACCOUNT = null;
+    public static String PASSWORD = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +54,11 @@ public class Project extends ActionBarActivity {
 
         final Intent intentToTaskMember = new Intent(this, TaskMember.class);
         Intent intent = getIntent();
-        String loadAccountFromHome = intent.getStringExtra(Home.ACCOUNT_INTENT);
-        String loadAccountFromMain = intent.getStringExtra(MainActivity.ACCOUNT_INTENT);
-        String LoadNameFromHome = intent.getStringExtra(Home.NAME_INTENT);
-        display = (TextView) findViewById(R.id.txtDisplay);
-        display.setText(loadAccountFromHome);
-        display.setText(LoadNameFromHome);
+        loadAccount = intent.getStringExtra("account");
+        loadPassword = intent.getStringExtra("password");
+        ACCOUNT = loadAccount;
+        PASSWORD = loadPassword;
+        loadCallingActivity = intent.getStringExtra("CallingActivity");
         eName = (EditText) findViewById(R.id.txtTitle);
         eDes = (EditText) findViewById(R.id.txtDes);
         //connect to database using ORMLite
@@ -94,7 +96,7 @@ public class Project extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 List<String> lItems = dataProvider.getAllProjectString();
                 String item = lItems.get(position);
-                intentToTaskMember.putExtra(PROJECT_INTENT, item);
+                intentToTaskMember.putExtra("projectName", item);
                 startActivity(intentToTaskMember);
             }
         });
@@ -128,7 +130,8 @@ public class Project extends ActionBarActivity {
     protected Void addProject() {
         String name = eName.getText().toString();
         String des = eDes.getText().toString();
-        String user = display.getText().toString();
+        String user = null;
+        user = loadAccount;
         dataProvider.addProject(new TableProject(name, des, user));
         dataProvider.addProjectMember(new TableProjectMember(name, user));
         loadProjects();

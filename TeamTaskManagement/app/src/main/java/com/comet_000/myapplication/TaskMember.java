@@ -56,8 +56,7 @@ public class TaskMember extends ActionBarActivity {
         dataProvider.setTableProject(myTableProject);
         dataProvider.setTableTask(myTableTask);
 
-        String loadProjectNameFromProject=intent.getStringExtra(Project.PROJECT_INTENT);
-        String loadProjectNameFromUpdateTask=intent.getStringExtra(UpdateTask.PROJECT_INTENT);
+        loadProjectName = intent.getStringExtra("projectName");
 
         tabHost.setup();
         TabHost.TabSpec tabSpec=tabHost.newTabSpec("tab task");
@@ -75,12 +74,9 @@ public class TaskMember extends ActionBarActivity {
         tDes1=(TextView)findViewById(R.id.txtDes);
         tDes2=(TextView)findViewById(R.id.txtDes2);
 
-        tPName1.setText(loadProjectNameFromProject);
-        tPName2.setText(loadProjectNameFromProject);
-        tPName1.setText(loadProjectNameFromUpdateTask);
-        tPName2.setText(loadProjectNameFromUpdateTask);
+        tPName1.setText(loadProjectName);
+        tPName2.setText(loadProjectName);
 
-        loadProjectName=tPName1.getText().toString();
 
         //Load descriptions of a project
         loadProjectDescriptions();
@@ -90,7 +86,7 @@ public class TaskMember extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intentTask=new Intent(TaskMember.this, Task.class);
-                intentTask.putExtra(PROJECT_INTENT, loadProjectName);
+                intentTask.putExtra("projectName", loadProjectName);
                 startActivity(intentTask);
             }
         });
@@ -100,7 +96,7 @@ public class TaskMember extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intentMember=new Intent(TaskMember.this, Member.class);
-                intentMember.putExtra(PROJECT_INTENT, loadProjectName);
+                intentMember.putExtra("projectName", loadProjectName);
                 startActivity(intentMember);
             }
         });

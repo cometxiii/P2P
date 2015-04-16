@@ -37,12 +37,11 @@ public class Member extends ActionBarActivity
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        sqlController=new SQLController(this);
         dbHelper = OpenHelperManager.getHelper(Member.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
         dataProvider.setTableProjectMember(myTableProjectMember);
-        Intent intent=getIntent();
-        loadProjectName=intent.getStringExtra(TaskMember.PROJECT_INTENT);
+        Intent intent = getIntent();
+        loadProjectName = intent.getStringExtra("projectName");
         msg=(TextView)findViewById(R.id.txtMsg);
         msg.setText("Invite new member to project: "+loadProjectName);
 
@@ -59,7 +58,7 @@ public class Member extends ActionBarActivity
                         Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        MailSender myMailSender = new MailSender(eMail.getText().toString(), "test invite member", "message");
+                        MailSender myMailSender = new MailSender(eMail.getText().toString(), "test invite member", "message", Project.ACCOUNT, Project.PASSWORD);
                         try {
                             result = myMailSender.send();
                         } catch (ExecutionException e) {

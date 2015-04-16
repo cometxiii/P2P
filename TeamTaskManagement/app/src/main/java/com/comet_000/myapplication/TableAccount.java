@@ -12,13 +12,13 @@ public class TableAccount {
     @DatabaseField
     String Account;
     @DatabaseField
-    String DisplayName;
+    String Password;
 
     @Override
     public String toString() {return Account;}
-    public TableAccount(String user, String name) {
+    public TableAccount(String user, String pass) {
         Account = user;
-        DisplayName = name;
+        Password = pass;
     }
     public TableAccount(){}
 }

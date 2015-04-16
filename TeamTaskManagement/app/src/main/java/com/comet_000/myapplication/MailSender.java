@@ -38,8 +38,9 @@ import org.apache.http.auth.AuthenticationException;
  */
 public class MailSender {
     String author = null;
-    String address = null;
+    String receiver = null;
     String subject = null;
+    String password = null;
     String textMessage = null;
     String result = "foo";
     Session session = null;
@@ -48,10 +49,12 @@ public class MailSender {
     public MailSender() {
     }
 
-    public MailSender(String address, String subject, String textMessage) {
-        this.address = address;
+    public MailSender(String receiver, String subject, String textMessage, String author, String password) {
+        this.receiver = receiver;
         this.subject = subject;
         this.textMessage = textMessage;
+        this.password = password;
+        this.author = author;
     }
 
     public String check(String host, String storeType, String user,
@@ -99,7 +102,8 @@ public class MailSender {
         props.put("mail.smtp.port", "465");
         session = Session.getDefaultInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("p2pteamtaskmanagement@gmail.com", "P2Pmanagement");
+//                return new PasswordAuthentication("p2pteamtaskmanagement@gmail.com", "P2Pmanagement");
+                return new PasswordAuthentication(author, password);
             }
                 });
         String task = new SendMail().execute().get();
@@ -111,8 +115,8 @@ public class MailSender {
         protected String doInBackground(String... params) {
             try {
                 Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress("p2pteamtaskmanagement@gmail.com"));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(address));
+                message.setFrom(new InternetAddress(author));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiver));
                 message.setSubject(subject);
                 message.setContent(textMessage, "text/html; charset=utf-8");
                 Transport.send(message);

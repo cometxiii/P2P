@@ -1,5 +1,5 @@
 #
-# generated on 2015/03/04 02:28:15
+# generated on 2015/04/16 09:15:17
 #
 # --table-start--
 dataClass=com.comet_000.myapplication.Note
@@ -33,7 +33,7 @@ generatedId=true
 fieldName=Account
 # --field-end--
 # --field-start--
-fieldName=DisplayName
+fieldName=Password
 # --field-end--
 # --table-fields-end--
 # --table-end--
@@ -71,6 +71,23 @@ fieldName=TaskName
 # --field-end--
 # --field-start--
 fieldName=TaskDescriptions
+# --field-end--
+# --field-start--
+fieldName=ProjectName
+# --field-end--
+# --field-start--
+fieldName=MemberName
+# --field-end--
+# --table-fields-end--
+# --table-end--
+#################################
+# --table-start--
+dataClass=com.comet_000.myapplication.TableProjectMember
+tableName=tableprojectmember
+# --table-fields-start--
+# --field-start--
+fieldName=id
+generatedId=true
 # --field-end--
 # --field-start--
 fieldName=ProjectName

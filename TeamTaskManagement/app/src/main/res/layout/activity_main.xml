@@ -46,13 +46,13 @@
         android:layout_marginTop="5dp" />
 
     <EditText
-        android:id="@+id/txtName"
+        android:id="@+id/txtPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtMsg"
         android:layout_centerHorizontal="true"
         android:enabled="false"
-        android:hint="Please enter your display name"
+        android:hint="Please enter password of this Gmail account"
         android:inputType="textPersonName"
         android:layout_marginTop="5dp" />
 
@@ -60,7 +60,7 @@
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtName"
+        android:layout_below="@+id/txtPass"
         android:layout_centerHorizontal="true"
         android:layout_span="2"
         android:enabled="false"

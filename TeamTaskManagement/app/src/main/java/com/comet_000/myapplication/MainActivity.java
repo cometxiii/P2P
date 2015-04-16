@@ -39,7 +39,7 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 public class MainActivity extends ActionBarActivity {
     private Toolbar toolbar;
     TextView tUser, tAlert;
-    EditText eName;
+    EditText ePass;
     Button reg;
     DatabaseHelper dbHelper;
     ProgressDialog PD;
@@ -67,15 +67,15 @@ public class MainActivity extends ActionBarActivity {
                 tUser = (TextView) findViewById(R.id.txtMsg);
                 tUser.setText(item);
                 tAlert.setVisibility(View.VISIBLE);
-                eName.setEnabled(true);
+                ePass.setEnabled(true);
             }
         });
 
-        eName = (EditText) findViewById(R.id.txtName);
+        ePass = (EditText) findViewById(R.id.txtPass);
         reg = (Button) findViewById(R.id.btnAdd);
         tAlert = (TextView) findViewById(R.id.txtAlert);
 
-        eName.addTextChangedListener(new TextWatcher() {
+        ePass.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                reg.setEnabled(!eName.getText().toString().trim().isEmpty());
+                reg.setEnabled(!ePass.getText().toString().trim().isEmpty());
             }
 
             @Override
@@ -95,15 +95,15 @@ public class MainActivity extends ActionBarActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (eName.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter display name", Toast.LENGTH_SHORT).show();
+                if (ePass.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Please enter password", Toast.LENGTH_SHORT).show();
 
 
                     return;
                 } else {
                     MailSender myMailSender = new MailSender();
                     try {
-                        result = myMailSender.check("pop.gmail.com", "pop3", tUser.getText().toString(), eName.getText().toString());
+                        result = myMailSender.check("pop.gmail.com", "pop3", tUser.getText().toString(), ePass.getText().toString());
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {
@@ -112,8 +112,9 @@ public class MainActivity extends ActionBarActivity {
                     if (result.equals("Ok")) {
                         Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_SHORT).show();
                         addUser();
-                        intent.putExtra(ACCOUNT_INTENT, tUser.getText().toString());
-                        intent.putExtra(NAME_INTENT, eName.getText().toString());
+                        intent.putExtra("account", tUser.getText().toString());
+                        intent.putExtra("password", ePass.getText().toString());
+                        intent.putExtra("CallingActivity", "Main");
                         startActivity(intent);
                     }
                     if (result.equals("foo")) {
@@ -144,7 +145,7 @@ public class MainActivity extends ActionBarActivity {
     }
     public Void addUser() {
         String user = tUser.getText().toString();
-        String name = eName.getText().toString();
+        String name = ePass.getText().toString();
         RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
         dataProvider.setTableAccount(myTableAccount);
         dataProvider.addAccount(new TableAccount(user, name));
