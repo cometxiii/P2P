@@ -36,7 +36,7 @@ public class UpdateTask extends ActionBarActivity {
     TextView txtMsg, tName;
     Button update;
     EditText eDes;
-    Spinner spinner;
+    Spinner spinner, spinnerStatus;
     ProgressDialog PD;
     String loadProjectName, loadTaskName;
     DatabaseHelper dbHelper;
@@ -53,6 +53,7 @@ public class UpdateTask extends ActionBarActivity {
         txtMsg=(TextView)findViewById(R.id.txtMsg);
         tName=(TextView)findViewById(R.id.txtName);
         eDes=(EditText)findViewById(R.id.txtDescriptions);
+        spinnerStatus = (Spinner)findViewById(R.id.status);
         spinner=(Spinner)findViewById(R.id.spinner);
         update=(Button)findViewById(R.id.btnUpdate);
         final Intent intent=getIntent();
@@ -68,6 +69,7 @@ public class UpdateTask extends ActionBarActivity {
         dataProvider.setTableTask(myTableTask);
         loadTaskDescriptions();
         //Load members of project
+        loadSpinnerStatus();
         loadSpinner();
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +81,7 @@ public class UpdateTask extends ActionBarActivity {
                     updateTask();
                     Toast.makeText(getApplicationContext(),"Update task successfully!", Toast.LENGTH_SHORT).show();
                     Intent intentToTaskMember=new Intent(UpdateTask.this, TaskMember.class);
-                    intentToTaskMember.putExtra(PROJECT_INTENT, loadProjectName);
+                    intentToTaskMember.putExtra("projectName", loadProjectName);
                     startActivity(intentToTaskMember);
                 }
             }
@@ -111,7 +113,45 @@ public class UpdateTask extends ActionBarActivity {
         TableTask myTask = dataProvider.get1TaskByFieldName(loadTaskName,loadProjectName);
         eDes.setText(myTask.getTaskDescriptions());
     }
-
+    //Load status of the task
+    private void loadSpinnerStatus(){
+        TableTask myTask = dataProvider.get1TaskByFieldName(loadTaskName, loadProjectName);
+        List<String> statuses = new ArrayList<>();
+        statuses.add("new");
+        statuses.add("accepted");
+        statuses.add("fix");
+        statuses.add("pending");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statuses);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerStatus.setAdapter(dataAdapter);
+        if (!myTask.Status.equals(null)) {
+            int spinnerPostion = dataAdapter.getPosition(myTask.Status);
+            spinnerStatus.setSelection(spinnerPostion);
+        }
+//        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statuses){
+//            @Override
+//            public View getView(int position, View convertView, ViewGroup parent) {
+//                View v = super.getView(position, convertView, parent);
+//                if (position == getCount()) {
+//                    ((TextView)v.findViewById(android.R.id.text1)).setText("");
+//                    ((TextView)v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
+//                }
+//                return v;
+//            }
+//
+//            @Override
+//            public int getCount() {
+//                return super.getCount()-1; // you don't display last item. It is used as hint.
+//            }
+//        };
+//        TableTask myTask = dataProvider.get1TaskByFieldName(loadTaskName, loadProjectName);
+//        String myStatus = myTask.Status;
+//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+//        adapter.add("");
+//        adapter.add(myStatus);
+//        spinnerStatus.setAdapter(adapter);
+//        spinnerStatus.setSelection(adapter.getCount());
+    }
     //Load member of a project to spinner
     private void loadSpinner(){
         List<String> members = dataProvider.getProjectMemberByFieldNameString("ProjectName", loadProjectName);
@@ -145,7 +185,8 @@ public class UpdateTask extends ActionBarActivity {
         String name=tName.getText().toString();
         String des=eDes.getText().toString();
         String member = spinner.getSelectedItem().toString();
-        dataProvider.updateTask(loadProjectName, name, des, member);
+        String status = spinnerStatus.getSelectedItem().toString();
+        dataProvider.updateTask(loadProjectName, name, des, member, status);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
         return null;

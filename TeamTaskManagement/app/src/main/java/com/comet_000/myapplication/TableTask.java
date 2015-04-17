@@ -16,12 +16,15 @@ public class TableTask {
     String ProjectName;
     @DatabaseField
     String MemberName;
+    @DatabaseField
+    String Status;
 
-    public TableTask(String taskName, String memberName, String taskDescriptions, String projectName) {
+    public TableTask(String taskName, String memberName, String taskDescriptions, String projectName, String status) {
         TaskName = taskName;
         MemberName = memberName;
         TaskDescriptions = taskDescriptions;
         ProjectName = projectName;
+        Status = status;
     }
 
     public TableTask(){}

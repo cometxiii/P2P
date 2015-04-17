@@ -109,7 +109,7 @@ public class Task extends ActionBarActivity {
         String des = eDes.getText().toString();
         String project = loadProjectName;
         String member = spinner.getSelectedItem().toString();
-        dataProvider.addTask(new TableTask(name, member, des, project));
+        dataProvider.addTask(new TableTask(name, member, des, project, "new"));
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(eName.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);

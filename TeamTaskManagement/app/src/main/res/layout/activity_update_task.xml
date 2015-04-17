@@ -61,12 +61,33 @@
         android:layout_marginLeft="20dp" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/tvStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Status"
         android:layout_below="@+id/textView8"
         android:layout_alignLeft="@+id/textView8"
         android:layout_alignStart="@+id/textView8"
+        android:layout_marginTop="20dp" />
+
+    <Spinner
+        android:id="@+id/status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtDescriptions"
+        android:layout_alignTop="@+id/tvStatus"
+        android:layout_toEndOf="@+id/tvStatus"
+        android:layout_alignLeft="@+id/txtMsg"
+        android:layout_alignStart="@+id/txtMsg" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvStatus"
+        android:layout_alignLeft="@+id/tvStatus"
+        android:layout_alignStart="@+id/tvStatus"
         android:text="Assigned to"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_marginTop="20dp" />
@@ -76,8 +97,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/textView5"
-        android:layout_toRightOf="@+id/textView5"
-        android:layout_toEndOf="@+id/textView5" />
+        android:layout_toEndOf="@+id/textView5"
+        android:layout_alignLeft="@+id/txtDescriptions"
+        android:layout_alignStart="@+id/txtDescriptions" />
 
     <Button
         android:id="@+id/btnUpdate"

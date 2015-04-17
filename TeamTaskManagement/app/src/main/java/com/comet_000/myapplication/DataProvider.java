@@ -307,7 +307,7 @@ public class DataProvider {
         return true;
     }
 
-    public void updateTask(String projectName, String taskName, String des,String member){
+    public void updateTask(String projectName, String taskName, String des, String member, String status){
         UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
         try {
             updateBuilder.where()
@@ -316,6 +316,7 @@ public class DataProvider {
                     .eq("ProjectName", projectName);
             updateBuilder.updateColumnValue("MemberName", member);
             updateBuilder.updateColumnValue("TaskDescriptions", des);
+            updateBuilder.updateColumnValue("Status", status);
             updateBuilder.update();
         } catch (SQLException e) {
             e.printStackTrace();
