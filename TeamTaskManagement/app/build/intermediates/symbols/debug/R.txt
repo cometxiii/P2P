@@ -365,8 +365,8 @@ int id btnAdd 0x7f090047
 int id btnAddMember 0x7f090051
 int id btnAddTask 0x7f09004e
 int id btnGo 0x7f090041
+int id btnLoad 0x7f09005b
 int id btnUpdate 0x7f090068
-int id button 0x7f09005b
 int id checkbox 0x7f090029
 int id collapseActionView 0x7f090017
 int id decor_content_parent 0x7f09002f

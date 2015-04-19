@@ -1333,8 +1333,8 @@ containing a value of this type.
         public static final int btnAddMember=0x7f090051;
         public static final int btnAddTask=0x7f09004e;
         public static final int btnGo=0x7f090041;
+        public static final int btnLoad=0x7f09005b;
         public static final int btnUpdate=0x7f090068;
-        public static final int button=0x7f09005b;
         public static final int checkbox=0x7f090029;
         public static final int collapseActionView=0x7f090017;
         public static final int decor_content_parent=0x7f09002f;

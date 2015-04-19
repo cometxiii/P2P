@@ -103,11 +103,13 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnLoad"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/txtMsg"
         android:layout_toLeftOf="@+id/btnAdd"
         android:layout_toStartOf="@+id/btnAdd"
-        android:text="Load mail" />
+        android:text="Load mail"
+        android:nestedScrollingEnabled="false"
+      />
 </RelativeLayout>

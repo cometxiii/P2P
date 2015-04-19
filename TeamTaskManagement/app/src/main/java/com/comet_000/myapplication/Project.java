@@ -32,10 +32,12 @@ import java.util.List;
 
 public class Project extends ActionBarActivity {
     private Toolbar toolbar;
+    CheckingMails mailChecker;
     String loadAccount = null;
     String loadPassword = null;
     String loadCallingActivity = null;
     Button add;
+    Button load;
     EditText eName, eDes;
     ListView listView;
     TextView display;
@@ -56,8 +58,7 @@ public class Project extends ActionBarActivity {
         Intent intent = getIntent();
         loadAccount = intent.getStringExtra("account");
         loadPassword = intent.getStringExtra("password");
-        ACCOUNT = loadAccount;
-        PASSWORD = loadPassword;
+        mailChecker = new CheckingMails(loadAccount, loadPassword);
         loadCallingActivity = intent.getStringExtra("CallingActivity");
         eName = (EditText) findViewById(R.id.txtTitle);
         eDes = (EditText) findViewById(R.id.txtDes);
@@ -88,6 +89,17 @@ public class Project extends ActionBarActivity {
                 }
             }
         });
+
+        load = (Button) findViewById(R.id.btnLoad);
+        load.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Please enter project name", Toast.LENGTH_SHORT).show();
+
+        //mailChecker.check();
+            }
+        });
+
         //Select a project
         listView = (ListView) findViewById(R.id.listView);
         loadProjects();
@@ -142,4 +154,10 @@ public class Project extends ActionBarActivity {
         eDes.setText("");
         return null;
     }
+//    public void onLoadButtonClicked(View v) {
+//        Toast.makeText(getApplicationContext(), "Please enter project name", Toast.LENGTH_SHORT).show();
+//
+//        //mailChecker.check();
+//    }
+
 }
