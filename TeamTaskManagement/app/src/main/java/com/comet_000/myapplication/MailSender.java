@@ -58,7 +58,7 @@ public class MailSender {
     }
 
     public String check(String host, String storeType, String user,
-                      String password) throws ExecutionException, InterruptedException {
+                        String password) throws ExecutionException, InterruptedException {
         Properties properties = new Properties();
         properties.put("mail.pop3.host", host);
         properties.put("mail.pop3.port", "995");
@@ -105,7 +105,7 @@ public class MailSender {
 //                return new PasswordAuthentication("p2pteamtaskmanagement@gmail.com", "P2Pmanagement");
                 return new PasswordAuthentication(author, password);
             }
-                });
+        });
         String task = new SendMail().execute().get();
         return task;
     }

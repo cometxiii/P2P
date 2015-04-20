@@ -94,9 +94,7 @@ public class Project extends ActionBarActivity {
         load.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Please enter project name", Toast.LENGTH_SHORT).show();
-
-        //mailChecker.check();
+                mailChecker.check();
             }
         });
 

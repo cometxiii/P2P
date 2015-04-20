@@ -10,6 +10,7 @@ import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
+import javax.mail.search.BodyTerm;
 
 public class CheckingMails {
     String host = "pop.gmail.com", key = "p2pteamtaskmanagement", user, password;
@@ -18,119 +19,53 @@ public class CheckingMails {
         this.user = user;
         this.password = password;
     }
-    class checkMail extends AsyncTask<String, Void, String> {
 
+    public void check() {
+        AsyncTask<String, Void, String> task = new checkMail().execute();
+    }
+
+    class checkMail extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
+            Properties props = System.getProperties();
+            props.setProperty("mail.store.protocol", "imaps");
+
             try {
+                Session session = Session.getDefaultInstance(props, null);
 
-                //create properties field
-                Properties properties = new Properties();
+                //GMail
+                System.out.println("GMail logging in..");
+                Store store = session.getStore("imaps");
+                store.connect("imap.gmail.com", user, password);
 
-                properties.put("mail.pop3.host", host);
-                properties.put("mail.pop3.port", "995");
-                properties.put("mail.pop3.starttls.enable", "true");
-                Session emailSession = Session.getDefaultInstance(properties);
+                System.out.println("Connected to = "+store);
+                Folder inbox = store.getFolder("Inbox");
+                inbox.open(Folder.READ_ONLY);
+                System.out.println("Total mails are = "+inbox.getMessageCount());
 
-                //create the POP3 store object and connect with the pop server
-                Store store = emailSession.getStore("pop3s");
+                //Enter term to search here
+                final String keyword = "p2pteamtaskmanagement";
 
-                store.connect(host, user, password);
+                //Search term
+                BodyTerm bodyTerm = new BodyTerm(keyword);
 
-                //create the folder object and open it
-                Folder emailFolder = store.getFolder("INBOX");
-                emailFolder.open(Folder.READ_ONLY);
+                System.out.println("Searching for BodyTerm with keyword = "+keyword);
 
-                // retrieve the messages from the folder in an array and print it
-                Message[] messages = emailFolder.getMessages();
-                System.out.println("messages.length---" + messages.length);
+                Message[] foundMessages = inbox.search(bodyTerm);
 
-                for (int i = 0, n = messages.length; i < n; i++) {
-                    Message message = messages[i];
-                    System.out.println("---------------------------------");
-                    System.out.println("Email Number " + (i + 1));
-                    System.out.println("Subject: " + message.getSubject());
-                    System.out.println("From: " + message.getFrom()[0]);
-                    System.out.println("Text: " + message.getContent().toString());
+                System.out.println("Searching done...");
+                System.out.println("Total mails found for searched term are = "+foundMessages.length);
 
+                for(Message message: foundMessages){
+                    System.out.println("found message: "+ message.getSubject());
+                    System.out.println("found message: "+ message.toString());
+                    System.out.println("=====");
                 }
 
-                //close the store and folder objects
-                emailFolder.close(false);
-                store.close();
-
-            } catch (AuthenticationFailedException e) {
-                e.printStackTrace();
-            }catch (NoSuchProviderException e) {
-                e.printStackTrace();
-            } catch (MessagingException e) {
-                e.printStackTrace();
-            } catch (Exception e) {
+            }catch (MessagingException e) {
                 e.printStackTrace();
             }
             return null;
         }
     }
-    public void check()
-    {
-        AsyncTask<String, Void, String> task = new checkMail().execute();
-//        try {
-//
-//            //create properties field
-//            Properties properties = new Properties();
-//
-//            properties.put("mail.pop3.host", host);
-//            properties.put("mail.pop3.port", "995");
-//            properties.put("mail.pop3.starttls.enable", "true");
-//            Session emailSession = Session.getDefaultInstance(properties);
-//
-//            //create the POP3 store object and connect with the pop server
-//            Store store = emailSession.getStore("pop3s");
-//
-//            store.connect(host, user, password);
-//
-//            //create the folder object and open it
-//            Folder emailFolder = store.getFolder("INBOX");
-//            emailFolder.open(Folder.READ_ONLY);
-//
-//            // retrieve the messages from the folder in an array and print it
-//            Message[] messages = emailFolder.getMessages();
-//            System.out.println("messages.length---" + messages.length);
-//
-//            for (int i = 0, n = messages.length; i < n; i++) {
-//                Message message = messages[i];
-//                System.out.println("---------------------------------");
-//                System.out.println("Email Number " + (i + 1));
-//                System.out.println("Subject: " + message.getSubject());
-//                System.out.println("From: " + message.getFrom()[0]);
-//                System.out.println("Text: " + message.getContent().toString());
-//
-//            }
-//
-//            //close the store and folder objects
-//            emailFolder.close(false);
-//            store.close();
-//
-//        } catch (AuthenticationFailedException e) {
-//            e.printStackTrace();
-//        }catch (NoSuchProviderException e) {
-//            e.printStackTrace();
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-    }
-
-//    public static void main(String[] args) {
-//
-//        String host = "pop.gmail.com";// change accordingly
-//        String mailStoreType = "pop3";
-//        String username = "p2pteamtaskmanagement@gmail.com";// change accordingly
-//        String password = "P2Pmanagement";// change accordingly
-//
-//        check(host, mailStoreType, username, password);
-//
-//    }
-
 }
