@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 public class Member extends ActionBarActivity
 {
     private Toolbar toolbar;
-    String loadProjectName;
+    String loadProjectName,loadProjectDes;
     String result = null;
     TextView msg;
     EditText eMail;
@@ -42,6 +42,7 @@ public class Member extends ActionBarActivity
         dataProvider.setTableProjectMember(myTableProjectMember);
         Intent intent = getIntent();
         loadProjectName = intent.getStringExtra("projectName");
+        loadProjectDes = intent.getStringExtra("projectDes");
         msg=(TextView)findViewById(R.id.txtMsg);
         msg.setText("Invite new member to project: "+loadProjectName);
 
@@ -58,7 +59,9 @@ public class Member extends ActionBarActivity
                         Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        MailSender myMailSender = new MailSender(eMail.getText().toString(), "test invite member", "message", Project.ACCOUNT, Project.PASSWORD);
+                        String message = "<zfgHsj6Uyk><ProjectName>" + loadProjectName + "<ProjectName>";
+                        message += "<ProjectDes>" + loadProjectDes + "<ProjectDes>";
+                        MailSender myMailSender = new MailSender(eMail.getText().toString(), "P2P invitation", message, Project.ACCOUNT, Project.PASSWORD);
                         try {
                             result = myMailSender.send();
                         } catch (ExecutionException e) {

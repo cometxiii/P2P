@@ -9,25 +9,11 @@
         <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\classes-121f3e20ad7c10dd9a41ebe3c6ab3920e11a9f8d.jar" />
     </item>
     <item
-        jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\libs\activation.jar"
+        jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\libs\ormlite-core-4.48.jar"
         jumboMode="false"
         revision="21.1.2"
-        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
-        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\activation-96434bafc964a48f1ef8b7bc3b301b7b0e3f65bc.jar" />
-    </item>
-    <item
-        jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\libs\additionnal.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
-        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\additionnal-ac64e0ee0fe984c3f2608eff236eff44b51251a4.jar" />
-    </item>
-    <item
-        jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\libs\mail.jar"
-        jumboMode="false"
-        revision="21.1.2"
-        sha1="428e267abff0d10802ccde86b915da2c20471160">
-        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\mail-60874f09198477a6127b7413f07c2c308174502a.jar" />
+        sha1="e579bd2905d0399af5029aaaf9817d5fa0ca88a5">
+        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\ormlite-core-4.48-af8627ee4f6b8025af3480bef6ee083569603a85.jar" />
     </item>
     <item
         jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\exploded-aar\com.android.support\support-v4\21.0.3\classes.jar"
@@ -42,6 +28,48 @@
         revision="21.1.2"
         sha1="01ec05bfbafcc07646ba813000bf2ef11742dd03">
         <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-a1e658e3ebdf5540f3d35cb61d87b6f381ec29f4.jar" />
+    </item>
+    <item
+        jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\libs\ormlite-android-4.48.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="afa06f539a4026c10b247386312aa67404b80a16">
+        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\ormlite-android-4.48-37f9eaf5e401a420ffe0b1a162fca6b373411b79.jar" />
+    </item>
+    <item
+        jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\21.0.3\classes.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="81d42bf983a8741f4888a6e333e454e4a5e0eeb7">
+        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\classes-e6d7026a71dfb1a2a6d96b9705a5c469dc681942.jar" />
+    </item>
+    <item
+        jar="S:\Users\King\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\21.0.3\support-annotations-21.0.3.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="4b74cefe1f0c1b819e7260c8627a14674e37fd35">
+        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-38d1bfe2bd5605fde64ab8cf4938ced284337aeb.jar" />
+    </item>
+    <item
+        jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\libs\additionnal.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="bd9e8dc422bb8c8405359947fe9f4282b49f57f4">
+        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\additionnal-ac64e0ee0fe984c3f2608eff236eff44b51251a4.jar" />
+    </item>
+    <item
+        jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\libs\activation.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="d1257cbff6faa44c1f325ae0d9413522d4644383">
+        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\activation-96434bafc964a48f1ef8b7bc3b301b7b0e3f65bc.jar" />
+    </item>
+    <item
+        jar="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\libs\mail.jar"
+        jumboMode="false"
+        revision="21.1.2"
+        sha1="428e267abff0d10802ccde86b915da2c20471160">
+        <dex dex="S:\Users\King\Desktop\P2P\TeamTaskManagement\app\build\intermediates\pre-dexed\debug\mail-60874f09198477a6127b7413f07c2c308174502a.jar" />
     </item>
 
 </items>

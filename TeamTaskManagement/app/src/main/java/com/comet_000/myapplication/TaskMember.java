@@ -155,6 +155,7 @@ public class TaskMember extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intentMember=new Intent(TaskMember.this, Member.class);
                 intentMember.putExtra(PROJECT_INTENT, loadProjectName);
+                intentMember.putExtra("projectDes", tDes1.getText().toString());
                 startActivity(intentMember);
             }
         });

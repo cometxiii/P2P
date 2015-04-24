@@ -1,8 +1,11 @@
 package com.comet_000.myapplication;
 import android.os.AsyncTask;
 
+import java.io.IOException;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
+import javax.mail.Address;
 import javax.mail.AuthenticationFailedException;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -13,20 +16,21 @@ import javax.mail.Store;
 import javax.mail.search.BodyTerm;
 
 public class CheckingMails {
-    String host = "pop.gmail.com", key = "p2pteamtaskmanagement", user, password;
+    String user, password;
 
     public CheckingMails(String user, String password) {
         this.user = user;
         this.password = password;
     }
 
-    public void check() {
-        AsyncTask<String, Void, String> task = new checkMail().execute();
+    public String[] check() throws ExecutionException, InterruptedException {
+        String[] task = new checkMail().execute().get();
+        return task;
     }
 
-    class checkMail extends AsyncTask<String, Void, String> {
+    class checkMail extends AsyncTask<String, Void, String[]> {
         @Override
-        protected String doInBackground(String... params) {
+        protected String[] doInBackground(String... params) {
             Properties props = System.getProperties();
             props.setProperty("mail.store.protocol", "imaps");
 
@@ -44,7 +48,7 @@ public class CheckingMails {
                 System.out.println("Total mails are = "+inbox.getMessageCount());
 
                 //Enter term to search here
-                final String keyword = "p2pteamtaskmanagement";
+                final String keyword = "zfgHsj6Uyk";
 
                 //Search term
                 BodyTerm bodyTerm = new BodyTerm(keyword);
@@ -52,17 +56,26 @@ public class CheckingMails {
                 System.out.println("Searching for BodyTerm with keyword = "+keyword);
 
                 Message[] foundMessages = inbox.search(bodyTerm);
-
-                System.out.println("Searching done...");
                 System.out.println("Total mails found for searched term are = "+foundMessages.length);
-
-                for(Message message: foundMessages){
-                    System.out.println("found message: "+ message.getSubject());
-                    System.out.println("found message: "+ message.toString());
-                    System.out.println("=====");
-                }
+                Address[] addresses = foundMessages[0].getFrom();
+                String[] message = new String[3];
+                message[0] = (String) foundMessages[0].getContent();
+                message[1] = addresses[0].toString();
+                message[2] = foundMessages[0].getSentDate().toString();
+                return message;
+//                return (String) foundMessages[0].getContent();
+//                System.out.println("Searching done...");
+//                System.out.println("Total mails found for searched term are = "+foundMessages.length);
+//
+//                for(Message message: foundMessages){
+//                    System.out.println("found message: "+ message.getSubject());
+//                    System.out.println("found message: "+ message.toString());
+//                    System.out.println("=====");
+//                }
 
             }catch (MessagingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
             return null;
