@@ -156,6 +156,15 @@ public class Project extends ActionBarActivity {
                         // Yes button clicked
 //                        Toast.makeText(Project.this, "Yes Clicked",Toast.LENGTH_LONG).show();
                         addProject(projectName, projectDes, projectOwner);
+                        String message = "<zfgHsj6Uyk><AcceptInvitation><ProjectName>" + projectName + "<ProjectName>";
+                        MailSender myMailSender = new MailSender(projectOwner, "P2P accept", message, Project.ACCOUNT, Project.PASSWORD);
+                        try {
+                            String result = myMailSender.send();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:

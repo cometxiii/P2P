@@ -59,9 +59,10 @@ public class Member extends ActionBarActivity
                         Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        String message = "<zfgHsj6Uyk><ProjectName>" + loadProjectName + "<ProjectName>";
+                        String message = "<zfgHsj6Uyk><Invitation><ProjectName>" + loadProjectName + "<ProjectName>";
                         message += "<ProjectDes>" + loadProjectDes + "<ProjectDes>";
                         MailSender myMailSender = new MailSender(eMail.getText().toString(), "P2P invitation", message, Project.ACCOUNT, Project.PASSWORD);
+
                         try {
                             result = myMailSender.send();
                         } catch (ExecutionException e) {

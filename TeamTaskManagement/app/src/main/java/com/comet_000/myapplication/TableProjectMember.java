@@ -1,6 +1,9 @@
 package com.comet_000.myapplication;
 
+import android.provider.Browser;
+
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 /**
  * Created by King on 04-03-2015.
@@ -12,6 +15,7 @@ public class TableProjectMember {
     String ProjectName;
     @DatabaseField
     String MemberName;
+
 
 
     public TableProjectMember(String projectName, String memberName) {
