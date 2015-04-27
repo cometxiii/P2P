@@ -31,8 +31,7 @@ public class TaskMember extends ActionBarActivity {
     Button addTask, addMember;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
-    public static final String PROJECT_INTENT="com.comet_000.myapplication.PROJECT";
-    String loadProjectName;
+    String loadProjectName, loadAccount, loadPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +55,9 @@ public class TaskMember extends ActionBarActivity {
         dataProvider.setTableProject(myTableProject);
         dataProvider.setTableTask(myTableTask);
 
-        loadProjectName = intent.getStringExtra("projectName");
+        loadProjectName = intent.getStringExtra("intentProjectName");
+        loadAccount = intent.getStringExtra("intentAccount");
+        loadPassword = intent.getStringExtra("intentPassword");
 
         tabHost.setup();
         TabHost.TabSpec tabSpec=tabHost.newTabSpec("tab task");
@@ -86,7 +87,7 @@ public class TaskMember extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intentTask=new Intent(TaskMember.this, Task.class);
-                intentTask.putExtra("projectName", loadProjectName);
+                intentTask.putExtra("intentProjectName", loadProjectName);
                 startActivity(intentTask);
             }
         });
@@ -96,7 +97,7 @@ public class TaskMember extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intentMember=new Intent(TaskMember.this, Member.class);
-                intentMember.putExtra("projectName", loadProjectName);
+                intentMember.putExtra("intentProjectName", loadProjectName);
                 startActivity(intentMember);
             }
         });
@@ -144,7 +145,7 @@ public class TaskMember extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intentTask=new Intent(TaskMember.this, Task.class);
-                intentTask.putExtra(PROJECT_INTENT, loadProjectName);
+                intentTask.putExtra("intentProjectName", loadProjectName);
                 startActivity(intentTask);
             }
         });
@@ -154,8 +155,10 @@ public class TaskMember extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent intentMember=new Intent(TaskMember.this, Member.class);
-                intentMember.putExtra(PROJECT_INTENT, loadProjectName);
-                intentMember.putExtra("projectDes", tDes1.getText().toString());
+                intentMember.putExtra("intentProjectName", loadProjectName);
+                intentMember.putExtra("intentProjectDes", tDes1.getText().toString());
+                intentMember.putExtra("intentAccount", loadAccount);
+                intentMember.putExtra("intentPassword", loadPassword);
                 startActivity(intentMember);
             }
         });

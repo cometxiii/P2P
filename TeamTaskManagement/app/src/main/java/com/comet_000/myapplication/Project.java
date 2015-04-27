@@ -24,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -43,9 +44,10 @@ import javax.mail.MessagingException;
 public class Project extends ActionBarActivity {
     private Toolbar toolbar;
     CheckingMails mailChecker;
-    String[] message = null;
-    String loadAccount = null;
-    String loadPassword = null;
+    MailManager mailManager = new MailManager();
+    String[] listMessage;
+    public String loadAccount = null;
+    public String loadPassword = null;
     String loadCallingActivity = null;
     Button add;
     Button btnLoad;
@@ -55,8 +57,7 @@ public class Project extends ActionBarActivity {
     ProgressDialog PD;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
-    public static String ACCOUNT = null;
-    public static String PASSWORD = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,8 +68,8 @@ public class Project extends ActionBarActivity {
 
         final Intent intentToTaskMember = new Intent(this, TaskMember.class);
         Intent intent = getIntent();
-        loadAccount = intent.getStringExtra("account");
-        loadPassword = intent.getStringExtra("password");
+        loadAccount = intent.getStringExtra("intentAccount");
+        loadPassword = intent.getStringExtra("intentPassword");
         mailChecker = new CheckingMails(loadAccount, loadPassword);
         loadCallingActivity = intent.getStringExtra("CallingActivity");
         eName = (EditText) findViewById(R.id.txtTitle);
@@ -108,8 +109,10 @@ public class Project extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    message = mailChecker.check();
-                    alertMessage(message);
+                    listMessage = mailChecker.check();
+                    System.out.println(listMessage[0]);
+                    for (String message : listMessage)
+                        alertMessage(message);
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -131,58 +134,67 @@ public class Project extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 List<String> lItems = dataProvider.getAllProjectString();
                 String item = lItems.get(position);
-                intentToTaskMember.putExtra("projectName", item);
+                intentToTaskMember.putExtra("intentProjectName", item);
+                intentToTaskMember.putExtra("intentAccount", loadAccount);
+                intentToTaskMember.putExtra("intentPassword", loadPassword);
                 startActivity(intentToTaskMember);
             }
         });
     }
-    public void alertMessage(String[] message) throws IOException, MessagingException {
-        String body = message[0];
-        int firstPN = body.indexOf("<ProjectName>") + 13;
-        int lastPN =  body.lastIndexOf("<ProjectName>");
-        int firstPD = body.indexOf("<ProjectDes>") + 12;
-        int lastPD =  body.lastIndexOf("<ProjectDes>");
-        String sentDate = message[2];
-        final String projectName = body.substring(firstPN, lastPN);
-        final String projectDes = body.substring(firstPD, lastPD);
-        String address = message[1];
-        int firstFR = address.indexOf("<") + 1;
-        int lastFR = address.indexOf(">");
-        final String projectOwner = address.substring(firstFR,lastFR);
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        // Yes button clicked
-//                        Toast.makeText(Project.this, "Yes Clicked",Toast.LENGTH_LONG).show();
-                        addProject(projectName, projectDes, projectOwner);
-                        String message = "<zfgHsj6Uyk><AcceptInvitation><ProjectName>" + projectName + "<ProjectName>";
-                        MailSender myMailSender = new MailSender(projectOwner, "P2P accept", message, Project.ACCOUNT, Project.PASSWORD);
-                        try {
-                            String result = myMailSender.send();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
+
+    public void alertMessage(String message) throws IOException, MessagingException {
+        String mailType = mailManager.classifyMail(message);
+        switch (mailType) {
+            case "Invitation":
+                String[] result = mailManager.readInvitation(message);
+                final String projectName = result[0];
+                final String projectDes = result[1];
+                final String projectOwner = result[2];
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                // Yes button clicked
+                                addProject(projectName, projectDes, projectOwner);
+                                String message = mailManager.makeAcceptInvitation(projectName, loadAccount);
+                                MailSender myMailSender = new MailSender(projectOwner, "P2P acceptance", message, loadAccount, loadPassword);
+                                try {
+                                    String result = myMailSender.send();
+                                } catch (ExecutionException e) {
+                                    e.printStackTrace();
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
                         }
-                        break;
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("You have been invited to the project " + projectName + ", do you want to join?")
+                        .setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+                break;
+            case "AcceptInvitation":
+                String[] result1 = mailManager.readAcceptInvitation(message);
+                dataProvider.addProjectMember(new TableProjectMember(result1[0], result1[1]));
+                DialogInterface.OnClickListener dialogClickListener1 = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                builder1.setMessage("User " + result1[1] + " has accepted your invitation to project " + result1[0] + ".")
+                        .setPositiveButton("Ok", dialogClickListener1).show();
 
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        // No button clicked
-                        // do nothing
-//                        Toast.makeText(Project.this, "No Clicked",Toast.LENGTH_LONG).show();
-                        break;
-                }
-            }
-        };
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setMessage(projectOwner)
-//                .setPositiveButton("Yes", dialogClickListener)
-//                .setNegativeButton("No", dialogClickListener).show();
-        builder.setMessage("You have been invited to the project " + projectName +", do you want to join?")
-                .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener).show();
+                break;
+        }
     }
 
 
@@ -207,11 +219,13 @@ public class Project extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
     //Load project names to ListView
     private void loadProjects() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataProvider.getAllProjectString());
         listView.setAdapter(adapter);
     }
+
     protected Void addProject(String name, String des, String user) {
 //        String name = eName.getText().toString();
 //        String des = eDes.getText().toString();

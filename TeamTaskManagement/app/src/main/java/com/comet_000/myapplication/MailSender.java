@@ -100,7 +100,7 @@ public class MailSender {
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.port", "465");
-        session = Session.getDefaultInstance(props, new Authenticator() {
+        session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
 //                return new PasswordAuthentication("p2pteamtaskmanagement@gmail.com", "P2Pmanagement");
                 return new PasswordAuthentication(author, password);
@@ -118,7 +118,7 @@ public class MailSender {
                 message.setFrom(new InternetAddress(author));
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiver));
                 message.setSubject(subject);
-                message.setContent(textMessage, "text/html; charset=utf-8");
+                message.setContent(textMessage, "text/plain");
                 Transport.send(message);
             } catch (AuthenticationFailedException e) {
                 e.printStackTrace();

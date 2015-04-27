@@ -20,7 +20,7 @@ import java.util.concurrent.ExecutionException;
 public class Member extends ActionBarActivity
 {
     private Toolbar toolbar;
-    String loadProjectName,loadProjectDes;
+    String loadProjectName, loadProjectDes, loadAccount, loadPassword;
     String result = null;
     TextView msg;
     EditText eMail;
@@ -29,6 +29,7 @@ public class Member extends ActionBarActivity
     ProgressDialog PD;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
+    MailManager mailManager = new MailManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,8 +42,10 @@ public class Member extends ActionBarActivity
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
         dataProvider.setTableProjectMember(myTableProjectMember);
         Intent intent = getIntent();
-        loadProjectName = intent.getStringExtra("projectName");
-        loadProjectDes = intent.getStringExtra("projectDes");
+        loadProjectName = intent.getStringExtra("intentProjectName");
+        loadProjectDes = intent.getStringExtra("intentProjectDes");
+        loadAccount = intent.getStringExtra("intentAccount");
+        loadPassword = intent.getStringExtra("intentPassword");
         msg=(TextView)findViewById(R.id.txtMsg);
         msg.setText("Invite new member to project: "+loadProjectName);
 
@@ -59,10 +62,8 @@ public class Member extends ActionBarActivity
                         Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
                     }
                     else {
-                        String message = "<zfgHsj6Uyk><Invitation><ProjectName>" + loadProjectName + "<ProjectName>";
-                        message += "<ProjectDes>" + loadProjectDes + "<ProjectDes>";
-                        MailSender myMailSender = new MailSender(eMail.getText().toString(), "P2P invitation", message, Project.ACCOUNT, Project.PASSWORD);
-
+                        String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
+                        MailSender myMailSender = new MailSender(eMail.getText().toString(), "P2P invitation", message, loadAccount, loadPassword);
                         try {
                             result = myMailSender.send();
                         } catch (ExecutionException e) {

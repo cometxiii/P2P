@@ -2,6 +2,8 @@ package com.comet_000.myapplication;
 import android.os.AsyncTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -56,13 +58,11 @@ public class CheckingMails {
                 System.out.println("Searching for BodyTerm with keyword = "+keyword);
 
                 Message[] foundMessages = inbox.search(bodyTerm);
+                String[] listMessage = new String[foundMessages.length];
+                for(int i = 0 ; i < foundMessages.length ; i++)
+                    listMessage[i] = foundMessages[i].getContent().toString();
                 System.out.println("Total mails found for searched term are = "+foundMessages.length);
-                Address[] addresses = foundMessages[0].getFrom();
-                String[] message = new String[3];
-                message[0] = (String) foundMessages[0].getContent();
-                message[1] = addresses[0].toString();
-                message[2] = foundMessages[0].getSentDate().toString();
-                return message;
+                return listMessage;
 //                return (String) foundMessages[0].getContent();
 //                System.out.println("Searching done...");
 //                System.out.println("Total mails found for searched term are = "+foundMessages.length);

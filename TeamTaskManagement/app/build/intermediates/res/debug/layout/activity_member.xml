@@ -35,4 +35,4 @@
         android:layout_below="@+id/txtUser"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
-<!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_member.xml -->
+<!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/layout/activity_member.xml -->

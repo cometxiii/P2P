@@ -44,8 +44,8 @@ public class Home extends ActionBarActivity {
                 else
                 {
                     TableAccount myAccount = dataProvider.getAccountById(1);
-                    intent2.putExtra("account", myAccount.Account);
-                    intent2.putExtra("password", myAccount.Password);
+                    intent2.putExtra("intentAccount", myAccount.Account);
+                    intent2.putExtra("intentPassword", myAccount.Password);
                     intent2.putExtra("CallingActivity", "Home");
                     startActivity(intent2);
                 }
