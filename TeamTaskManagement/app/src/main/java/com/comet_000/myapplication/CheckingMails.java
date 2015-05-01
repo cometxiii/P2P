@@ -61,7 +61,7 @@ public class CheckingMails {
                 for(int i = 0 ; i < foundMessages.length ; i++) {
                     listMessage[i] = foundMessages[i].getContent().toString();
                 }
-                inbox.setFlags(foundMessages,new Flags(Flags.Flag.SEEN),true);
+//                inbox.setFlags(foundMessages,new Flags(Flags.Flag.SEEN),true);
                 return listMessage;
             }
             catch (MessagingException e) {

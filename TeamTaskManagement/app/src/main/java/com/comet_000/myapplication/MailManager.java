@@ -23,7 +23,7 @@ public class MailManager {
         return tag + word + tag;
     }
     private String readTag(String message, String tag) {
-        int firstIndex = message.indexOf(tag) + message.length();
+        int firstIndex = message.indexOf(tag) + tag.length();
         int lastIndex = message.lastIndexOf(tag);
         return message.substring(firstIndex, lastIndex);
     }

@@ -110,7 +110,6 @@ public class Project extends ActionBarActivity {
             public void onClick(View v) {
                 try {
                     listMessage = mailChecker.check();
-                    System.out.println(listMessage[0]);
                     for (String message : listMessage)
                         alertMessage(message);
                 } catch (ExecutionException e) {
@@ -156,6 +155,7 @@ public class Project extends ActionBarActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 // Yes button clicked
                                 addProject(projectName, projectDes, projectOwner);
+
                                 String message = mailManager.makeAcceptInvitation(projectName, loadAccount);
                                 MailSender myMailSender = new MailSender(projectOwner, "P2P acceptance", message, loadAccount, loadPassword);
                                 try {

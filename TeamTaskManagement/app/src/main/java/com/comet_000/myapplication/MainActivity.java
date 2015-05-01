@@ -139,8 +139,13 @@ public class MainActivity extends ActionBarActivity {
             // TODO: Check possibleEmail against an email regex or treat
             // account.name as an email address only for certain account.type
             // values.
-            possibleEmails.add(account.name);
+
+            if (account.name.contains("@gmail.com"))
+            {
+                possibleEmails.add(account.name);
+            }
         }
+
         return possibleEmails;
     }
     public Void addUser() {
