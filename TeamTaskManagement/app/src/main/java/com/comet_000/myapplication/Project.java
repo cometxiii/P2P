@@ -43,7 +43,7 @@ import javax.mail.MessagingException;
 
 public class Project extends ActionBarActivity {
     private Toolbar toolbar;
-    CheckingMails mailChecker;
+    MailChecker mailChecker;
     MailManager mailManager = new MailManager();
     String[] listMessage;
     public String loadAccount = null;
@@ -70,7 +70,7 @@ public class Project extends ActionBarActivity {
         Intent intent = getIntent();
         loadAccount = intent.getStringExtra("intentAccount");
         loadPassword = intent.getStringExtra("intentPassword");
-        mailChecker = new CheckingMails(loadAccount, loadPassword);
+        mailChecker = new MailChecker(loadAccount, loadPassword);
         loadCallingActivity = intent.getStringExtra("CallingActivity");
         eName = (EditText) findViewById(R.id.txtTitle);
         eDes = (EditText) findViewById(R.id.txtDes);

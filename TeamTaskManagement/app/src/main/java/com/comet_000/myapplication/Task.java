@@ -55,7 +55,7 @@ public class Task extends ActionBarActivity {
         dataProvider.setTableTask(myTableTask);
         dataProvider.setTableProjectMember(myTableProjectMember);
         Intent intent = getIntent();
-        loadProjectName = intent.getStringExtra("intentProject");
+        loadProjectName = intent.getStringExtra("intentProjectName");
         txtMsg = (TextView) findViewById(R.id.txtMsg);
         txtMsg.setText("Your selected project: " + loadProjectName);
         eName = (EditText) findViewById(R.id.txtName);

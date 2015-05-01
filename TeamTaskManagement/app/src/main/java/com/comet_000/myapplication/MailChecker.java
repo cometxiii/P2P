@@ -20,10 +20,10 @@ import javax.mail.search.AndTerm;
 import javax.mail.search.BodyTerm;
 import javax.mail.search.FlagTerm;
 
-public class CheckingMails {
+public class MailChecker {
     String user, password;
 
-    public CheckingMails(String user, String password) {
+    public MailChecker(String user, String password) {
         this.user = user;
         this.password = password;
     }
