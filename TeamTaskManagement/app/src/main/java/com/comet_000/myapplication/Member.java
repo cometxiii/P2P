@@ -64,13 +64,7 @@ public class Member extends ActionBarActivity
                     else {
                         String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
                         MailSender myMailSender = new MailSender(eMail.getText().toString(), "P2P invitation", message, loadAccount, loadPassword);
-                        try {
-                            result = myMailSender.send();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
+                        myMailSender.send();
                         if (result.equals("Ok")) {
                             eMail.setText("");
                             Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();

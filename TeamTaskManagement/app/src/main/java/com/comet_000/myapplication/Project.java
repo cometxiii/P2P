@@ -116,10 +116,6 @@ public class Project extends ActionBarActivity {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
-                } catch (MessagingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         });
@@ -141,7 +137,7 @@ public class Project extends ActionBarActivity {
         });
     }
 
-    public void alertMessage(String message) throws IOException, MessagingException {
+    public void alertMessage(String message) {
         String mailType = mailManager.classifyMail(message);
         switch (mailType) {
             case "Invitation":
@@ -155,16 +151,9 @@ public class Project extends ActionBarActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 // Yes button clicked
                                 addProject(projectName, projectDes, projectOwner);
-
                                 String message = mailManager.makeAcceptInvitation(projectName, loadAccount);
-                                MailSender myMailSender = new MailSender(projectOwner, "P2P acceptance", message, loadAccount, loadPassword);
-                                try {
-                                    String result = myMailSender.send();
-                                } catch (ExecutionException e) {
-                                    e.printStackTrace();
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
+                                MailSender myMailSender = new MailSender(projectOwner, "P2P invitation acceptance", message, loadAccount, loadPassword);
+                                myMailSender.send();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 break;
@@ -192,7 +181,49 @@ public class Project extends ActionBarActivity {
                 AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                 builder1.setMessage("User " + result1[1] + " has accepted your invitation to project " + result1[0] + ".")
                         .setPositiveButton("Ok", dialogClickListener1).show();
-
+                break;
+            case "AssignTask":
+                final String[] result2 = mailManager.readAssignment(message);
+                final String projectName1 = result2[0];
+                final String owner = result2[1];
+                final String taskName = result2[2];
+                final String taskDes = result2[3];
+                DialogInterface.OnClickListener dialogClickListener2 = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                // Yes button clicked
+                                dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "new"));
+                                String message = mailManager.makeAccetpTask(projectName1, taskName, loadAccount);
+                                MailSender myMailSender = new MailSender(owner, "P2P assignment acceptance", message, loadAccount, loadPassword);
+                                myMailSender.send();
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
+                builder2.setMessage("You have been assigned to task " + taskName + " from project" + projectName1 +", do you want to join?")
+                        .setPositiveButton("Yes", dialogClickListener2)
+                        .setNegativeButton("No", dialogClickListener2).show();
+                break;
+            case "AcceptTask":
+                String[] result3 = mailManager.readAcceptTask(message);
+                dataProvider.updateTaskAssignment(result3[0], result3[1], result3[2], "accepted");
+                DialogInterface.OnClickListener dialogClickListener3 = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
+                builder3.setMessage("User " + result3[2] + " has accepted your assignment to task " + result3[1] + "of project" + result3[0] + ".")
+                        .setPositiveButton("Ok", dialogClickListener3).show();
                 break;
         }
     }
@@ -230,8 +261,14 @@ public class Project extends ActionBarActivity {
 //        String name = eName.getText().toString();
 //        String des = eDes.getText().toString();
 //        String user = loadAccount;
-        dataProvider.addProject(new TableProject(name, des, user));
-        dataProvider.addProjectMember(new TableProjectMember(name, user));
+        if(loadAccount.equals(name)) {
+            dataProvider.addProject(new TableProject(name, des, user));
+            dataProvider.addProjectMember(new TableProjectMember(name, user));
+        } else {
+            dataProvider.addProject(new TableProject(name, des, user));
+            dataProvider.addProjectMember(new TableProjectMember(name, user));
+            dataProvider.addProjectMember(new TableProjectMember(loadAccount, user));
+        }
         loadProjects();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(eName.getWindowToken(), 0);
@@ -241,6 +278,8 @@ public class Project extends ActionBarActivity {
         Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
         return null;
     }
+
+
 //    public void onLoadButtonClicked(View v) {
 //        Toast.makeText(getApplicationContext(), "Please enter project name", Toast.LENGTH_SHORT).show();
 //

@@ -30,6 +30,7 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class Task extends ActionBarActivity {
     private Toolbar toolbar;
@@ -38,10 +39,11 @@ public class Task extends ActionBarActivity {
     EditText eName, eDes;
     Spinner spinner;
     ProgressDialog PD;
-    String loadProjectName;
+    String loadProjectName, loadPassword, loadAccount;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
-
+    MailSender mailSender;
+    MailManager mailManager = new MailManager();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +58,8 @@ public class Task extends ActionBarActivity {
         dataProvider.setTableProjectMember(myTableProjectMember);
         Intent intent = getIntent();
         loadProjectName = intent.getStringExtra("intentProjectName");
+        loadAccount = intent.getStringExtra("intentAccount");
+        loadPassword = intent.getStringExtra("intentPassword");
         txtMsg = (TextView) findViewById(R.id.txtMsg);
         txtMsg.setText("Your selected project: " + loadProjectName);
         eName = (EditText) findViewById(R.id.txtName);
@@ -104,12 +108,22 @@ public class Task extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    protected Void addTask() {
+    public Void addTask() {
         String name = eName.getText().toString();
         String des = eDes.getText().toString();
         String project = loadProjectName;
         String member = spinner.getSelectedItem().toString();
-        dataProvider.addTask(new TableTask(name, member, des, project, "new"));
+        if (member.equals(loadAccount)) {
+            dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "new"));
+        }else if (member.length() > 1) {
+            dataProvider.addTask(new TableTask(project, loadAccount, name, des, "", "new"));
+            String message = mailManager.makeAssignment(project, loadAccount, name,des);
+            mailSender = new MailSender(member, "P2P task assignment", message, loadAccount, loadPassword);
+            mailSender.send();
+            Toast.makeText(getApplicationContext(), "Assignment has been sent.", Toast.LENGTH_SHORT).show();
+        } else {
+            dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "new"));
+        }
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(eName.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);

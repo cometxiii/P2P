@@ -42,7 +42,6 @@ public class MailSender {
     String subject = null;
     String password = null;
     String textMessage = null;
-    String result = "foo";
     Session session = null;
     Session emailSession = null;
 
@@ -57,14 +56,12 @@ public class MailSender {
         this.author = author;
     }
 
-    public String check(String host, String storeType, String user,
-                        String password) throws ExecutionException, InterruptedException {
+    public String check(String host, String user, String password) throws ExecutionException, InterruptedException {
         Properties properties = new Properties();
         properties.put("mail.pop3.host", host);
         properties.put("mail.pop3.port", "995");
         properties.put("mail.pop3.starttls.enable", "true");
         emailSession = Session.getDefaultInstance(properties);
-
         String myResult = new CheckPassword().execute(host, user, password).get();
         return myResult;
     }
@@ -93,7 +90,7 @@ public class MailSender {
         }
     }
 
-    public String send() throws ExecutionException, InterruptedException {
+    public void send() {
         Properties props = new Properties();
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
@@ -106,8 +103,13 @@ public class MailSender {
                 return new PasswordAuthentication(author, password);
             }
         });
-        String task = new SendMail().execute().get();
-        return task;
+        try {
+            String task = new SendMail().execute().get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
     }
 
     class SendMail extends AsyncTask<String, Void, String> {

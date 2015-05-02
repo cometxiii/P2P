@@ -17,10 +17,13 @@ public class TableTask {
     @DatabaseField
     String MemberName;
     @DatabaseField
+    String Owner;
+    @DatabaseField
     String Status;
 
-    public TableTask(String taskName, String memberName, String taskDescriptions, String projectName, String status) {
+    public TableTask(String projectName , String owner, String taskName, String taskDescriptions, String memberName, String status) {
         TaskName = taskName;
+        Owner = owner;
         MemberName = memberName;
         TaskDescriptions = taskDescriptions;
         ProjectName = projectName;

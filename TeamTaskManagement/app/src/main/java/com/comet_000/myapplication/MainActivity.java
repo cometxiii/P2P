@@ -103,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
                 } else {
                     MailSender myMailSender = new MailSender();
                     try {
-                        result = myMailSender.check("pop.gmail.com", "pop3", tUser.getText().toString(), ePass.getText().toString());
+                        result = myMailSender.check("pop.gmail.com", tUser.getText().toString(), ePass.getText().toString());
                     } catch (ExecutionException e) {
                         e.printStackTrace();
                     } catch (InterruptedException e) {

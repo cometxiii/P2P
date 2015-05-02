@@ -322,7 +322,20 @@ public class DataProvider {
             e.printStackTrace();
         }
     }
-
+    public void updateTaskAssignment(String projectName, String taskName, String member, String status){
+        UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
+        try {
+            updateBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName);
+            updateBuilder.updateColumnValue("MemberName", member);
+            updateBuilder.updateColumnValue("Status", status);
+            updateBuilder.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 /////////////////
 /////////////////
 //ProjectMember//
