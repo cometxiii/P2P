@@ -28,5 +28,8 @@ public class TableProject {
     public String getProjectName() {
         return ProjectName;
     }
+    public String getOwner() {
+        return Owner;
+    }
 }
 

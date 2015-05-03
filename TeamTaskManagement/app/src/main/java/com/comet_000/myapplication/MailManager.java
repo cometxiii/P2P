@@ -8,16 +8,18 @@ import java.util.List;
  */
 public class MailManager {
     final String keyTag = "<zfgHsj6Uyk>";
-    final String invitationTag = "<Invitation>";
-    final String acceptIviTag = "<AcceptInvitation>";
-    final String assignTaskTag = "<AssignTask>";
-    final String acceptTaskTag = "<AcceptTask>";
+    static final String invitationTag = "<Invitation>";
+    static final String acceptIviTag = "<AcceptInvitation>";
+    static final String assignTaskTag = "<AssignTask>";
+    static final String acceptTaskTag = "<AcceptTask>";
+    static final String changeStaTag = "<ChangeStatus>";
     final String projectTag = "<ProjectName>";
     final String pDesTag = "<ProjectDes>";
     final String ownerTag = "<ProjectOwner>";
     final String senderTag = "<Sender>";
-    final String taskTag = "TaskName>";
+    final String taskTag = "<TaskName>";
     final String taskDesTag = "<TaskDes>";
+    final String statusTag = "<StatusTag>";
     MailManager() {
     }
     private String addHeader(String tag) {
@@ -34,7 +36,7 @@ public class MailManager {
     public String classifyMail(String message) {
         message = message.replace(keyTag,"");
         int firstID = message.indexOf(">");
-        return message.substring(1,firstID);
+        return message.substring(0,firstID + 1);
     }
     public String makeInvitation(String projectName, String projectDes, String projectOwner) {
         String message = addHeader(invitationTag);
@@ -91,6 +93,22 @@ public class MailManager {
         result[1] = readTag(message, taskTag);
         result[2] = readTag(message, senderTag);
         return  result;
+    }
+    public String makeChangeStatus(String projectName, String taskName, String sender, String status) {
+        String message = addHeader(changeStaTag);
+        message += addTag(projectName, projectTag);
+        message += addTag(taskName, taskTag);
+        message += addTag(sender, senderTag);
+        message += addTag(status, statusTag);
+        return message;
+    }
+    public String[] readChangeStatus(String message) {
+        String[] result = new String[4];
+        result[0] = readTag(message, projectTag);
+        result[1] = readTag(message, taskTag);
+        result[2] = readTag(message, senderTag);
+        result[3] = readTag(message, statusTag);
+        return result;
     }
 //    public static void main(String[] args) {
 //        String message = "<zfgHsj6Uyk><AcceptInvitation><ProjectName>";

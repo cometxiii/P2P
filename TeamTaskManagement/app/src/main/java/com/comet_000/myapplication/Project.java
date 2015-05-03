@@ -140,7 +140,7 @@ public class Project extends ActionBarActivity {
     public void alertMessage(String message) {
         String mailType = mailManager.classifyMail(message);
         switch (mailType) {
-            case "Invitation":
+            case MailManager.invitationTag:
                 String[] result = mailManager.readInvitation(message);
                 final String projectName = result[0];
                 final String projectDes = result[1];
@@ -165,7 +165,7 @@ public class Project extends ActionBarActivity {
                         .setPositiveButton("Yes", dialogClickListener)
                         .setNegativeButton("No", dialogClickListener).show();
                 break;
-            case "AcceptInvitation":
+            case MailManager.acceptIviTag:
                 String[] result1 = mailManager.readAcceptInvitation(message);
                 dataProvider.addProjectMember(new TableProjectMember(result1[0], result1[1]));
                 DialogInterface.OnClickListener dialogClickListener1 = new DialogInterface.OnClickListener() {
@@ -182,7 +182,7 @@ public class Project extends ActionBarActivity {
                 builder1.setMessage("User " + result1[1] + " has accepted your invitation to project " + result1[0] + ".")
                         .setPositiveButton("Ok", dialogClickListener1).show();
                 break;
-            case "AssignTask":
+            case MailManager.assignTaskTag:
                 final String[] result2 = mailManager.readAssignment(message);
                 final String projectName1 = result2[0];
                 final String owner = result2[1];
@@ -208,7 +208,7 @@ public class Project extends ActionBarActivity {
                         .setPositiveButton("Yes", dialogClickListener2)
                         .setNegativeButton("No", dialogClickListener2).show();
                 break;
-            case "AcceptTask":
+            case MailManager.acceptTaskTag:
                 String[] result3 = mailManager.readAcceptTask(message);
                 dataProvider.updateTaskAssignment(result3[0], result3[1], result3[2], "accepted");
                 DialogInterface.OnClickListener dialogClickListener3 = new DialogInterface.OnClickListener() {
@@ -224,6 +224,23 @@ public class Project extends ActionBarActivity {
                 AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
                 builder3.setMessage("User " + result3[2] + " has accepted your assignment to task " + result3[1] + "of project" + result3[0] + ".")
                         .setPositiveButton("Ok", dialogClickListener3).show();
+                break;
+            case MailManager.changeStaTag:
+                String[] result4 = mailManager.readChangeStatus(message);
+                dataProvider.updateTaskAssignment(result4[0], result4[1], result4[2], result4[3]);
+                DialogInterface.OnClickListener dialogClickListener4 = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder4 = new AlertDialog.Builder(this);
+                builder4.setMessage("User " + result4[2] + " has changed status of task " + result4[1] + " of project " + result4[0] + " to " + result4[3] +".")
+                        .setPositiveButton("Ok", dialogClickListener4).show();
                 break;
         }
     }
