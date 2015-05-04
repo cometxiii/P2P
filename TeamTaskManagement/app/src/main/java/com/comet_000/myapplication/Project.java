@@ -129,9 +129,12 @@ public class Project extends ActionBarActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 List<String> lItems = dataProvider.getAllProjectString();
                 String item = lItems.get(position);
+                int fistOwner = item.indexOf("-");
+                String owner = item.substring(fistOwner + 1);
                 intentToTaskMember.putExtra("intentProjectName", item);
                 intentToTaskMember.putExtra("intentAccount", loadAccount);
                 intentToTaskMember.putExtra("intentPassword", loadPassword);
+                intentToTaskMember.putExtra("intentOwner", owner);
                 startActivity(intentToTaskMember);
             }
         });
@@ -167,7 +170,7 @@ public class Project extends ActionBarActivity {
                 break;
             case MailManager.acceptIviTag:
                 String[] result1 = mailManager.readAcceptInvitation(message);
-                dataProvider.addProjectMember(new TableProjectMember(result1[0], result1[1]));
+                dataProvider.addProjectMember(new TableProjectMember(result1[0], loadAccount, result1[1]));
                 DialogInterface.OnClickListener dialogClickListener1 = new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
@@ -278,13 +281,13 @@ public class Project extends ActionBarActivity {
 //        String name = eName.getText().toString();
 //        String des = eDes.getText().toString();
 //        String user = loadAccount;
-        if(loadAccount.equals(name)) {
+        if(loadAccount.equals(user)) {
             dataProvider.addProject(new TableProject(name, des, user));
-            dataProvider.addProjectMember(new TableProjectMember(name, user));
+            dataProvider.addProjectMember(new TableProjectMember(name, user, user));
         } else {
             dataProvider.addProject(new TableProject(name, des, user));
-            dataProvider.addProjectMember(new TableProjectMember(name, user));
-            dataProvider.addProjectMember(new TableProjectMember(loadAccount, user));
+            dataProvider.addProjectMember(new TableProjectMember(name, user, user));
+            dataProvider.addProjectMember(new TableProjectMember(name, user, loadAccount));
         }
         loadProjects();
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);

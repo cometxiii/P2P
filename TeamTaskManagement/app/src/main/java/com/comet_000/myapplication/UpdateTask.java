@@ -38,7 +38,7 @@ public class UpdateTask extends ActionBarActivity {
     EditText eDes;
     Spinner spinner, spinnerStatus;
     ProgressDialog PD;
-    String loadProjectName, loadTaskName;
+    String loadProjectName, loadTaskName, loadOwner;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
     public static final String PROJECT_INTENT="com.comet_000.myapplication.PROJECT";
@@ -58,8 +58,9 @@ public class UpdateTask extends ActionBarActivity {
         update=(Button)findViewById(R.id.btnUpdate);
         final Intent intent=getIntent();
         Bundle loadBundle=intent.getExtras();
-        loadProjectName=loadBundle.getString("projectName");
-        loadTaskName=loadBundle.getString("taskName");
+        loadProjectName=loadBundle.getString("intentProjectName");
+        loadTaskName=loadBundle.getString("intentTaskName");
+        loadOwner = loadBundle.getString("intentOwner");
         txtMsg.setText("Project: "+loadProjectName);
         tName.setText(loadTaskName);
         dbHelper = OpenHelperManager.getHelper(UpdateTask.this, DatabaseHelper.class);
@@ -110,7 +111,7 @@ public class UpdateTask extends ActionBarActivity {
     }
     //Load task descriptions
     private void loadTaskDescriptions(){
-        TableTask myTask = dataProvider.get1TaskByFieldName(loadTaskName,loadProjectName);
+        TableTask myTask = dataProvider.get1TaskByFieldName(loadTaskName, loadProjectName);
         eDes.setText(myTask.getTaskDescriptions());
     }
     //Load status of the task
@@ -154,7 +155,7 @@ public class UpdateTask extends ActionBarActivity {
     }
     //Load member of a project to spinner
     private void loadSpinner(){
-        List<String> members = dataProvider.getProjectMemberByFieldNameString("ProjectName", loadProjectName);
+        List<String> members = dataProvider.getProjectMember(loadProjectName, loadOwner);
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, members){
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -186,6 +187,7 @@ public class UpdateTask extends ActionBarActivity {
         String des=eDes.getText().toString();
         String member = spinner.getSelectedItem().toString();
         String status = spinnerStatus.getSelectedItem().toString();
+//        if()
         dataProvider.updateTask(loadProjectName, name, des, member, status);
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);

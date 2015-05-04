@@ -165,10 +165,19 @@ public class DataProvider {
         return myProjectTable.queryForAll();
     }
 
-    public TableProject get1ProjectByFieldName(String fieldName, String arg)
+    public TableProject get1Project(String projectName, String owner)
     {
-        List<TableProject> myProject = this.getProjectByFieldName(fieldName, arg);
-        return myProject.get(0);
+        QueryBuilder<TableProject, Integer> queryBuilder =  myProjectTable.queryBuilder();
+        List<TableProject> projectList = null;
+        try {
+            projectList = queryBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return projectList.get(0);
     }
     public List<String> getProjectByFieldNameString(String fieldName, String arg) {
         List<TableProject> projectList = getProjectByFieldName(fieldName, arg);
@@ -179,7 +188,7 @@ public class DataProvider {
     public List<String> getAllProjectString() {
         List<TableProject> listProject = this.getAllProject();
         List<String> listString = new ArrayList<String>();
-        for (TableProject n : listProject) listString.add(n.getProjectName());
+        for (TableProject n : listProject) listString.add(n.getProjectName() + " - " + n.getOwner());
         return listString;
     }
 
@@ -267,8 +276,39 @@ public class DataProvider {
         }
         return taskList.get(0);
     }
-    public List<String> getTaskByFieldNameString(String fieldName, String arg) {
-        List<TableTask> taskList = getTaskByFieldName(fieldName, arg);
+
+    public List<String> getTask(String projectName, String taskName, String owner) {
+        QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
+        List<TableTask> taskList = null;
+        try {
+            taskList = queryBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<String> listString = new ArrayList<String>();
+        for (TableTask n : taskList) listString.add(n.getTaskName());
+        return listString;
+    }
+
+    public List<String> getTaskProject(String projectName, String owner) {
+        QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
+        List<TableTask> taskList = null;
+        try {
+            taskList = queryBuilder.where()
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         List<String> listString = new ArrayList<String>();
         for (TableTask n : taskList) listString.add(n.getTaskName());
         return listString;
@@ -276,10 +316,6 @@ public class DataProvider {
 
     public TableTask getTaskById(int id) {
         return myTaskTable.queryForId(id);
-    }
-
-    public List<TableTask> getTaskByFieldName(String fieldName, String arg) {
-        return myTaskTable.queryForEq(fieldName, arg);
     }
 
     public void deleteTaskById(int id) {
@@ -300,9 +336,21 @@ public class DataProvider {
         return (int) myTaskTable.countOf();
     }
 
-    public boolean checkTaskByFieldName(String fieldName, String arg) {
-        List<TableTask> myList = this.getTaskByFieldName(fieldName, arg);
-        if (myList.isEmpty())
+    public boolean checkTask(String taskName, String projectName, String owner) {
+        QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
+        List<TableTask> taskList = null;
+        try {
+            taskList = queryBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (taskList.isEmpty())
             return false;
         return true;
     }
@@ -375,10 +423,20 @@ public class DataProvider {
         return myProjectMemberTable.queryForEq(fieldName, arg);
     }
 
-    public List<String> getProjectMemberByFieldNameString(String fieldName, String arg) {
-        List<TableProjectMember> projectMemberList = getProjectMemberByFieldName(fieldName, arg);
+    public List<String> getProjectMember(String projectName, String owner) {
+        QueryBuilder<TableProjectMember, Integer> queryBuilder =  myProjectMemberTable.queryBuilder();
+        List<TableProjectMember> taskList = null;
+        try {
+            taskList = queryBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         List<String> listString = new ArrayList<String>();
-        for (TableProjectMember n : projectMemberList) listString.add(n.getMemberName());
+        for (TableProjectMember n : taskList) listString.add(n.getMemberName());
         return listString;
     }
 

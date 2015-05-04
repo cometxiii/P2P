@@ -39,7 +39,7 @@ public class Task extends ActionBarActivity {
     EditText eName, eDes;
     Spinner spinner;
     ProgressDialog PD;
-    String loadProjectName, loadPassword, loadAccount;
+    String loadProjectName, loadPassword, loadAccount, loadOwner;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
     MailSender mailSender;
@@ -60,6 +60,7 @@ public class Task extends ActionBarActivity {
         loadProjectName = intent.getStringExtra("intentProjectName");
         loadAccount = intent.getStringExtra("intentAccount");
         loadPassword = intent.getStringExtra("intentPassword");
+        loadOwner = intent.getStringExtra("intentOwner");
         txtMsg = (TextView) findViewById(R.id.txtMsg);
         txtMsg.setText("Your selected project: " + loadProjectName);
         eName = (EditText) findViewById(R.id.txtName);
@@ -77,7 +78,7 @@ public class Task extends ActionBarActivity {
                 } else if (eDes.getText().toString().trim().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter task descriptions", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (dataProvider.checkTaskByFieldName("TaskName", (eName.getText()).toString())) {
+                    if (dataProvider.checkTask((eName.getText()).toString(), loadProjectName, loadOwner)) {
                         Toast.makeText(getApplicationContext(), "This task has already been existing in project!", Toast.LENGTH_SHORT).show();
                     } else {
                         addTask();
@@ -132,7 +133,7 @@ public class Task extends ActionBarActivity {
         return null;
     }
     private void loadSpinner() {
-        List<String> members = dataProvider.getProjectMemberByFieldNameString("ProjectName", loadProjectName);
+        List<String> members = dataProvider.getProjectMember(loadProjectName, loadOwner);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, members) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {

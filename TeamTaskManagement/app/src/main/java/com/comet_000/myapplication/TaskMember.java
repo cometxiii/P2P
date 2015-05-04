@@ -31,7 +31,7 @@ public class TaskMember extends ActionBarActivity {
     Button addTask, addMember;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
-    String loadProjectName, loadAccount, loadPassword;
+    String loadProjectName, loadAccount, loadPassword, loadOwner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class TaskMember extends ActionBarActivity {
         loadProjectName = intent.getStringExtra("intentProjectName");
         loadAccount = intent.getStringExtra("intentAccount");
         loadPassword = intent.getStringExtra("intentPassword");
+        loadOwner = intent.getStringExtra("intentOwner");
 
         tabHost.setup();
         TabHost.TabSpec tabSpec=tabHost.newTabSpec("tab task");
@@ -175,10 +176,11 @@ public class TaskMember extends ActionBarActivity {
         listViewTask.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                List<String> tItems = dataProvider.getTaskByFieldNameString("ProjectName", loadProjectName);
+                List<String> tItems = dataProvider.getTaskProject(loadProjectName, loadOwner);
                 String item=tItems.get(position);
-                myBundle.putString("projectName", loadProjectName);
-                myBundle.putString("taskName", item);
+                myBundle.putString("intentProjectName", loadProjectName);
+                myBundle.putString("intentTaskName", item);
+                myBundle.putString("intentOwner", loadOwner);
                 intentToUpdateTask.putExtras(myBundle);
                 startActivity(intentToUpdateTask);
             }
@@ -189,19 +191,19 @@ public class TaskMember extends ActionBarActivity {
 
     //Load list of task names in ListView
     private void loadTasks(){
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getTaskByFieldNameString("ProjectName", loadProjectName));
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getTaskProject(loadProjectName, loadOwner));
         listViewTask.setAdapter(adapter);
     }
 
     //Load list of members in ListView
     private void loadMembers(){
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getProjectMemberByFieldNameString("ProjectName", loadProjectName));
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getProjectMember(loadProjectName, loadOwner));
         listViewMember.setAdapter(adapter);
     }
 
     //Load project descriptions
     private void loadProjectDescriptions(){
-        TableProject myProject = dataProvider.get1ProjectByFieldName("ProjectName", loadProjectName);
+        TableProject myProject = dataProvider.get1Project(loadProjectName, loadOwner);
         tDes1.setText(myProject.getProjectDescriptions());
         tDes2.setText(myProject.getProjectDescriptions());
 

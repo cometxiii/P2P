@@ -15,12 +15,15 @@ public class TableProjectMember {
     String ProjectName;
     @DatabaseField
     String MemberName;
+    @DatabaseField
+    String Owner;
 
 
 
-    public TableProjectMember(String projectName, String memberName) {
+    public TableProjectMember(String projectName, String owner, String memberName) {
         ProjectName = projectName;
         MemberName = memberName;
+        Owner = owner;
     }
 
     public TableProjectMember(){}
