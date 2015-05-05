@@ -181,6 +181,8 @@ public class TaskMember extends ActionBarActivity {
                 myBundle.putString("intentProjectName", loadProjectName);
                 myBundle.putString("intentTaskName", item);
                 myBundle.putString("intentOwner", loadOwner);
+                myBundle.putString("intentAccount", loadAccount);
+                myBundle.putString("intentPassword", loadPassword);
                 intentToUpdateTask.putExtras(myBundle);
                 startActivity(intentToUpdateTask);
             }

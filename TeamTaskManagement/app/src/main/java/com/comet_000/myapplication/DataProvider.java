@@ -263,14 +263,16 @@ public class DataProvider {
         for (TableTask n : listTask) listString.add(n.getTaskName());
         return listString;
     }
-    public TableTask get1TaskByFieldName(String taskName, String projectName){
+    public TableTask get1Task(String taskName, String projectName, String owner){
         QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
         List<TableTask> taskList = null;
         try {
-            taskList = myTaskTable.queryBuilder().where()
+            taskList = queryBuilder.where()
                     .eq("TaskName", taskName)
                     .and()
-                    .eq("ProjectName", projectName).query();
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner).query();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -370,6 +372,23 @@ public class DataProvider {
             e.printStackTrace();
         }
     }
+
+    public void updateTaskStatus(String projectName, String taskName, String owner, String status) {
+        UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
+        try {
+            updateBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner);
+            updateBuilder.updateColumnValue("Status", status);
+            updateBuilder.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void updateTaskAssignment(String projectName, String taskName, String member, String status){
         UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
         try {
