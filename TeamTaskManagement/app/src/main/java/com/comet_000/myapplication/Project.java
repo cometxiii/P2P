@@ -245,6 +245,23 @@ public class Project extends ActionBarActivity {
                 builder4.setMessage("User " + result4[2] + " has changed status of task " + result4[1] + " of project " + result4[0] + " to " + result4[3] +".")
                         .setPositiveButton("Ok", dialogClickListener4).show();
                 break;
+            case MailManager.excludeTaskTag:
+                String[] result5 = mailManager.readExcludeTask(message);
+                dataProvider.deleteTask(result5[0], result5[1], result5[2]);
+                DialogInterface.OnClickListener dialogClickListener5 = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder5 = new AlertDialog.Builder(this);
+                builder5.setMessage("You have been excluded from task " + result5[1] + " of project " + result5[0] + ".")
+                        .setPositiveButton("Ok", dialogClickListener5).show();
+                break;
         }
     }
 

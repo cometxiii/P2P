@@ -13,6 +13,7 @@ public class MailManager {
     static final String assignTaskTag = "<AssignTask>";
     static final String acceptTaskTag = "<AcceptTask>";
     static final String changeStaTag = "<ChangeStatus>";
+    static final String excludeTaskTag = "<ExcludeTask";
     final String projectTag = "<ProjectName>";
     final String pDesTag = "<ProjectDes>";
     final String ownerTag = "<ProjectOwner>";
@@ -108,6 +109,36 @@ public class MailManager {
         result[1] = readTag(message, taskTag);
         result[2] = readTag(message, senderTag);
         result[3] = readTag(message, statusTag);
+        return result;
+    }
+    public String makeChangeDes(String projectName, String taskName, String owner, String status) {
+        String message = addHeader(changeStaTag);
+        message += addTag(projectName, projectTag);
+        message += addTag(taskName, taskTag);
+        message += addTag(owner, ownerTag);
+        message += addTag(status, statusTag);
+        return message;
+    }
+    public String[] readChangeDes(String message) {
+        String[] result = new String[4];
+        result[0] = readTag(message, projectTag);
+        result[1] = readTag(message, taskTag);
+        result[2] = readTag(message, ownerTag);
+        result[3] = readTag(message, statusTag);
+        return result;
+    }
+    public String makeExcludeTask(String projectName, String taskName, String owner) {
+        String message = addHeader(excludeTaskTag);
+        message += addTag(projectName, projectTag);
+        message += addTag(taskName, taskTag);
+        message += addTag(owner, ownerTag);
+        return message;
+    }
+    public String[] readExcludeTask(String message) {
+        String[] result = new String[3];
+        result[0] = readTag(message, projectTag);
+        result[1] = readTag(message, taskTag);
+        result[2] = readTag(message, ownerTag);
         return result;
     }
 //    public static void main(String[] args) {

@@ -238,11 +238,11 @@ public class DataProvider {
     }
 
 
-/////////////////
-/////////////////
-///////Task//////
-/////////////////
-/////////////////
+    /////////////////
+    /////////////////
+    ///////Task//////
+    /////////////////
+    /////////////////
 
 
     public void setTableTask(RuntimeExceptionDao<TableTask, Integer> TaskDao) {
@@ -285,7 +285,6 @@ public class DataProvider {
         try {
             taskList = queryBuilder.where()
                     .eq("TaskName", taskName)
-                    .and()
                     .eq("ProjectName", projectName)
                     .and()
                     .eq("Owner", owner)
@@ -303,7 +302,6 @@ public class DataProvider {
         List<TableTask> taskList = null;
         try {
             taskList = queryBuilder.where()
-                    .and()
                     .eq("ProjectName", projectName)
                     .and()
                     .eq("Owner", owner)
@@ -324,10 +322,15 @@ public class DataProvider {
         myTaskTable.deleteById(id);
     }
 
-    public void deleteTaskByFieldName(String fieldName, String arg) {
+    public void deleteTask(String projectName, String taskName, String owner) {
         DeleteBuilder<TableTask, Integer> deleteBuilder = myTaskTable.deleteBuilder();
         try {
-            deleteBuilder.where().eq(fieldName, arg);
+            deleteBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner);
             deleteBuilder.delete();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -389,6 +392,38 @@ public class DataProvider {
         }
     }
 
+    public void updateTaskDes(String projectName, String taskName, String owner, String des) {
+        UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
+        try {
+            updateBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner);
+            updateBuilder.updateColumnValue("Description", des);
+            updateBuilder.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateTaskMember(String projectName, String taskName, String owner, String member) {
+        UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
+        try {
+            updateBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner);
+            updateBuilder.updateColumnValue("MemberName", member);
+            updateBuilder.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void updateTaskAssignment(String projectName, String taskName, String member, String status){
         UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
         try {
@@ -404,11 +439,11 @@ public class DataProvider {
         }
     }
 
-/////////////////
-/////////////////
-//ProjectMember//
-/////////////////
-/////////////////
+    /////////////////
+    /////////////////
+    //ProjectMember//
+    /////////////////
+    /////////////////
 
 
     public void setTableProjectMember(RuntimeExceptionDao<TableProjectMember, Integer> ProjectMemberDao) {
