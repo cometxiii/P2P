@@ -65,14 +65,15 @@ public class Member extends ActionBarActivity
                         String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
                         MailSender myMailSender = new MailSender(eMail.getText().toString(), "P2P invitation", message, loadAccount, loadPassword);
                         myMailSender.send();
-                        if (result.equals("Ok")) {
-                            eMail.setText("");
-                            Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();
-                        }
-                        if (result.equals("Wrong password")) {
-                            eMail.setText("");
-                            Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
-                        }
+                        Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();
+//                        if (result.equals("Ok")) {
+//                            eMail.setText("");
+//                            Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();
+//                        }
+//                        if (result.equals("Wrong password")) {
+//                            eMail.setText("");
+//                            Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+//                        }
                     }
                 }
             }

@@ -76,8 +76,8 @@ public class TaskMember extends ActionBarActivity {
         tDes1=(TextView)findViewById(R.id.txtDes);
         tDes2=(TextView)findViewById(R.id.txtDes2);
 
-        tPName1.setText(loadProjectName);
-        tPName2.setText(loadProjectName);
+        tPName1.setText("Project name: "+loadProjectName);
+        tPName2.setText("Project name: "+loadProjectName);
 
 
         //Load descriptions of a project
@@ -89,6 +89,9 @@ public class TaskMember extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intentTask=new Intent(TaskMember.this, Task.class);
                 intentTask.putExtra("intentProjectName", loadProjectName);
+                intentTask.putExtra("intentOwner", loadOwner);
+                intentTask.putExtra("intentAccount", loadAccount);
+                intentTask.putExtra("intentPassword", loadPassword);
                 startActivity(intentTask);
             }
         });
@@ -138,8 +141,8 @@ public class TaskMember extends ActionBarActivity {
         tDes1=(TextView)findViewById(R.id.txtDes);
         tDes2=(TextView)findViewById(R.id.txtDes2);
 
-        tPName1.setText(loadProjectName);
-        tPName2.setText(loadProjectName);
+        tPName1.setText("Project name: "+loadProjectName);
+        tPName2.setText("Project name: "+loadProjectName);
 
         addTask=(Button)findViewById(R.id.btnAddTask);
         addTask.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +150,9 @@ public class TaskMember extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intentTask=new Intent(TaskMember.this, Task.class);
                 intentTask.putExtra("intentProjectName", loadProjectName);
+                intentTask.putExtra("intentOwner", loadOwner);
+                intentTask.putExtra("intentAccount", loadAccount);
+                intentTask.putExtra("intentPassword", loadPassword);
                 startActivity(intentTask);
             }
         });
@@ -206,8 +212,8 @@ public class TaskMember extends ActionBarActivity {
     //Load project descriptions
     private void loadProjectDescriptions(){
         TableProject myProject = dataProvider.get1Project(loadProjectName, loadOwner);
-        tDes1.setText(myProject.getProjectDescriptions());
-        tDes2.setText(myProject.getProjectDescriptions());
+        tDes1.setText("Project description: "+myProject.getProjectDescriptions());
+        tDes2.setText("Project description: "+myProject.getProjectDescriptions());
 
     }
 }

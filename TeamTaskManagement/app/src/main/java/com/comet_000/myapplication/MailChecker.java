@@ -61,7 +61,8 @@ public class MailChecker {
                 for(int i = 0 ; i < foundMessages.length ; i++) {
                     listMessage[i] = foundMessages[i].getContent().toString();
                 }
-//                inbox.setFlags(foundMessages,new Flags(Flags.Flag.SEEN),true);
+                inbox.setFlags(foundMessages,new Flags(Flags.Flag.SEEN),true);
+                store.close();
                 return listMessage;
             }
             catch (MessagingException e) {

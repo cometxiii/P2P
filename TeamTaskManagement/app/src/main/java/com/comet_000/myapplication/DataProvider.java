@@ -401,7 +401,7 @@ public class DataProvider {
                     .eq("ProjectName", projectName)
                     .and()
                     .eq("Owner", owner);
-            updateBuilder.updateColumnValue("Description", des);
+            updateBuilder.updateColumnValue("TaskDescriptions", des);
             updateBuilder.update();
         } catch (SQLException e) {
             e.printStackTrace();

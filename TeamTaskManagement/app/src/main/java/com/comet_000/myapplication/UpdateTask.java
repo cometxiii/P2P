@@ -85,7 +85,10 @@ public class UpdateTask extends ActionBarActivity {
                     updateTask();
                     Toast.makeText(getApplicationContext(),"Update task successfully!", Toast.LENGTH_SHORT).show();
                     Intent intentToTaskMember=new Intent(UpdateTask.this, TaskMember.class);
-                    intentToTaskMember.putExtra("projectName", loadProjectName);
+                    intentToTaskMember.putExtra("intentProjectName", loadProjectName);
+                    intentToTaskMember.putExtra("intentAccount", loadAccount);
+                    intentToTaskMember.putExtra("intentOwner", loadOwner);
+                    intentToTaskMember.putExtra("intentPassword", loadPassword);
                     startActivity(intentToTaskMember);
                 }
             }
@@ -198,11 +201,11 @@ public class UpdateTask extends ActionBarActivity {
             mailSender.send();
             dataProvider.updateTaskStatus(loadProjectName, loadTaskName, loadOwner, status);
         }
-        if (!des.equals(taskDesBefore)) {
+        if (!des.equals(taskDesBefore) && member.equals(taskMemberBefore)) {
             String message = mailManager.makeChangeDes(loadProjectName, loadTaskName, loadOwner, des);
             mailSender = new MailSender(member, "P2P change task description.", message, loadAccount, loadPassword);
-            mailSender.send();
             dataProvider.updateTaskDes(loadProjectName, loadTaskName, loadOwner, des);
+            mailSender.send();
         }
         if (!member.equals(taskMemberBefore)) {
             if(!member.equals(loadAccount) && !member.equals("") && !taskMemberBefore.equals(loadAccount)) {

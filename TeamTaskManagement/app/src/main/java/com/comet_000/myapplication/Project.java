@@ -78,6 +78,8 @@ public class Project extends ActionBarActivity {
         dbHelper = OpenHelperManager.getHelper(Project.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
+        RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
+        dataProvider.setTableTask(myTableTask);
         dataProvider.setTableProject(myTableProject);
         dataProvider.setTableProjectMember(myTableProjectMember);
         //Add new project
@@ -110,6 +112,7 @@ public class Project extends ActionBarActivity {
             public void onClick(View v) {
                 try {
                     listMessage = mailChecker.check();
+                    Toast.makeText(getApplicationContext(), "There are " + listMessage.length + " new messages", Toast.LENGTH_SHORT).show();
                     for (String message : listMessage)
                         alertMessage(message);
                 } catch (ExecutionException e) {
@@ -130,8 +133,9 @@ public class Project extends ActionBarActivity {
                 List<String> lItems = dataProvider.getAllProjectString();
                 String item = lItems.get(position);
                 int fistOwner = item.indexOf("-");
-                String owner = item.substring(fistOwner + 1);
-                intentToTaskMember.putExtra("intentProjectName", item);
+                String projectName = item.substring(0,fistOwner - 1);
+                String owner = item.substring(fistOwner + 2);
+                intentToTaskMember.putExtra("intentProjectName", projectName);
                 intentToTaskMember.putExtra("intentAccount", loadAccount);
                 intentToTaskMember.putExtra("intentPassword", loadPassword);
                 intentToTaskMember.putExtra("intentOwner", owner);
@@ -196,7 +200,7 @@ public class Project extends ActionBarActivity {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 // Yes button clicked
-                                dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "new"));
+                                dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "accepted"));
                                 String message = mailManager.makeAccetpTask(projectName1, taskName, loadAccount);
                                 MailSender myMailSender = new MailSender(owner, "P2P assignment acceptance", message, loadAccount, loadPassword);
                                 myMailSender.send();
@@ -207,7 +211,7 @@ public class Project extends ActionBarActivity {
                     }
                 };
                 AlertDialog.Builder builder2 = new AlertDialog.Builder(this);
-                builder2.setMessage("You have been assigned to task " + taskName + " from project" + projectName1 +", do you want to join?")
+                builder2.setMessage("You have been assigned to task " + taskName + " from project " + projectName1 +", do you want to join?")
                         .setPositiveButton("Yes", dialogClickListener2)
                         .setNegativeButton("No", dialogClickListener2).show();
                 break;
@@ -225,7 +229,7 @@ public class Project extends ActionBarActivity {
                     }
                 };
                 AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
-                builder3.setMessage("User " + result3[2] + " has accepted your assignment to task " + result3[1] + "of project" + result3[0] + ".")
+                builder3.setMessage("User " + result3[2] + " has accepted your assignment to task " + result3[1] + " of project " + result3[0] + ".")
                         .setPositiveButton("Ok", dialogClickListener3).show();
                 break;
             case MailManager.changeStaTag:
@@ -261,6 +265,23 @@ public class Project extends ActionBarActivity {
                 AlertDialog.Builder builder5 = new AlertDialog.Builder(this);
                 builder5.setMessage("You have been excluded from task " + result5[1] + " of project " + result5[0] + ".")
                         .setPositiveButton("Ok", dialogClickListener5).show();
+                break;
+            case MailManager.changeDesTag:
+                String[] result6 = mailManager.readChangeDes(message);
+                dataProvider.updateTaskDes(result6[0], result6[1], result6[2], result6[3]);
+                DialogInterface.OnClickListener dialogClickListener6 = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder6 = new AlertDialog.Builder(this);
+                builder6.setMessage("Description of task " + result6[1] + " from project " + result6[0] + " has been changed to " + result6[3] + ".")
+                        .setPositiveButton("Ok", dialogClickListener6).show();
                 break;
         }
     }
