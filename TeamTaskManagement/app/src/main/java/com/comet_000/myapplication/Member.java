@@ -54,18 +54,19 @@ public class Member extends ActionBarActivity
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String member = eMail.getText().toString();
+                member += "@gmail.com";
                 if(eMail.getText().toString().trim().isEmpty()){
                     Toast.makeText(getApplicationContext(), "Please enter Google account to invite", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    if(dataProvider.checkProjectMemberByFieldName("ProjectName", eMail.getText().toString().toLowerCase())){
+                    if(dataProvider.checkProjectMemberByFieldName("ProjectName", member)){
                         Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
                     }
                     else {
                         String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
-                        MailSender myMailSender = new MailSender(eMail.getText().toString(), "P2P invitation", message, loadAccount, loadPassword);
+                        MailSender myMailSender = new MailSender(member, "P2P invitation", message, loadAccount, loadPassword, Member.this);
                         myMailSender.send();
-                        Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();
 //                        if (result.equals("Ok")) {
 //                            eMail.setText("");
 //                            Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();

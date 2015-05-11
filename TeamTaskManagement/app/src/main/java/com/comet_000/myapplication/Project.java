@@ -35,16 +35,24 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 import javax.mail.Address;
+import javax.mail.Flags;
+import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Store;
+import javax.mail.search.AndTerm;
+import javax.mail.search.BodyTerm;
+import javax.mail.search.FlagTerm;
 
 public class Project extends ActionBarActivity {
     private Toolbar toolbar;
-    MailChecker mailChecker;
     MailManager mailManager = new MailManager();
+    CheckMail checkMail;
     String[] listMessage;
     public String loadAccount = null;
     public String loadPassword = null;
@@ -57,6 +65,7 @@ public class Project extends ActionBarActivity {
     ProgressDialog PD;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +77,10 @@ public class Project extends ActionBarActivity {
 
         final Intent intentToTaskMember = new Intent(this, TaskMember.class);
         Intent intent = getIntent();
+        progressDialog = new ProgressDialog(Project.this);
         loadAccount = intent.getStringExtra("intentAccount");
         loadPassword = intent.getStringExtra("intentPassword");
-        mailChecker = new MailChecker(loadAccount, loadPassword);
+        checkMail = new CheckMail(loadAccount, loadPassword, Project.this);
         loadCallingActivity = intent.getStringExtra("CallingActivity");
         eName = (EditText) findViewById(R.id.txtTitle);
         eDes = (EditText) findViewById(R.id.txtDes);
@@ -110,16 +120,19 @@ public class Project extends ActionBarActivity {
         btnLoad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    listMessage = mailChecker.check();
-                    Toast.makeText(getApplicationContext(), "There are " + listMessage.length + " new messages", Toast.LENGTH_SHORT).show();
-                    for (String message : listMessage)
-                        alertMessage(message);
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+                MailChecker checkMailTask = new MailChecker();
+                checkMailTask.execute();
+//                try{
+//                    mailChecker = new MailChecker(loadAccount, loadPassword, Project.this);
+//                    listMessage = mailChecker.check();
+//                    Toast.makeText(getApplicationContext(), "There are " + listMessage.length + " new messages", Toast.LENGTH_SHORT).show();
+//                    for (String message : listMessage)
+//                        alertMessage(message);
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
             }
         });
 
@@ -133,7 +146,7 @@ public class Project extends ActionBarActivity {
                 List<String> lItems = dataProvider.getAllProjectString();
                 String item = lItems.get(position);
                 int fistOwner = item.indexOf("-");
-                String projectName = item.substring(0,fistOwner - 1);
+                String projectName = item.substring(0, fistOwner - 1);
                 String owner = item.substring(fistOwner + 2);
                 intentToTaskMember.putExtra("intentProjectName", projectName);
                 intentToTaskMember.putExtra("intentAccount", loadAccount);
@@ -143,7 +156,62 @@ public class Project extends ActionBarActivity {
             }
         });
     }
+    private class MailChecker extends AsyncTask<Void, Void, String[]> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.setMessage("Checking mails...");
+            progressDialog.show();
+        }
+        @Override
+        protected String[] doInBackground(Void... params) {
+            Properties props = System.getProperties();
+            props.setProperty("mail.store.protocol", "imaps");
+            try {
+                Session session = Session.getDefaultInstance(props, null);
+                //GMail
+                System.out.println("GMail logging in..");
+                Store store = session.getStore("imaps");
+                store.connect("imap.gmail.com", loadAccount, loadPassword);
+                System.out.println("Connected to = "+store);
+                Folder inbox = store.getFolder("Inbox");
+                inbox.open(Folder.READ_WRITE);
+
+
+                //Enter term to search here
+
+                BodyTerm bodyTerm = new BodyTerm("<zfgHsj6Uyk>");
+                FlagTerm flagTerm = new FlagTerm(new Flags(Flags.Flag.SEEN), false);
+                AndTerm andTerm = new AndTerm(bodyTerm,flagTerm);
+                //Search
+
+                Message[] foundMessages = inbox.search(andTerm);
+                String[] listMessage = new String[foundMessages.length];
+                System.out.println("Total P2P mails are = " + listMessage.length);
+                for(int i = 0 ; i < foundMessages.length ; i++) {
+                    listMessage[i] = foundMessages[i].getContent().toString();
+                }
+                inbox.setFlags(foundMessages,new Flags(Flags.Flag.SEEN),true);
+                store.close();
+                return listMessage;
+            }
+            catch (MessagingException e) {
+                e.printStackTrace();
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+        @Override
+        protected void onPostExecute(String[] result) {
+            super.onPostExecute(result);
+            progressDialog.dismiss();
+            for (String message : result)
+                alertMessage(message);
+        }
+    }
     public void alertMessage(String message) {
         String mailType = mailManager.classifyMail(message);
         switch (mailType) {
@@ -159,7 +227,7 @@ public class Project extends ActionBarActivity {
                                 // Yes button clicked
                                 addProject(projectName, projectDes, projectOwner);
                                 String message = mailManager.makeAcceptInvitation(projectName, loadAccount);
-                                MailSender myMailSender = new MailSender(projectOwner, "P2P invitation acceptance", message, loadAccount, loadPassword);
+                                MailSender myMailSender = new MailSender(projectOwner, "P2P invitation acceptance", message, loadAccount, loadPassword, Project.this);
                                 myMailSender.send();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -202,7 +270,7 @@ public class Project extends ActionBarActivity {
                                 // Yes button clicked
                                 dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "accepted"));
                                 String message = mailManager.makeAccetpTask(projectName1, taskName, loadAccount);
-                                MailSender myMailSender = new MailSender(owner, "P2P assignment acceptance", message, loadAccount, loadPassword);
+                                MailSender myMailSender = new MailSender(owner, "P2P assignment acceptance", message, loadAccount, loadPassword, Project.this);
                                 myMailSender.send();
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:

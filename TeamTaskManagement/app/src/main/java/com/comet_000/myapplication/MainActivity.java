@@ -95,13 +95,15 @@ public class MainActivity extends ActionBarActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                BackgroundTask task = new BackgroundTask(MainActivity.this);
+//                task.execute();
                 if (ePass.getText().toString().trim().isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Please enter password", Toast.LENGTH_SHORT).show();
 
 
                     return;
                 } else {
-                    MailSender myMailSender = new MailSender();
+                    MailSender myMailSender = new MailSender(MainActivity.this);
                     try {
                         result = myMailSender.check("pop.gmail.com", tUser.getText().toString(), ePass.getText().toString());
                     } catch (ExecutionException e) {
@@ -125,7 +127,6 @@ public class MainActivity extends ActionBarActivity {
                         Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
                         return;
                     }
-
                 }
             }
         });

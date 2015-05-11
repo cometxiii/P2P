@@ -22,39 +22,12 @@ public class MainActivity1 extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main1);
-        doNoteDataStuff();
+        BackgroundTask task = new BackgroundTask(MainActivity1.this);
+        task.execute();
+        Toast.makeText(getApplicationContext(), "aaaaaa", Toast.LENGTH_SHORT).show();
     }
 
-    private void doNoteDataStuff()
-    {
-        dbHelper = OpenHelperManager.getHelper(this, DatabaseHelper.class);
-        RuntimeExceptionDao<TableAccount, Integer> accountDao = dbHelper.getTableAccount();
-        RuntimeExceptionDao<TableProject, Integer> myTableProjects = dbHelper.getTableProject();
-        DataProvider Dp = new DataProvider();
-        Dp.myProjectTable = myTableProjects;
-        Dp.setTableProject(myTableProjects);
-        TextView t1 = (TextView)findViewById(R.id.text);
-        //List<TableProject> myProjectList = Dp.getProjectByFieldName("ProjectName", "asdfasdf");
-        boolean empty = Dp.checkProjectByFieldName("ProjectName","sjs");
 
-        t1.setText(String.valueOf(empty));
-
-        if(Dp.checkProjectByFieldName("ProjectName","sjs"))
-            Toast.makeText(getApplicationContext(), "This project has already been created by you!", Toast.LENGTH_SHORT).show();
-        else
-        {
-            Toast.makeText(getApplicationContext(),"Add new project successfully!", Toast.LENGTH_SHORT).show();
-        }
-
-
-
-//        List<String> listString = new ArrayList<String>();
-//        for (TableProject n : myProjectList) listString.add(n.toString());
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.item, listString);
-//        ListView list = (ListView) findViewById(R.id.listView);
-//        list.setAdapter(adapter);
-        OpenHelperManager.releaseHelper();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

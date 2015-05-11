@@ -119,7 +119,7 @@ public class Task extends ActionBarActivity {
         }else if (member.length() > 1) {
             dataProvider.addTask(new TableTask(project, loadAccount, name, des, "", "new"));
             String message = mailManager.makeAssignment(project, loadAccount, name,des);
-            mailSender = new MailSender(member, "P2P task assignment", message, loadAccount, loadPassword);
+            mailSender = new MailSender(member, "P2P task assignment", message, loadAccount, loadPassword, Task.this);
             mailSender.send();
             Toast.makeText(getApplicationContext(), "Assignment has been sent.", Toast.LENGTH_SHORT).show();
         } else {

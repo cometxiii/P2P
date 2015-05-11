@@ -14,6 +14,7 @@ import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import java.util.TooManyListenersException;
+import java.util.concurrent.ExecutionException;
 
 public class Home extends ActionBarActivity {
     private Toolbar toolbar;
@@ -34,6 +35,8 @@ public class Home extends ActionBarActivity {
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                BackgroundTask task = new BackgroundTask(Home.this);
+//                task.execute();
                 dbHelper = OpenHelperManager.getHelper(Home.this, DatabaseHelper.class);
                 RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
                 dataProvider.setTableAccount(myTableAccount);

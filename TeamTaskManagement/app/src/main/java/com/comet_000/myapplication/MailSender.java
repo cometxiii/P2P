@@ -44,16 +44,18 @@ public class MailSender {
     String textMessage = null;
     Session session = null;
     Session emailSession = null;
-
-    public MailSender() {
+    Context context = null;
+    public MailSender(Context context) {
+        this.context = context;
     }
 
-    public MailSender(String receiver, String subject, String textMessage, String author, String password) {
+    public MailSender(String receiver, String subject, String textMessage, String author, String password, Context context) {
         this.receiver = receiver;
         this.subject = subject;
         this.textMessage = textMessage;
         this.password = password;
         this.author = author;
+        this.context = context;
     }
 
     public String check(String host, String user, String password) throws ExecutionException, InterruptedException {
@@ -67,6 +69,13 @@ public class MailSender {
     }
 
     class CheckPassword extends AsyncTask<String, Void, String> {
+        ProgressDialog dialog;
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Loading...");
+            dialog.show();
+        }
         @Override
         protected String doInBackground(String... params) {
             Store store = null;
@@ -88,6 +97,12 @@ public class MailSender {
             }
             return "Ok";
         }
+        @Override
+        protected void onPostExecute(String unused) {
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+        }
     }
 
     public void send() {
@@ -103,16 +118,19 @@ public class MailSender {
                 return new PasswordAuthentication(author, password);
             }
         });
-        try {
-            String task = new SendMail().execute().get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+            SendMail task = new SendMail();
+            task.execute();
     }
 
     class SendMail extends AsyncTask<String, Void, String> {
+        ProgressDialog dialog;
+
+        @Override
+        protected void onPreExecute() {
+            dialog = new ProgressDialog(context);
+            dialog.setMessage("Loading...");
+            dialog.show();
+        }
         @Override
         protected String doInBackground(String... params) {
             try {
@@ -128,6 +146,12 @@ public class MailSender {
                 e.printStackTrace();
             }
             return "Ok";
+        }
+        @Override
+        protected void onPostExecute(String unused) {
+            super.onPostExecute(unused);
+            dialog.dismiss();
+            Toast.makeText(context, "Invitation has been sent to " + receiver + "!", Toast.LENGTH_SHORT).show();
         }
     }
 }

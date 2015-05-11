@@ -83,16 +83,17 @@ public class UpdateTask extends ActionBarActivity {
                 }
                 else{
                     updateTask();
-                    Toast.makeText(getApplicationContext(),"Update task successfully!", Toast.LENGTH_SHORT).show();
-                    Intent intentToTaskMember=new Intent(UpdateTask.this, TaskMember.class);
-                    intentToTaskMember.putExtra("intentProjectName", loadProjectName);
-                    intentToTaskMember.putExtra("intentAccount", loadAccount);
-                    intentToTaskMember.putExtra("intentOwner", loadOwner);
-                    intentToTaskMember.putExtra("intentPassword", loadPassword);
-                    startActivity(intentToTaskMember);
+//                    Toast.makeText(getApplicationContext(),"Update task successfully!", Toast.LENGTH_SHORT).show();
+//                    Intent intentToTaskMember=new Intent(UpdateTask.this, TaskMember.class);
+//                    intentToTaskMember.putExtra("intentProjectName", loadProjectName);
+//                    intentToTaskMember.putExtra("intentAccount", loadAccount);
+//                    intentToTaskMember.putExtra("intentOwner", loadOwner);
+//                    intentToTaskMember.putExtra("intentPassword", loadPassword);
+//                    startActivity(intentToTaskMember);
                 }
             }
         });
+        finish();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -137,29 +138,6 @@ public class UpdateTask extends ActionBarActivity {
             int currentStatus = dataAdapter.getPosition(myTask.Status);
             spinnerStatus.setSelection(currentStatus);
         }
-//        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statuses){
-//            @Override
-//            public View getView(int position, View convertView, ViewGroup parent) {
-//                View v = super.getView(position, convertView, parent);
-//                if (position == getCount()) {
-//                    ((TextView)v.findViewById(android.R.id.text1)).setText("");
-//                    ((TextView)v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
-//                }
-//                return v;
-//            }
-//
-//            @Override
-//            public int getCount() {
-//                return super.getCount()-1; // you don't display last item. It is used as hint.
-//            }
-//        };
-//        TableTask myTask = dataProvider.get1TaskByFieldName(loadTaskName, loadProjectName);
-//        String myStatus = myTask.Status;
-//        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
-//        adapter.add("");
-//        adapter.add(myStatus);
-//        spinnerStatus.setAdapter(adapter);
-//        spinnerStatus.setSelection(adapter.getCount());
     }
     //Load member of a project to spinner
     private void loadSpinner(){
@@ -197,33 +175,33 @@ public class UpdateTask extends ActionBarActivity {
         String status = spinnerStatus.getSelectedItem().toString();
         if (!status.equals(taskStatusBefore)) {
             String message = mailManager.makeChangeStatus(loadProjectName, loadTaskName, loadAccount, status);
-            mailSender = new MailSender(loadOwner, "P2P change status.", message, loadAccount, loadPassword);
+            mailSender = new MailSender(loadOwner, "P2P change status.", message, loadAccount, loadPassword, UpdateTask.this);
             mailSender.send();
             dataProvider.updateTaskStatus(loadProjectName, loadTaskName, loadOwner, status);
         }
         if (!des.equals(taskDesBefore) && member.equals(taskMemberBefore)) {
             String message = mailManager.makeChangeDes(loadProjectName, loadTaskName, loadOwner, des);
-            mailSender = new MailSender(member, "P2P change task description.", message, loadAccount, loadPassword);
+            mailSender = new MailSender(member, "P2P change task description.", message, loadAccount, loadPassword, UpdateTask.this);
             dataProvider.updateTaskDes(loadProjectName, loadTaskName, loadOwner, des);
             mailSender.send();
         }
         if (!member.equals(taskMemberBefore)) {
             if(!member.equals(loadAccount) && !member.equals("") && !taskMemberBefore.equals(loadAccount)) {
                 String messageOldMember = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
-                mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword);
+                mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword, UpdateTask.this);
                 mailSender.send();
                 String messageNewMember = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, des);
-                mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword);
+                mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword, UpdateTask.this);
                 mailSender.send();
             }
             if((member.equals(loadAccount) || member.equals("")) && !taskMemberBefore.equals("")) {
                 String messageOldMember = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
-                mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword);
+                mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword, UpdateTask.this);
                 mailSender.send();
             }
             if ((taskMemberBefore.equals(loadAccount) || taskMemberBefore.equals("")) && !member.equals("")) {
                 String messageNewMember = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, des);
-                mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword);
+                mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword, UpdateTask.this);
                 mailSender.send();
             }
             dataProvider.updateTaskMember(loadProjectName, loadTaskName, loadOwner, member);
