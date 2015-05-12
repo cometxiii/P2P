@@ -79,10 +79,10 @@ public class Task extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Please enter task descriptions", Toast.LENGTH_SHORT).show();
                 } else {
                     if (dataProvider.checkTask((eName.getText()).toString(), loadProjectName, loadOwner)) {
-                        Toast.makeText(getApplicationContext(), "This task has already been existing in project!", Toast.LENGTH_SHORT).show();
-                    } else {
                         addTask();
                         Toast.makeText(getApplicationContext(), "Add new task successfully!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "This task has already been existing in project!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

@@ -62,8 +62,7 @@
         </activity>
         <activity
             android:name=".UpdateTask"
-            android:label="@string/title_activity_update_task"
-            android:noHistory="true" >
+            android:label="Update Task" >
         </activity>
         <activity
             android:name=".Material"

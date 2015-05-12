@@ -60,21 +60,13 @@ public class Member extends ActionBarActivity
                     Toast.makeText(getApplicationContext(), "Please enter Google account to invite", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    if(dataProvider.checkProjectMemberByFieldName("ProjectName", member)){
-                        Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
+                    if(dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
                         String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
                         MailSender myMailSender = new MailSender(member, "P2P invitation", message, loadAccount, loadPassword, Member.this);
                         myMailSender.send();
-//                        if (result.equals("Ok")) {
-//                            eMail.setText("");
-//                            Toast.makeText(getApplicationContext(), "Invitation has been sent!", Toast.LENGTH_SHORT).show();
-//                        }
-//                        if (result.equals("Wrong password")) {
-//                            eMail.setText("");
-//                            Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
-//                        }
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

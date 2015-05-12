@@ -183,13 +183,12 @@ public class TaskMember extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 List<String> tItems = dataProvider.getTaskProject(loadProjectName, loadOwner);
-                String item=tItems.get(position);
-                myBundle.putString("intentProjectName", loadProjectName);
-                myBundle.putString("intentTaskName", item);
-                myBundle.putString("intentOwner", loadOwner);
-                myBundle.putString("intentAccount", loadAccount);
-                myBundle.putString("intentPassword", loadPassword);
-                intentToUpdateTask.putExtras(myBundle);
+                String item = tItems.get(position);
+                intentToUpdateTask.putExtra("intentProjectName", loadProjectName);
+                intentToUpdateTask.putExtra("intentTaskName", item);
+                intentToUpdateTask.putExtra("intentOwner", loadOwner);
+                intentToUpdateTask.putExtra("intentAccount", loadAccount);
+                intentToUpdateTask.putExtra("intentPassword", loadPassword);
                 startActivity(intentToUpdateTask);
             }
         });
@@ -211,7 +210,7 @@ public class TaskMember extends ActionBarActivity {
 
     //Load project descriptions
     private void loadProjectDescriptions(){
-        TableProject myProject = dataProvider.get1Project(loadProjectName, loadOwner);
+        TableProject myProject = dataProvider.getProject(loadProjectName, loadOwner);
         tDes1.setText("Project description: "+myProject.getProjectDescriptions());
         tDes2.setText("Project description: "+myProject.getProjectDescriptions());
 

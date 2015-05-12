@@ -58,12 +58,11 @@ public class UpdateTask extends ActionBarActivity {
         spinner=(Spinner)findViewById(R.id.spinner);
         update=(Button)findViewById(R.id.btnUpdate);
         final Intent intent=getIntent();
-        Bundle loadBundle=intent.getExtras();
-        loadAccount = loadBundle.getString("intentAccount");
-        loadPassword = loadBundle.getString("intentPassword");
-        loadProjectName = loadBundle.getString("intentProjectName");
-        loadTaskName = loadBundle.getString("intentTaskName");
-        loadOwner = loadBundle.getString("intentOwner");
+        loadAccount = intent.getStringExtra("intentAccount");
+        loadPassword = intent.getStringExtra("intentPassword");
+        loadProjectName = intent.getStringExtra("intentProjectName");
+        loadTaskName = intent.getStringExtra("intentTaskName");
+        loadOwner = intent.getStringExtra("intentOwner");
         txtMsg.setText("Project: "+loadProjectName);
         tName.setText(loadTaskName);
         dbHelper = OpenHelperManager.getHelper(UpdateTask.this, DatabaseHelper.class);
@@ -83,17 +82,9 @@ public class UpdateTask extends ActionBarActivity {
                 }
                 else{
                     updateTask();
-//                    Toast.makeText(getApplicationContext(),"Update task successfully!", Toast.LENGTH_SHORT).show();
-//                    Intent intentToTaskMember=new Intent(UpdateTask.this, TaskMember.class);
-//                    intentToTaskMember.putExtra("intentProjectName", loadProjectName);
-//                    intentToTaskMember.putExtra("intentAccount", loadAccount);
-//                    intentToTaskMember.putExtra("intentOwner", loadOwner);
-//                    intentToTaskMember.putExtra("intentPassword", loadPassword);
-//                    startActivity(intentToTaskMember);
                 }
             }
         });
-        finish();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

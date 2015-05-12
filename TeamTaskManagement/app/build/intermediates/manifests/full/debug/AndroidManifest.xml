@@ -68,8 +68,7 @@
         </activity>
         <activity
             android:name="com.comet_000.myapplication.UpdateTask"
-            android:label="@string/title_activity_update_task"
-            android:noHistory="true" >
+            android:label="Update Task" >
         </activity>
         <activity
             android:name="com.comet_000.myapplication.Material"

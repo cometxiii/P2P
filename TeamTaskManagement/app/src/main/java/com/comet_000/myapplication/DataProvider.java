@@ -165,7 +165,7 @@ public class DataProvider {
         return myProjectTable.queryForAll();
     }
 
-    public TableProject get1Project(String projectName, String owner)
+    public TableProject getProject(String projectName, String owner)
     {
         QueryBuilder<TableProject, Integer> queryBuilder =  myProjectTable.queryBuilder();
         List<TableProject> projectList = null;
@@ -178,12 +178,6 @@ public class DataProvider {
             e.printStackTrace();
         }
         return projectList.get(0);
-    }
-    public List<String> getProjectByFieldNameString(String fieldName, String arg) {
-        List<TableProject> projectList = getProjectByFieldName(fieldName, arg);
-        List<String> listString = new ArrayList<String>();
-        for (TableProject n : projectList) listString.add(n.getProjectDescriptions());
-        return listString;
     }
     public List<String> getAllProjectString() {
         List<TableProject> listProject = this.getAllProject();
@@ -229,12 +223,21 @@ public class DataProvider {
         return (int) myProjectTable.countOf();
     }
 
-    public boolean checkProjectByFieldName(String fieldName, String arg) {
-        List<TableProject> myList = this.getProjectByFieldName(fieldName, arg);
-        if (myList.isEmpty())
-            return false;
-        else
+    public boolean checkProject(String name, String owner) {
+        QueryBuilder<TableProject, Integer> queryBuilder =  myProjectTable.queryBuilder();
+        List<TableProject> projectList = null;
+        try {
+            projectList = queryBuilder.where()
+                    .eq("ProjectName", name)
+                    .and()
+                    .eq("Owner", owner).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (projectList.isEmpty())
             return true;
+        else
+            return false;
     }
 
 
@@ -340,7 +343,48 @@ public class DataProvider {
     public int getNumOfTask() {
         return (int) myTaskTable.countOf();
     }
-
+    public boolean checkTaskMember(String taskName, String projectName, String owner, String member) {
+        QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
+        List<TableTask> taskList = null;
+        try {
+            taskList = queryBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .and()
+                    .eq("MemberName", member)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (taskList.isEmpty())
+            return true;
+        return false;
+    }
+    public boolean checkTaskAssignment(String taskName, String projectName, String owner, String member, String status) {
+        QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
+        List<TableTask> taskList = null;
+        try {
+            taskList = queryBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .and()
+                    .eq("MemberName", member)
+                    .and()
+                    .eq("Status", status)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (taskList.isEmpty())
+            return true;
+        return false;
+    }
     public boolean checkTask(String taskName, String projectName, String owner) {
         QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
         List<TableTask> taskList = null;
@@ -356,8 +400,8 @@ public class DataProvider {
             e.printStackTrace();
         }
         if (taskList.isEmpty())
-            return false;
-        return true;
+            return true;
+        return false;
     }
 
     public void updateTask(String projectName, String taskName, String des, String member, String status){
@@ -479,9 +523,9 @@ public class DataProvider {
 
     public List<String> getProjectMember(String projectName, String owner) {
         QueryBuilder<TableProjectMember, Integer> queryBuilder =  myProjectMemberTable.queryBuilder();
-        List<TableProjectMember> taskList = null;
+        List<TableProjectMember> memberList = null;
         try {
-            taskList = queryBuilder.where()
+            memberList = queryBuilder.where()
                     .eq("ProjectName", projectName)
                     .and()
                     .eq("Owner", owner)
@@ -490,7 +534,7 @@ public class DataProvider {
             e.printStackTrace();
         }
         List<String> listString = new ArrayList<String>();
-        for (TableProjectMember n : taskList) listString.add(n.getMemberName());
+        for (TableProjectMember n : memberList) listString.add(n.getMemberName());
         return listString;
     }
 
@@ -512,10 +556,22 @@ public class DataProvider {
         return (int) myProjectMemberTable.countOf();
     }
 
-    public boolean checkProjectMemberByFieldName(String fieldName, String arg) {
-        List<TableProjectMember> myList = this.getProjectMemberByFieldName(fieldName, arg);
-        if (myList.isEmpty())
-            return false;
-        return true;
+    public boolean checkProjectMember(String projectName, String memberName, String owner) {
+        QueryBuilder<TableProjectMember, Integer> queryBuilder =  myProjectMemberTable.queryBuilder();
+        List<TableProjectMember> memberList = null;
+        try {
+            memberList = queryBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .and()
+                    .eq("MemberName", memberName)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        if (memberList.isEmpty())
+            return true;
+        return false;
     }
 }
