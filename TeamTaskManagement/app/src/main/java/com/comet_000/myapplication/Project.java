@@ -199,23 +199,27 @@ public class Project extends ActionBarActivity {
         String mailType = mailManager.classifyMail(message);
         switch (mailType) {
             case MailManager.invitationTag:
-                String[] result = mailManager.readInvitation(message);
+                final String[] result = mailManager.readInvitation(message);
                 final String projectName = result[0];
                 final String projectDes = result[1];
                 final String projectOwner = result[2];
-                if (dataProvider.checkProject(projectName, projectOwner)) {
                     DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    dataProvider.addProject(new TableProject(projectName, projectDes, projectOwner));
-                                    dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner));
-                                    dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount));
-                                    loadProjects();
-                                    Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
-                                    String message1 = mailManager.makeAcceptInvitation(projectName, loadAccount);
-                                    MailSender myMailSender = new MailSender(projectOwner, "P2P invitation acceptance", message1, loadAccount, loadPassword, Project.this);
-                                    myMailSender.send();
+                                    if (dataProvider.checkProject(projectName, projectOwner)) {
+                                        dataProvider.addProject(new TableProject(projectName, projectDes, projectOwner));
+                                        dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner));
+                                        dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount));
+                                        loadProjects();
+                                        Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
+                                        String message1 = mailManager.makeAcceptInvitation(projectName, loadAccount);
+                                        MailSender myMailSender = new MailSender(projectOwner, "P2P invitation acceptance", message1, loadAccount, loadPassword, Project.this);
+                                        myMailSender.send();
+                                    }
+                                    else {
+                                        Toast.makeText(getApplicationContext(), "This project already exist!", Toast.LENGTH_SHORT).show();
+                                    }
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
                                     break;
@@ -226,7 +230,6 @@ public class Project extends ActionBarActivity {
                     builder.setMessage("You have been invited to the project " + projectName + ", do you want to join?")
                             .setPositiveButton("Yes", dialogClickListener)
                             .setNegativeButton("No", dialogClickListener).show();
-                }
                 break;
             case MailManager.acceptIviTag:
                 String[] result1 = mailManager.readAcceptInvitation(message);
@@ -262,6 +265,9 @@ public class Project extends ActionBarActivity {
                                     myMailSender.send();
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
+                                    String messageDeny = mailManager.makeDenyTask(projectName1, taskName, loadAccount);
+                                    myMailSender = new MailSender(owner, "P2P assignment deny", messageDeny, loadAccount, loadPassword, Project.this);
+                                    myMailSender.send();
                                     break;
                             }
                         }
@@ -346,6 +352,29 @@ public class Project extends ActionBarActivity {
                 builder6.setMessage("Description of task " + result6[1] + " from project " + result6[0] + " has been changed to " + result6[3] + ".")
                         .setPositiveButton("Ok", dialogClickListener6).show();
                 break;
+            case MailManager.denyTaskTag:
+                final String[] result7 = mailManager.readDenyTask(message);
+                DialogInterface.OnClickListener dialogClickListener7 = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                if(!dataProvider.checkTaskMember(result7[1], result7[0], loadAccount, result7[2])){
+                                    dataProvider.updateTaskDeny(result7[0], result7[1], loadAccount, "new", result7[2]);
+                                }
+                                else{
+                                    Toast.makeText(getApplicationContext(), "This task does not exist!", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder7 = new AlertDialog.Builder(this);
+                builder7.setMessage("User " + result7[2] + " has denied request from task " + result7[1]+ ".")
+                        .setPositiveButton("Ok", dialogClickListener7).show();
+                break;
+
         }
     }
 

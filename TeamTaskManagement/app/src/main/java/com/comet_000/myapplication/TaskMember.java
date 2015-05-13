@@ -163,7 +163,7 @@ public class TaskMember extends ActionBarActivity {
             public void onClick(View v) {
                 Intent intentMember=new Intent(TaskMember.this, Member.class);
                 intentMember.putExtra("intentProjectName", loadProjectName);
-                intentMember.putExtra("intentProjectDes", tDes1.getText().toString());
+                intentMember.putExtra("intentProjectDes", getProjectDescriptions());
                 intentMember.putExtra("intentAccount", loadAccount);
                 intentMember.putExtra("intentPassword", loadPassword);
                 startActivity(intentMember);
@@ -213,6 +213,9 @@ public class TaskMember extends ActionBarActivity {
         TableProject myProject = dataProvider.getProject(loadProjectName, loadOwner);
         tDes1.setText("Project description: "+myProject.getProjectDescriptions());
         tDes2.setText("Project description: "+myProject.getProjectDescriptions());
-
+    }
+    private String getProjectDescriptions(){
+        TableProject myProject = dataProvider.getProject(loadProjectName, loadOwner);
+        return myProject.getProjectDescriptions();
     }
 }

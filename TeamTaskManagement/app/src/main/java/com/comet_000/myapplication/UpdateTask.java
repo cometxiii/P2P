@@ -119,8 +119,8 @@ public class UpdateTask extends ActionBarActivity {
         List<String> statuses = new ArrayList<>();
         statuses.add("new");
         statuses.add("accepted");
-        statuses.add("fix");
-        statuses.add("pending");
+        statuses.add("done");
+        statuses.add("waiting");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statuses);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerStatus.setAdapter(dataAdapter);
@@ -128,6 +128,10 @@ public class UpdateTask extends ActionBarActivity {
             taskStatusBefore = myTask.Status;
             int currentStatus = dataAdapter.getPosition(myTask.Status);
             spinnerStatus.setSelection(currentStatus);
+        }
+
+        if(myTask.Status.equals("waiting")){
+            spinnerStatus.setEnabled(false);
         }
     }
     //Load member of a project to spinner
@@ -156,6 +160,10 @@ public class UpdateTask extends ActionBarActivity {
         adapter.add(taskMemberBefore);
         spinner.setAdapter(adapter);
         spinner.setSelection(adapter.getCount());
+
+        if(myTask.Status.equals("waiting")){
+            spinner.setEnabled(false);
+        }
     }
     //Update new task
     //Save new task to database
@@ -176,7 +184,9 @@ public class UpdateTask extends ActionBarActivity {
             dataProvider.updateTaskDes(loadProjectName, loadTaskName, loadOwner, des);
             mailSender.send();
         }
+        //change assignee
         if (!member.equals(taskMemberBefore)) {
+            //assign task from member to member
             if(!member.equals(loadAccount) && !member.equals("") && !taskMemberBefore.equals(loadAccount)) {
                 String messageOldMember = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                 mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword, UpdateTask.this);
@@ -185,11 +195,13 @@ public class UpdateTask extends ActionBarActivity {
                 mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword, UpdateTask.this);
                 mailSender.send();
             }
+            //assign task from member to owner or to none
             if((member.equals(loadAccount) || member.equals("")) && !taskMemberBefore.equals("")) {
                 String messageOldMember = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                 mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword, UpdateTask.this);
                 mailSender.send();
             }
+            //assign task from owner or from none to member
             if ((taskMemberBefore.equals(loadAccount) || taskMemberBefore.equals("")) && !member.equals("")) {
                 String messageNewMember = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, des);
                 mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword, UpdateTask.this);

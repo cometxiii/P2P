@@ -436,6 +436,25 @@ public class DataProvider {
         }
     }
 
+    public void updateTaskDeny(String projectName, String taskName, String owner, String status, String member) {
+        UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
+        try {
+            updateBuilder.where()
+                    .eq("TaskName", taskName)
+                    .and()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .and()
+                    .eq("MemberName", member);
+            updateBuilder.updateColumnValue("Status", status);
+            updateBuilder.updateColumnValue("MemberName", "");
+            updateBuilder.update();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void updateTaskDes(String projectName, String taskName, String owner, String des) {
         UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
         try {

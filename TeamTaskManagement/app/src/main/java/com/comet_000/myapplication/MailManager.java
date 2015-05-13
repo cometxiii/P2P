@@ -15,6 +15,8 @@ public class MailManager {
     static final String changeStaTag = "<ChangeStatus>";
     static final String excludeTaskTag = "<ExcludeTask>";
     static final String changeDesTag = "<ChangeDes>";
+    static final String denyTaskTag= "<DenyTask>";
+
     final String projectTag = "<ProjectName>";
     final String pDesTag = "<ProjectDes>";
     final String ownerTag = "<ProjectOwner>";
@@ -140,6 +142,22 @@ public class MailManager {
         result[0] = readTag(message, projectTag);
         result[1] = readTag(message, taskTag);
         result[2] = readTag(message, ownerTag);
+        return result;
+    }
+
+    public String makeDenyTask(String projectName, String taskName, String sender){
+        String message=addHeader(denyTaskTag);
+        message+=addTag(projectName, projectTag);
+        message+=addTag(taskName, taskTag);
+        message+=addTag(sender, senderTag);
+        return message;
+    }
+
+    public String[] readDenyTask(String message){
+        String[] result=new String[3];
+        result[0]=readTag(message, projectTag);
+        result[1]=readTag(message, taskTag);
+        result[2]=readTag(message, senderTag);
         return result;
     }
 //    public static void main(String[] args) {
