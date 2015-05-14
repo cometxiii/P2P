@@ -37,6 +37,7 @@ public class UpdateTask extends ActionBarActivity {
     Button update;
     EditText eDes;
     Spinner spinner, spinnerStatus;
+    TableTask myTask;
     ProgressDialog PD;
     String loadProjectName, loadTaskName, loadOwner, loadAccount, loadPassword;
     String taskDesBefore, taskMemberBefore, taskStatusBefore;
@@ -109,7 +110,7 @@ public class UpdateTask extends ActionBarActivity {
     }
     //Load task descriptions
     private void loadTaskDescriptions(){
-        TableTask myTask = dataProvider.get1Task(loadTaskName, loadProjectName, loadOwner);
+        myTask = dataProvider.get1Task(loadTaskName, loadProjectName, loadOwner);
         taskDesBefore = myTask.getTaskDescriptions();
         eDes.setText(myTask.getTaskDescriptions());
     }
@@ -168,47 +169,115 @@ public class UpdateTask extends ActionBarActivity {
     //Update new task
     //Save new task to database
     protected Void updateTask() {
-        String name = tName.getText().toString();
-        String des = eDes.getText().toString();
-        String member = spinner.getSelectedItem().toString();
-        String status = spinnerStatus.getSelectedItem().toString();
-        if (!status.equals(taskStatusBefore)) {
-            String message = mailManager.makeChangeStatus(loadProjectName, loadTaskName, loadAccount, status);
-            mailSender = new MailSender(loadOwner, "P2P change status.", message, loadAccount, loadPassword, UpdateTask.this);
-            mailSender.send();
-            dataProvider.updateTaskStatus(loadProjectName, loadTaskName, loadOwner, status);
-        }
-        if (!des.equals(taskDesBefore) && member.equals(taskMemberBefore)) {
-            String message = mailManager.makeChangeDes(loadProjectName, loadTaskName, loadOwner, des);
-            mailSender = new MailSender(member, "P2P change task description.", message, loadAccount, loadPassword, UpdateTask.this);
-            dataProvider.updateTaskDes(loadProjectName, loadTaskName, loadOwner, des);
-            mailSender.send();
-        }
-        //change assignee
-        if (!member.equals(taskMemberBefore)) {
-            //assign task from member to member
-            if(!member.equals(loadAccount) && !member.equals("") && !taskMemberBefore.equals(loadAccount)) {
-                String messageOldMember = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
-                mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword, UpdateTask.this);
-                mailSender.send();
-                String messageNewMember = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, des);
-                mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword, UpdateTask.this);
-                mailSender.send();
+        String taskName = tName.getText().toString();
+        String taskDes = eDes.getText().toString();
+        String taskMember = spinner.getSelectedItem().toString();
+        String tastStatus = spinnerStatus.getSelectedItem().toString();
+        if (loadAccount.equals(loadOwner)) {
+            if (!taskDes.equals(taskDesBefore)) {
+                if (!taskMember.equals(taskMemberBefore)) {
+                    if (taskMemberBefore.equals("")) {
+                        if (taskMember.equals(loadAccount)) {
+
+                        }else {
+
+                        }
+                    }
+                    if (taskMemberBefore.equals(loadAccount)) {
+                        if (taskMember.equals("")) {
+
+                        }else {
+
+                        }
+                    }
+                    else {
+                        if (taskMember.equals(loadAccount)) {
+
+                        }else {
+
+                        }
+                    }
+                }
+                else {
+                    if (taskMemberBefore.equals("")) {
+
+                    }
+                    if (taskMemberBefore.equals(loadAccount)) {
+
+                    }
+                    else {
+
+                    }
+                }
             }
-            //assign task from member to owner or to none
-            if((member.equals(loadAccount) || member.equals("")) && !taskMemberBefore.equals("")) {
-                String messageOldMember = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
-                mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword, UpdateTask.this);
-                mailSender.send();
+            else {
+                if (!taskMember.equals(taskMemberBefore)) {
+                    if (taskMemberBefore.equals("")) {
+                        if (taskMember.equals(loadAccount)) {
+
+                        }else {
+
+                        }
+                    }
+                    if (taskMemberBefore.equals(loadAccount)) {
+                        if (taskMember.equals("")) {
+
+                        }else {
+
+                        }
+                    }
+                    else {
+                        if (taskMember.equals(loadAccount)) {
+
+                        }else {
+
+                        }
+                    }
+                }
             }
-            //assign task from owner or from none to member
-            if ((taskMemberBefore.equals(loadAccount) || taskMemberBefore.equals("")) && !member.equals("")) {
-                String messageNewMember = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, des);
-                mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword, UpdateTask.this);
-                mailSender.send();
+        } else {
+            if(!tastStatus.equals(taskStatusBefore)) {
+
             }
-            dataProvider.updateTaskMember(loadProjectName, loadTaskName, loadOwner, member);
         }
+
+//        if (!status.equals(taskStatusBefore)) {
+//            String message = mailManager.makeChangeStatus(loadProjectName, loadTaskName, loadAccount, status);
+//            mailSender = new MailSender(loadOwner, "P2P change status.", message, loadAccount, loadPassword, UpdateTask.this);
+//            mailSender.send();
+//            dataProvider.updateTaskStatus(loadProjectName, loadTaskName, loadOwner, status);
+//        }
+//        if (!des.equals(taskDesBefore) && member.equals(taskMemberBefore)) {
+//            String message = mailManager.makeChangeDes(loadProjectName, loadTaskName, loadOwner, des);
+//            mailSender = new MailSender(member, "P2P change task description.", message, loadAccount, loadPassword, UpdateTask.this);
+//            dataProvider.updateTaskDes(loadProjectName, loadTaskName, loadOwner, des);
+//            mailSender.send();
+//        }
+//        //change assignee
+//        if (!member.equals(taskMemberBefore)) {
+//            //assign task from member to member
+//            if(!member.equals(loadAccount) && !member.equals("") && !taskMemberBefore.equals(loadAccount)) {
+//                String messageOldMember = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
+//                mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword, UpdateTask.this);
+//                mailSender.send();
+//                String messageNewMember = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, des);
+//                mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword, UpdateTask.this);
+//                mailSender.send();
+//            }
+//            //assign task from member to owner or to none
+//            if((member.equals(loadAccount) || member.equals("")) && !taskMemberBefore.equals("")) {
+//                String messageOldMember = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
+//                mailSender = new MailSender(taskMemberBefore, "P2P exclude from task.", messageOldMember, loadAccount, loadPassword, UpdateTask.this);
+//                mailSender.send();
+//            }
+//            //assign task from owner or from none to member
+//            if ((taskMemberBefore.equals(loadAccount) || taskMemberBefore.equals("")) && !member.equals("")) {
+//                String messageNewMember = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, des);
+//                mailSender = new MailSender(member, "P2P task assignment", messageNewMember, loadAccount, loadPassword, UpdateTask.this);
+//                mailSender.send();
+//            }
+//            dataProvider.updateTaskMember(loadProjectName, loadTaskName, loadOwner, member);
+//        }
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
         return null;
