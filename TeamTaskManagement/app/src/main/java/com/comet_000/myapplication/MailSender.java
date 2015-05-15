@@ -151,7 +151,7 @@ public class MailSender {
         protected void onPostExecute(String unused) {
             super.onPostExecute(unused);
             dialog.dismiss();
-            Toast.makeText(context, "Invitation has been sent to " + receiver + "!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Email has been sent to " + receiver + "!", Toast.LENGTH_SHORT).show();
         }
     }
 }
