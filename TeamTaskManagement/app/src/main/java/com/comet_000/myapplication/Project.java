@@ -173,7 +173,7 @@ public class Project extends ActionBarActivity {
                 Message[] foundMessages = inbox.search(andTerm);
                 String[] listMessage = new String[foundMessages.length];
                 System.out.println("Total P2P mails are = " + listMessage.length);
-                for (int i = 0; i < foundMessages.length; i++) {
+                for (int i = foundMessages.length - 1; i >= 0; i--) {
                     listMessage[i] = foundMessages[i].getContent().toString();
                 }
                 inbox.setFlags(foundMessages, new Flags(Flags.Flag.SEEN), true);

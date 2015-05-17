@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
     <attr format="dimension" name="height"/>
@@ -16,10 +16,10 @@
     <color name="abc_search_url_text_normal">#7fa87f</color>
     <color name="abc_search_url_text_pressed">@android:color/black</color>
     <color name="abc_search_url_text_selected">@android:color/black</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="accentColor">#8BC34A</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="accent_material_dark">@color/material_deep_teal_200</color>
     <color name="accent_material_light">@color/material_deep_teal_500</color>
@@ -39,19 +39,19 @@
     <color name="dim_foreground_disabled_material_light">#80323232</color>
     <color name="dim_foreground_material_dark">#ffbebebe</color>
     <color name="dim_foreground_material_light">#ff323232</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="dividerColor">#B6B6B6</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="highlighted_text_material_dark">#6680cbc4</color>
     <color name="highlighted_text_material_light">#66009688</color>
     <color name="hint_foreground_material_dark">@color/bright_foreground_disabled_material_dark</color>
     <color name="hint_foreground_material_light">@color/bright_foreground_disabled_material_light</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="iconColor">#FFFFFF</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="link_text_material_dark">@color/material_deep_teal_200</color>
     <color name="link_text_material_light">@color/material_deep_teal_500</color>
@@ -60,13 +60,13 @@
     <color name="material_blue_grey_950">#ff21272b</color>
     <color name="material_deep_teal_200">#ff80cbc4</color>
     <color name="material_deep_teal_500">#ff009688</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="primaryColor">#00bcd4</color>
     <color name="primaryColorDark">#0097A7</color>
     <color name="primaryColorLight">#B2EBF2</color>
     <color name="primaryTextColor">#212121</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="primary_dark_material_dark">#ff000000</color>
     <color name="primary_dark_material_light">#ff757575</color>
@@ -78,10 +78,10 @@
     <color name="primary_text_disabled_material_light">#39000000</color>
     <color name="ripple_material_dark">#40ffffff</color>
     <color name="ripple_material_light">#40000000</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/colors.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/colors.xml -->
     <eat-comment/>
     <color name="secondaryTextColor">#727272</color>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <color name="secondary_text_default_material_dark">#b3ffffff</color>
     <color name="secondary_text_default_material_light">#8a000000</color>
@@ -149,11 +149,11 @@
     <dimen name="abc_text_size_subtitle_material_toolbar">16dp</dimen>
     <dimen name="abc_text_size_title_material">20sp</dimen>
     <dimen name="abc_text_size_title_material_toolbar">20dp</dimen>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <item name="dialog_fixed_height_major" type="dimen">80%</item>
     <item name="dialog_fixed_height_minor" type="dimen">100%</item>
@@ -161,10 +161,10 @@
     <item name="dialog_fixed_width_minor" type="dimen">320dp</item>
     <item format="float" name="disabled_alpha_material_dark" type="dimen">0.30</item>
     <item format="float" name="disabled_alpha_material_light" type="dimen">0.26</item>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/dimens.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/dimens.xml -->
     <eat-comment/>
     <dimen name="nav_drawer_width">280dp</dimen>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <item name="action_bar_activity_content" type="id"/>
     <item name="action_bar_spinner" type="id"/>
@@ -192,7 +192,7 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with %s</string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/strings.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/strings.xml -->
     <eat-comment/>
     <string name="action_settings">Settings</string>
     <string name="app_name">Team Task Management</string>
@@ -209,7 +209,7 @@
     <string name="title_activity_task_member">Project detail</string>
     <string name="title_activity_update_task">Edit Task</string>
     <string name="title_activity_user_picker">User Picker</string>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="AppTheme" parent="AppTheme.Base">
         <!-- Customize your theme here. -->
@@ -221,7 +221,7 @@
         <item name="android:textColorPrimary">@color/primaryTextColor</item>
         <!--<item name="android:background">#eee</item>-->
     </style>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance">
         <item name="android:textColor">?android:textColorPrimary</item>
@@ -975,7 +975,7 @@
         <item name="android:scaleType">center</item>
         <item name="android:background">?attr/selectableItemBackground</item>
     </style>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/values/styles.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/values/styles.xml -->
     <eat-comment/>
     <style name="MyCustomToolbarTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="colorPrimary">@color/primaryColor</item>
@@ -984,7 +984,7 @@
         <item name="android:textColorPrimary">@color/iconColor</item>
         <item name="android:textColorSecondary">@color/iconColor</item>
     </style>
-    <!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
+    <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/res/values/values.xml -->
     <eat-comment/>
     <style name="Platform.AppCompat" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>

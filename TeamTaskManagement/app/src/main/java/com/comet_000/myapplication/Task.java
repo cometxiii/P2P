@@ -116,7 +116,7 @@ public class Task extends ActionBarActivity {
         String member = spinner.getSelectedItem().toString();
         if (member.equals(loadAccount)) {
             dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "accepted"));
-        }else if (member.length() > 1) {
+        }else if (!member.equals("")) {
             dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "waiting"));
             String message = mailManager.makeAssignment(project, loadAccount, name,des);
             mailSender = new MailSender(member, "P2P task assignment", message, loadAccount, loadPassword, Task.this);

@@ -19,8 +19,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -128,7 +130,7 @@ public class MailSender {
         @Override
         protected void onPreExecute() {
             dialog = new ProgressDialog(context);
-            dialog.setMessage("Loading...");
+            dialog.setMessage("Sending...");
             dialog.show();
         }
         @Override
@@ -152,6 +154,19 @@ public class MailSender {
             super.onPostExecute(unused);
             dialog.dismiss();
             Toast.makeText(context, "Email has been sent to " + receiver + "!", Toast.LENGTH_SHORT).show();
+            if(subject.equals("P2P invitation")) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Invitation has been sent to " + receiver + ".")
+                        .setPositiveButton("Ok", dialogClickListener).show();
+            }
         }
     }
 }
