@@ -75,8 +75,8 @@
                             android:id="@+id/listViewTask"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/btnAddTask"
-                            android:layout_centerHorizontal="true" />
+                            android:layout_centerHorizontal="true"
+                            android:layout_below="@+id/btnAddTask" />
 
                     </RelativeLayout>
 
@@ -92,7 +92,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/txtDes2"
                             android:layout_centerHorizontal="true"
-                            android:text="Add new member" />
+                            android:text="Invite new member to project" />
 
                         <TextView
                             android:id="@+id/txtProjectName2"
@@ -118,8 +118,9 @@
                             android:id="@+id/listViewMember"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/btnAddMember"
-                            android:layout_centerHorizontal="true" />
+                            android:layout_centerHorizontal="true"
+                            android:layout_below="@+id/btnAddMember" />
+
                     </RelativeLayout>
 
                 </FrameLayout>

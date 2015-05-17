@@ -20,7 +20,7 @@
 
     <EditText
         android:id="@+id/txtUser"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="Enter GMail account"
         android:inputType="textEmailAddress"
@@ -31,8 +31,9 @@
         android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add new member"
+        android:text="Invite member"
         android:layout_below="@+id/txtUser"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:singleLine="true" />
 </RelativeLayout>
 <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_member.xml -->
