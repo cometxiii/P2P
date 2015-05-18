@@ -106,9 +106,14 @@ public class Task extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        /////////////////////////////////////////////////////////////////
+        //REFRESH here
+        if(id==R.id.synchronize){
 
+        }
         return super.onOptionsItemSelected(item);
     }
+
     public Void addTask() {
         String name = eName.getText().toString();
         String des = eDes.getText().toString();

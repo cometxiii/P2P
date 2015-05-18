@@ -1308,7 +1308,8 @@ containing a value of this type.
         public static final int abc_textfield_search_activated_mtrl_alpha=0x7f020030;
         public static final int abc_textfield_search_default_mtrl_alpha=0x7f020031;
         public static final int abc_textfield_search_material=0x7f020032;
-        public static final int ic_launcher=0x7f020033;
+        public static final int ic_action_refresh=0x7f020033;
+        public static final int ic_launcher=0x7f020034;
     }
     public static final class id {
         public static final int action_bar=0x7f090031;
@@ -1385,6 +1386,7 @@ containing a value of this type.
         public static final int split_action_bar=0x7f090007;
         public static final int status=0x7f090068;
         public static final int submit_area=0x7f09003c;
+        public static final int synchronize=0x7f09006e;
         public static final int tabHost=0x7f09004b;
         public static final int tabMember=0x7f090051;
         public static final int tabMode=0x7f09000b;
@@ -1452,32 +1454,34 @@ containing a value of this type.
         public static final int activity_home=0x7f030017;
         public static final int activity_main=0x7f030018;
         public static final int activity_main1=0x7f030019;
-        public static final int activity_main_appbar=0x7f03001a;
-        public static final int activity_material=0x7f03001b;
-        public static final int activity_member=0x7f03001c;
-        public static final int activity_project=0x7f03001d;
-        public static final int activity_task=0x7f03001e;
-        public static final int activity_task_member=0x7f03001f;
-        public static final int activity_update_task=0x7f030020;
-        public static final int app_bar=0x7f030021;
-        public static final int fragment_navigation_drawer=0x7f030022;
-        public static final int item=0x7f030023;
-        public static final int project_items_layout=0x7f030024;
-        public static final int support_simple_spinner_dropdown_item=0x7f030025;
-        public static final int test=0x7f030026;
+        public static final int activity_main_activity2=0x7f03001a;
+        public static final int activity_main_appbar=0x7f03001b;
+        public static final int activity_material=0x7f03001c;
+        public static final int activity_member=0x7f03001d;
+        public static final int activity_project=0x7f03001e;
+        public static final int activity_task=0x7f03001f;
+        public static final int activity_task_member=0x7f030020;
+        public static final int activity_update_task=0x7f030021;
+        public static final int app_bar=0x7f030022;
+        public static final int fragment_navigation_drawer=0x7f030023;
+        public static final int item=0x7f030024;
+        public static final int project_items_layout=0x7f030025;
+        public static final int support_simple_spinner_dropdown_item=0x7f030026;
+        public static final int test=0x7f030027;
     }
     public static final class menu {
         public static final int menu_home=0x7f0d0000;
         public static final int menu_main=0x7f0d0001;
-        public static final int menu_material=0x7f0d0002;
-        public static final int menu_material_design=0x7f0d0003;
-        public static final int menu_member=0x7f0d0004;
-        public static final int menu_project=0x7f0d0005;
-        public static final int menu_project_items_layout=0x7f0d0006;
-        public static final int menu_task=0x7f0d0007;
-        public static final int menu_task_member=0x7f0d0008;
-        public static final int menu_update_task=0x7f0d0009;
-        public static final int menu_user_picker=0x7f0d000a;
+        public static final int menu_main_activity2=0x7f0d0002;
+        public static final int menu_material=0x7f0d0003;
+        public static final int menu_material_design=0x7f0d0004;
+        public static final int menu_member=0x7f0d0005;
+        public static final int menu_project=0x7f0d0006;
+        public static final int menu_project_items_layout=0x7f0d0007;
+        public static final int menu_task=0x7f0d0008;
+        public static final int menu_task_member=0x7f0d0009;
+        public static final int menu_update_task=0x7f0d000a;
+        public static final int menu_user_picker=0x7f0d000b;
     }
     public static final class raw {
         public static final int ormlite_config=0x7f050000;

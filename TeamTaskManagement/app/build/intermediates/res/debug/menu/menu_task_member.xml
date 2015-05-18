@@ -4,5 +4,10 @@
     tools:context="com.comet_000.myapplication.TaskMember">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/synchronize"
+        android:title="Synchronize"
+        android:orderInCategory="200"
+        android:icon="@drawable/ic_action_refresh"
+        app:showAsAction="always"/>
 </menu>
 <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/menu/menu_task_member.xml -->

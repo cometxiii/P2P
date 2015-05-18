@@ -4,4 +4,9 @@
     tools:context="com.comet_000.myapplication.Material">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/synchronize"
+        android:title="Synchronize"
+        android:orderInCategory="200"
+        android:icon="@drawable/ic_action_refresh"
+        app:showAsAction="always"/>
 </menu>

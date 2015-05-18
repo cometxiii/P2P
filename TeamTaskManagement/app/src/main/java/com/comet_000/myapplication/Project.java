@@ -413,7 +413,12 @@ public class Project extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
+        /////////////////////////////////////////////////////////////////
+        //REFRESH here
+        if(id==R.id.synchronize){
+            MailChecker checkMailTask = new MailChecker();
+            checkMailTask.execute();
+        }
         return super.onOptionsItemSelected(item);
     }
 

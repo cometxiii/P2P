@@ -140,7 +140,11 @@ public class TaskMember extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        /////////////////////////////////////////////////////////////////
+        //REFRESH here
+        if(id==R.id.synchronize){
 
+        }
         return super.onOptionsItemSelected(item);
     }
     @Override
