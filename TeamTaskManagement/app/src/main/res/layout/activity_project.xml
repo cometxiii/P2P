@@ -80,7 +80,7 @@
         android:layout_below="@+id/txtTitle"
         android:layout_marginTop="15dp"
         android:hint="Enter Description"
-        android:maxLines="2" />
+        android:maxLines="3" />
 
     <Button
         android:id="@+id/btnAdd"

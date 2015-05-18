@@ -130,6 +130,7 @@ public class Task extends ActionBarActivity {
         imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
         eName.setText("");
         eDes.setText("");
+        loadSpinner();
         return null;
     }
     private void loadSpinner() {

@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:text="Invite new member to project"
-        android:layout_below="@+id/app_bar"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_above="@+id/txtUser" />
 
     <EditText
         android:id="@+id/txtUser"
@@ -24,8 +24,7 @@
         android:layout_height="wrap_content"
         android:hint="Enter GMail account"
         android:inputType="textEmailAddress"
-        android:layout_below="@+id/txtMsg"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerInParent="true" />
 
     <Button
         android:id="@+id/btnAdd"
@@ -35,5 +34,17 @@
         android:layout_below="@+id/txtUser"
         android:layout_centerHorizontal="true"
         android:singleLine="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Note: Enter account ID only - do not include &quot;@gmail.com&quot; at the end of username (e.g example)."
+        android:id="@+id/textView11"
+        android:layout_below="@+id/btnAdd"
+        android:layout_centerHorizontal="true"
+        android:textColor="#ffff5344"
+        android:gravity="center"
+        android:layout_alignParentBottom="true" />
 </RelativeLayout>
 <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_member.xml -->

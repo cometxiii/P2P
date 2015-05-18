@@ -19,7 +19,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.comet_000.myapplication.Home"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,22 +31,26 @@
             android:name="com.comet_000.myapplication.MainActivity"
             android:label="@string/app_name"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.comet_000.myapplication.MainActivity1"
             android:label="@string/app_name"
-            android:noHistory="true" >
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.comet_000.myapplication.Project"
             android:label="@string/title_activity_project"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
             android:name="com.comet_000.myapplication.Task"
             android:label="@string/title_activity_task"
-            android:parentActivityName="com.comet_000.myapplication.Project" >
+            android:parentActivityName="com.comet_000.myapplication.Project"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.comet_000.myapplication.Project" />
@@ -53,7 +58,8 @@
         <activity
             android:name="com.comet_000.myapplication.Member"
             android:label="@string/title_activity_member"
-            android:parentActivityName="com.comet_000.myapplication.Project" >
+            android:parentActivityName="com.comet_000.myapplication.Project"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.comet_000.myapplication.Project" />
@@ -61,18 +67,21 @@
         <activity
             android:name="com.comet_000.myapplication.TaskMember"
             android:label="@string/title_activity_task_member"
-            android:parentActivityName="com.comet_000.myapplication.Project" >
+            android:parentActivityName="com.comet_000.myapplication.Project"
+            android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.comet_000.myapplication.Project" />
         </activity>
         <activity
             android:name="com.comet_000.myapplication.UpdateTask"
-            android:label="Update task" >
+            android:label="Update task"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.comet_000.myapplication.Material"
-            android:label="@string/title_activity_material" >
+            android:label="@string/title_activity_material"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="android.support.v7.widget.TestActivity"

@@ -79,32 +79,43 @@ public class TaskMember extends ActionBarActivity {
         tPName1.setText("Project name: "+loadProjectName);
         tPName2.setText("Project name: "+loadProjectName);
 
-
         //Load descriptions of a project
         loadProjectDescriptions();
 
         addTask=(Button)findViewById(R.id.btnAddTask);
-        addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentTask=new Intent(TaskMember.this, Task.class);
-                intentTask.putExtra("intentProjectName", loadProjectName);
-                intentTask.putExtra("intentOwner", loadOwner);
-                intentTask.putExtra("intentAccount", loadAccount);
-                intentTask.putExtra("intentPassword", loadPassword);
-                startActivity(intentTask);
-            }
-        });
-
         addMember=(Button)findViewById(R.id.btnAddMember);
-        addMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMember=new Intent(TaskMember.this, Member.class);
-                intentMember.putExtra("intentProjectName", loadProjectName);
-                startActivity(intentMember);
-            }
-        });
+
+        //check if user is project owner or not
+        if(!loadAccount.equals(loadOwner)){
+//            addTask.setVisibility(View.INVISIBLE);
+//            addMember.setVisibility(View.INVISIBLE);
+            addTask.setEnabled(false);
+            addTask.setText("Note: Since you are not project owner then you are unable to create task.");
+            addMember.setEnabled(false);
+            addMember.setText("Note: Since you are not project owner then you are unable to invite member to project.");
+        }
+        else {
+            addTask.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentTask=new Intent(TaskMember.this, Task.class);
+                    intentTask.putExtra("intentProjectName", loadProjectName);
+                    intentTask.putExtra("intentOwner", loadOwner);
+                    intentTask.putExtra("intentAccount", loadAccount);
+                    intentTask.putExtra("intentPassword", loadPassword);
+                    startActivity(intentTask);
+                }
+            });
+
+            addMember.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentMember=new Intent(TaskMember.this, Member.class);
+                    intentMember.putExtra("intentProjectName", loadProjectName);
+                    startActivity(intentMember);
+                }
+            });
+        }
 
         listViewTask=(ListView)findViewById(R.id.listViewTask);
         listViewMember=(ListView)findViewById(R.id.listViewMember);
@@ -145,30 +156,41 @@ public class TaskMember extends ActionBarActivity {
         tPName2.setText("Project name: "+loadProjectName);
 
         addTask=(Button)findViewById(R.id.btnAddTask);
-        addTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentTask=new Intent(TaskMember.this, Task.class);
-                intentTask.putExtra("intentProjectName", loadProjectName);
-                intentTask.putExtra("intentOwner", loadOwner);
-                intentTask.putExtra("intentAccount", loadAccount);
-                intentTask.putExtra("intentPassword", loadPassword);
-                startActivity(intentTask);
-            }
-        });
-
         addMember=(Button)findViewById(R.id.btnAddMember);
-        addMember.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMember=new Intent(TaskMember.this, Member.class);
-                intentMember.putExtra("intentProjectName", loadProjectName);
-                intentMember.putExtra("intentProjectDes", getProjectDescriptions());
-                intentMember.putExtra("intentAccount", loadAccount);
-                intentMember.putExtra("intentPassword", loadPassword);
-                startActivity(intentMember);
-            }
-        });
+
+        if(!loadAccount.equals(loadOwner)){
+//            addTask.setVisibility(View.INVISIBLE);
+//            addMember.setVisibility(View.INVISIBLE);
+            addTask.setEnabled(false);
+            addTask.setText("Note: Since you are not project owner then you are unable to create task.");
+            addMember.setEnabled(false);
+            addMember.setText("Note: Since you are not project owner then you are unable to invite member to project.");
+        }
+        else{
+            addTask.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentTask=new Intent(TaskMember.this, Task.class);
+                    intentTask.putExtra("intentProjectName", loadProjectName);
+                    intentTask.putExtra("intentOwner", loadOwner);
+                    intentTask.putExtra("intentAccount", loadAccount);
+                    intentTask.putExtra("intentPassword", loadPassword);
+                    startActivity(intentTask);
+                }
+            });
+
+            addMember.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intentMember=new Intent(TaskMember.this, Member.class);
+                    intentMember.putExtra("intentProjectName", loadProjectName);
+                    intentMember.putExtra("intentProjectDes", getProjectDescriptions());
+                    intentMember.putExtra("intentAccount", loadAccount);
+                    intentMember.putExtra("intentPassword", loadPassword);
+                    startActivity(intentMember);
+                }
+            });
+        }
 
         listViewTask=(ListView)findViewById(R.id.listViewTask);
         listViewMember=(ListView)findViewById(R.id.listViewMember);

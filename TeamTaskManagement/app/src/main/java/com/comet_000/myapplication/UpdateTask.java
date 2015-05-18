@@ -83,6 +83,10 @@ public class UpdateTask extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Please enter task descriptions", Toast.LENGTH_SHORT).show();
                 } else {
                     updateTask();
+                    //Reload information after updating task
+                    loadTaskDescriptions();
+                    loadSpinnerStatus();
+                    loadSpinner();
                 }
             }
         });

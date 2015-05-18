@@ -32,29 +32,62 @@ public class Home extends ActionBarActivity {
         final Intent intent = new Intent(this, MainActivity.class);
         final Intent intent2 = new Intent(this, Project.class);
 
-        btnGo.setOnClickListener(new View.OnClickListener() {
+//        btnGo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                BackgroundTask task = new BackgroundTask(Home.this);
+////                task.execute();
+//                dbHelper = OpenHelperManager.getHelper(Home.this, DatabaseHelper.class);
+//                RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
+//                dataProvider.setTableAccount(myTableAccount);
+//                if (dataProvider.getNumOfAccount() == 0)
+//                {
+//                    startActivity(intent);
+//                }
+//                else
+//                {
+//                    TableAccount myAccount = dataProvider.getAccountById(1);
+//                    intent2.putExtra("intentAccount", myAccount.Account);
+//                    intent2.putExtra("intentPassword", myAccount.Password);
+//                    intent2.putExtra("CallingActivity", "Home");
+//                    startActivity(intent2);
+//                }
+//            }
+//        });
+
+        //automatically load to next activity after a period of time
+        Thread thread = new Thread(new Runnable() {
             @Override
-            public void onClick(View v) {
-//                BackgroundTask task = new BackgroundTask(Home.this);
-//                task.execute();
-                dbHelper = OpenHelperManager.getHelper(Home.this, DatabaseHelper.class);
-                RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
-                dataProvider.setTableAccount(myTableAccount);
-                if (dataProvider.getNumOfAccount() == 0)
-                {
-                    startActivity(intent);
+            public void run() {
+                try{
+                    Thread.sleep(2000);
+                    dbHelper = OpenHelperManager.getHelper(Home.this, DatabaseHelper.class);
+                    RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
+                    dataProvider.setTableAccount(myTableAccount);
+                    if (dataProvider.getNumOfAccount() == 0)
+                    {
+                        startActivity(intent);
+                    }
+                    else
+                    {
+                        TableAccount myAccount = dataProvider.getAccountById(1);
+                        intent2.putExtra("intentAccount", myAccount.Account);
+                        intent2.putExtra("intentPassword", myAccount.Password);
+                        intent2.putExtra("CallingActivity", "Home");
+                        startActivity(intent2);
+                    }
                 }
-                else
-                {
-                    TableAccount myAccount = dataProvider.getAccountById(1);
-                    intent2.putExtra("intentAccount", myAccount.Account);
-                    intent2.putExtra("intentPassword", myAccount.Password);
-                    intent2.putExtra("CallingActivity", "Home");
-                    startActivity(intent2);
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+                finally {
+                    finish();
                 }
             }
         });
+        thread.start();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

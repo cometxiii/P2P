@@ -37,6 +37,18 @@
     android:visibility="invisible" />
 
     <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Note: Require internet connection to authenticate account."
+        android:id="@+id/txtNote"
+        android:textColor="#ffff3a59"
+        android:layout_below="@+id/btnAdd"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:layout_alignParentBottom="true" />
+
+    <TextView
         android:id="@+id/txtMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,7 +59,7 @@
 
     <EditText
         android:id="@+id/txtPass"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtMsg"
         android:layout_centerHorizontal="true"
@@ -55,7 +67,8 @@
         android:hint="Please enter password"
         android:inputType="textPersonName"
         android:layout_marginTop="5dp"
-        android:password="true" />
+        android:password="true"
+        android:singleLine="true" />
 
     <Button
         android:id="@+id/btnAdd"
@@ -65,7 +78,7 @@
         android:layout_centerHorizontal="true"
         android:layout_span="2"
         android:enabled="false"
-        android:text="Register" />
+        android:text="Sign-in" />
 
 </RelativeLayout>
 <!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_main.xml -->
