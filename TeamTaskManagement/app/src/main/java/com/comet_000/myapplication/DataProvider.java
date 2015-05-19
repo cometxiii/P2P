@@ -110,11 +110,12 @@ public class DataProvider {
         return listString;
     }
 
-    public void updateAccountById(Integer id, String fieldName, String arg) {
+    public void updatePass(String pass) {
         UpdateBuilder<TableAccount, Integer> updateBuilder = myAccountTable.updateBuilder();
         try {
-            updateBuilder.where().eq("id", id);
-            updateBuilder.updateColumnValue(fieldName, arg);
+            updateBuilder.where().eq("id", 1
+            );
+            updateBuilder.updateColumnValue("Password", pass);
             updateBuilder.update();
         } catch (SQLException e) {
             e.printStackTrace();

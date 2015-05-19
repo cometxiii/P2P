@@ -31,31 +31,6 @@ public class Home extends ActionBarActivity {
         Button btnGo=(Button)findViewById(R.id.btnGo);
         final Intent intent = new Intent(this, MainActivity.class);
         final Intent intent2 = new Intent(this, Project.class);
-
-//        btnGo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                BackgroundTask task = new BackgroundTask(Home.this);
-////                task.execute();
-//                dbHelper = OpenHelperManager.getHelper(Home.this, DatabaseHelper.class);
-//                RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
-//                dataProvider.setTableAccount(myTableAccount);
-//                if (dataProvider.getNumOfAccount() == 0)
-//                {
-//                    startActivity(intent);
-//                }
-//                else
-//                {
-//                    TableAccount myAccount = dataProvider.getAccountById(1);
-//                    intent2.putExtra("intentAccount", myAccount.Account);
-//                    intent2.putExtra("intentPassword", myAccount.Password);
-//                    intent2.putExtra("CallingActivity", "Home");
-//                    startActivity(intent2);
-//                }
-//            }
-//        });
-
-        //automatically load to next activity after a period of time
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -72,7 +47,6 @@ public class Home extends ActionBarActivity {
                     {
                         TableAccount myAccount = dataProvider.getAccountById(1);
                         intent2.putExtra("intentAccount", myAccount.Account);
-                        intent2.putExtra("intentPassword", myAccount.Password);
                         intent2.putExtra("CallingActivity", "Home");
                         startActivity(intent2);
                     }

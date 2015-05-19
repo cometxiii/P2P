@@ -78,7 +78,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:layout_below="@+id/btnAddTask" />
+                            android:layout_below="@+id/btnAddTask"
+                            android:background="#ffe7e7e7" />
 
                     </RelativeLayout>
 
@@ -123,7 +124,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
-                            android:layout_below="@+id/btnAddMember" />
+                            android:layout_below="@+id/btnAddMember"
+                            android:background="#ffe7e7e7" />
 
                     </RelativeLayout>
 
@@ -139,4 +141,4 @@
         app:layout="@layout/fragment_navigation_drawer"
         android:name="com.comet_000.myapplication.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
-</android.support.v4.widget.DrawerLayout><!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/layout/activity_task_member.xml -->
+</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_task_member.xml -->

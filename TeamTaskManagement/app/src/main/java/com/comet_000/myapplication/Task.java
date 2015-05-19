@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
@@ -44,6 +45,7 @@ public class Task extends ActionBarActivity {
     DataProvider dataProvider = new DataProvider();
     MailSender mailSender;
     MailManager mailManager = new MailManager();
+    TableAccount myAccount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,15 +53,21 @@ public class Task extends ActionBarActivity {
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         dbHelper = OpenHelperManager.getHelper(Task.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
         RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
+        RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
+        dataProvider.setTableAccount(myTableAccount);
         dataProvider.setTableTask(myTableTask);
         dataProvider.setTableProjectMember(myTableProjectMember);
         Intent intent = getIntent();
         loadProjectName = intent.getStringExtra("intentProjectName");
         loadAccount = intent.getStringExtra("intentAccount");
-        loadPassword = intent.getStringExtra("intentPassword");
+        myAccount = dataProvider.getAccountById(1);
+        loadPassword = myAccount.Password;
         loadOwner = intent.getStringExtra("intentOwner");
         txtMsg = (TextView) findViewById(R.id.txtMsg);
         txtMsg.setText("Your selected project: " + loadProjectName);
@@ -91,7 +99,7 @@ public class Task extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_material, menu);
+        getMenuInflater().inflate(R.menu.menu_task, menu);
         return true;
     }
 
@@ -102,9 +110,15 @@ public class Task extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id==android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+        }
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intentToChangePass=new Intent(Task.this, ChangePassword.class);
+            intentToChangePass.putExtra("accountID", loadAccount);
+            startActivity(intentToChangePass);
         }
         /////////////////////////////////////////////////////////////////
         //REFRESH here
@@ -120,15 +134,15 @@ public class Task extends ActionBarActivity {
         String project = loadProjectName;
         String member = spinner.getSelectedItem().toString();
         if (member.equals(loadAccount)) {
-            dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "accepted"));
+            dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "Accepted"));
         }else if (!member.equals("")) {
-            dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "waiting"));
+            dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "Waiting"));
             String message = mailManager.makeAssignment(project, loadAccount, name,des);
             mailSender = new MailSender(member, "P2P task assignment", message, loadAccount, loadPassword, Task.this);
             mailSender.send();
             Toast.makeText(getApplicationContext(), "Assignment has been sent.", Toast.LENGTH_SHORT).show();
         } else {
-            dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "new"));
+            dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "New"));
         }
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(eName.getWindowToken(), 0);

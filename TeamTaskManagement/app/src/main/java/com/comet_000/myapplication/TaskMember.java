@@ -49,9 +49,9 @@ public class TaskMember extends ActionBarActivity {
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
     String loadProjectName, loadAccount, loadPassword, loadOwner;
-    MailManager mailManager;
+    MailManager mailManager = new MailManager();
     ProgressDialog progressDialog;
-
+    TableAccount myAccount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,13 +70,16 @@ public class TaskMember extends ActionBarActivity {
         RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
         RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
+        RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
+        dataProvider.setTableAccount(myTableAccount);
         dataProvider.setTableProjectMember(myTableProjectMember);
         dataProvider.setTableProject(myTableProject);
         dataProvider.setTableTask(myTableTask);
 
         loadProjectName = intent.getStringExtra("intentProjectName");
         loadAccount = intent.getStringExtra("intentAccount");
-        loadPassword = intent.getStringExtra("intentPassword");
+        myAccount = dataProvider.getAccountById(1);
+        loadPassword = myAccount.Password;
         loadOwner = intent.getStringExtra("intentOwner");
 
         tabHost.setup();
@@ -144,7 +147,12 @@ public class TaskMember extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_material, menu);
+        if(loadAccount.equals(loadOwner)){
+            getMenuInflater().inflate(R.menu.menu_material, menu);
+        }
+        else{
+            getMenuInflater().inflate(R.menu.menu_task_member, menu);
+        }
         return true;
     }
 
@@ -157,8 +165,16 @@ public class TaskMember extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intentToChangePass=new Intent(TaskMember.this, ChangePassword.class);
+            intentToChangePass.putExtra("accountID", loadAccount);
+            startActivity(intentToChangePass);
         }
+
+        //add new task and member here
+        if(id==R.id.addNew){
+
+        }
+
         /////////////////////////////////////////////////////////////////
         //REFRESH here
         if(id==R.id.synchronize){

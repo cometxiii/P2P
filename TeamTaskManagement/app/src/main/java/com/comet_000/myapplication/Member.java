@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +35,7 @@ public class Member extends ActionBarActivity
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
     MailManager mailManager = new MailManager();
+    TableAccount myAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +44,20 @@ public class Member extends ActionBarActivity
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         dbHelper = OpenHelperManager.getHelper(Member.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
+        RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
+        dataProvider.setTableAccount(myTableAccount);
         dataProvider.setTableProjectMember(myTableProjectMember);
         Intent intent = getIntent();
         loadProjectName = intent.getStringExtra("intentProjectName");
         loadProjectDes = intent.getStringExtra("intentProjectDes");
         loadAccount = intent.getStringExtra("intentAccount");
-        loadPassword = intent.getStringExtra("intentPassword");
+        myAccount = dataProvider.getAccountById(1);
+        loadPassword = myAccount.Password;
         msg=(TextView)findViewById(R.id.txtMsg);
         msg.setText("Invite new member to project: "+loadProjectName);
 
@@ -80,7 +88,7 @@ public class Member extends ActionBarActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_material, menu);
+        getMenuInflater().inflate(R.menu.menu_member, menu);
         return true;
     }
 
@@ -91,9 +99,14 @@ public class Member extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id==android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+        }
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intentToChangePass=new Intent(Member.this, ChangePassword.class);
+            intentToChangePass.putExtra("accountID", loadAccount);
+            startActivity(intentToChangePass);
         }
         /////////////////////////////////////////////////////////////////
         //REFRESH here

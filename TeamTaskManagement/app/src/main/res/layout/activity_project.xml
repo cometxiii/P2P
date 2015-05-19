@@ -19,7 +19,8 @@
         android:layout_marginStart="36dp"
         android:layout_marginTop="10dp"
         android:text="Add new project"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#fa5e5e5e" />
 
     <!--<TextView-->
         <!--android:id="@+id/txtDisplay"-->
@@ -53,7 +54,7 @@
         android:layout_marginTop="15dp"
         android:layout_toEndOf="@+id/textView"
         android:layout_toRightOf="@+id/textView"
-        android:hint="Enter Title              "
+        android:hint="Enter Title"
         android:linksClickable="false"
         android:nestedScrollingEnabled="false"
         android:singleLine="true" />
@@ -96,24 +97,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/txtProjectList"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="#ffe7e7e7" />
 
-    <Button
-        android:id="@+id/btnLoad"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/txtProjectList"
-        android:layout_toLeftOf="@+id/btnAdd"
-        android:layout_toStartOf="@+id/btnAdd"
-        android:text="Load mail"
-        android:nestedScrollingEnabled="false"
-      />
     <TextView
         android:id="@+id/txtProjectList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below = "@+id/btnAdd"
         android:layout_centerHorizontal="true"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Project list" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Project list (Project name - Project owner)"
+        android:textColor="#fa5e5e5e" />
 </RelativeLayout>

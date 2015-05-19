@@ -58,7 +58,6 @@ public class Project extends ActionBarActivity {
     public String loadPassword = null;
     String loadCallingActivity = null;
     Button add;
-    Button btnLoad;
     EditText eName, eDes;
     ListView listView;
     TextView display;
@@ -66,7 +65,7 @@ public class Project extends ActionBarActivity {
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
     ProgressDialog progressDialog;
-
+    TableAccount myAccount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +78,6 @@ public class Project extends ActionBarActivity {
         Intent intent = getIntent();
         progressDialog = new ProgressDialog(Project.this);
         loadAccount = intent.getStringExtra("intentAccount");
-        loadPassword = intent.getStringExtra("intentPassword");
         checkMail = new CheckMail(loadAccount, loadPassword, Project.this);
         loadCallingActivity = intent.getStringExtra("CallingActivity");
         eName = (EditText) findViewById(R.id.txtTitle);
@@ -89,9 +87,13 @@ public class Project extends ActionBarActivity {
         RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
         RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
+        RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
+        dataProvider.setTableAccount(myTableAccount);
         dataProvider.setTableTask(myTableTask);
         dataProvider.setTableProject(myTableProject);
         dataProvider.setTableProjectMember(myTableProjectMember);
+        myAccount = dataProvider.getAccountById(1);
+        loadPassword = myAccount.Password;
         //Add new project
         add = (Button) findViewById(R.id.btnAdd);
         add.setOnClickListener(new View.OnClickListener() {
@@ -117,14 +119,7 @@ public class Project extends ActionBarActivity {
             }
         });
 
-        btnLoad = (Button) findViewById(R.id.btnLoad);
-        btnLoad.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MailChecker checkMailTask = new MailChecker();
-                checkMailTask.execute();
-            }
-        });
+
         //Select a project
         listView = (ListView) findViewById(R.id.listView);
         loadProjects();
@@ -138,7 +133,6 @@ public class Project extends ActionBarActivity {
                 String owner = item.substring(fistOwner + 2);
                 intentToTaskMember.putExtra("intentProjectName", projectName);
                 intentToTaskMember.putExtra("intentAccount", loadAccount);
-                intentToTaskMember.putExtra("intentPassword", loadPassword);
                 intentToTaskMember.putExtra("intentOwner", owner);
                 startActivity(intentToTaskMember);
             }
@@ -411,8 +405,16 @@ public class Project extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intentToChangePass=new Intent(Project.this, ChangePassword.class);
+            intentToChangePass.putExtra("accountID", loadAccount);
+            startActivity(intentToChangePass);
         }
+
+        //add new project
+        if(id==R.id.addNew){
+            
+        }
+
         /////////////////////////////////////////////////////////////////
         //REFRESH here
         if(id==R.id.synchronize){

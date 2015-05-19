@@ -49,39 +49,48 @@
         <activity
             android:name="com.comet_000.myapplication.Task"
             android:label="@string/title_activity_task"
-            android:parentActivityName="com.comet_000.myapplication.Project"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.comet_000.myapplication.Project" />
+                android:value="com.comet_000.myapplication.Home" />
         </activity>
         <activity
             android:name="com.comet_000.myapplication.Member"
             android:label="@string/title_activity_member"
-            android:parentActivityName="com.comet_000.myapplication.Project"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.comet_000.myapplication.Project" />
+                android:value="com.comet_000.myapplication.Home" />
         </activity>
         <activity
             android:name="com.comet_000.myapplication.TaskMember"
             android:label="@string/title_activity_task_member"
-            android:parentActivityName="com.comet_000.myapplication.Project"
             android:screenOrientation="portrait" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.comet_000.myapplication.Project" />
+                android:value="com.comet_000.myapplication.Home" />
         </activity>
         <activity
             android:name="com.comet_000.myapplication.UpdateTask"
             android:label="Update task"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home" />
         </activity>
         <activity
             android:name="com.comet_000.myapplication.Material"
             android:label="@string/title_activity_material"
             android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.comet_000.myapplication.ChangePassword"
+            android:label="Change password"
+            android:noHistory="true"
+            android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Home" />
         </activity>
         <activity
             android:name="android.support.v7.widget.TestActivity"

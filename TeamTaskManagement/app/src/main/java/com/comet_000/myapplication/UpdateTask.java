@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -45,6 +46,7 @@ public class UpdateTask extends ActionBarActivity {
     DataProvider dataProvider = new DataProvider();
     MailSender mailSender;
     MailManager mailManager = new MailManager();
+    TableAccount myAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,9 @@ public class UpdateTask extends ActionBarActivity {
 
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         txtMsg = (TextView) findViewById(R.id.txtMsg);
         tName = (TextView) findViewById(R.id.txtName);
         eDes = (EditText) findViewById(R.id.txtDescriptions);
@@ -61,7 +66,6 @@ public class UpdateTask extends ActionBarActivity {
         update = (Button) findViewById(R.id.btnUpdate);
         final Intent intent = getIntent();
         loadAccount = intent.getStringExtra("intentAccount");
-        loadPassword = intent.getStringExtra("intentPassword");
         loadProjectName = intent.getStringExtra("intentProjectName");
         loadTaskName = intent.getStringExtra("intentTaskName");
         loadOwner = intent.getStringExtra("intentOwner");
@@ -70,8 +74,12 @@ public class UpdateTask extends ActionBarActivity {
         dbHelper = OpenHelperManager.getHelper(UpdateTask.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
         RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
+        RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
+        dataProvider.setTableAccount(myTableAccount);
         dataProvider.setTableProjectMember(myTableProjectMember);
         dataProvider.setTableTask(myTableTask);
+        myAccount = dataProvider.getAccountById(1);
+        loadPassword = myAccount.Password;
         loadTaskDescriptions();
         //Load members of project
         loadSpinnerStatus();
@@ -87,6 +95,7 @@ public class UpdateTask extends ActionBarActivity {
                     loadTaskDescriptions();
                     loadSpinnerStatus();
                     loadSpinner();
+                    Toast.makeText(getApplicationContext(), "Update task successfully!", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -95,7 +104,7 @@ public class UpdateTask extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_material, menu);
+        getMenuInflater().inflate(R.menu.menu_update_task, menu);
         return true;
     }
 
@@ -106,9 +115,14 @@ public class UpdateTask extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id==android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
+        }
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intentToChangePass=new Intent(UpdateTask.this, ChangePassword.class);
+            intentToChangePass.putExtra("accountID", loadAccount);
+            startActivity(intentToChangePass);
         }
 
         return super.onOptionsItemSelected(item);
@@ -119,7 +133,7 @@ public class UpdateTask extends ActionBarActivity {
         myTask = dataProvider.get1Task(loadTaskName, loadProjectName, loadOwner);
         taskDesBefore = myTask.getTaskDescriptions();
         eDes.setText(myTask.getTaskDescriptions());
-        if (!myTask.Owner.equals(loadAccount) || myTask.Status.equals("waiting")) {
+        if (!myTask.Owner.equals(loadAccount) || myTask.Status.equals("Waiting")) {
             eDes.setEnabled(false);
         }
     }
@@ -128,11 +142,14 @@ public class UpdateTask extends ActionBarActivity {
     private void loadSpinnerStatus() {
         TableTask myTask = dataProvider.get1Task(loadTaskName, loadProjectName, loadOwner);
         List<String> statuses = new ArrayList<>();
-        statuses.add("new");
-        statuses.add("accepted");
-        statuses.add("done");
+        if (myTask.MemberName.equals("")) {
+            statuses.add("New");
+        }
+        statuses.add("Accepted");
+        statuses.add("In progress");
+        statuses.add("Done");
         if (myTask.Owner.equals(loadAccount) && !myTask.MemberName.equals(loadAccount)) {
-            statuses.add("waiting");
+            statuses.add("Waiting");
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, statuses);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -142,7 +159,7 @@ public class UpdateTask extends ActionBarActivity {
             int currentStatus = dataAdapter.getPosition(myTask.Status);
             spinnerStatus.setSelection(currentStatus);
         }
-        if (myTask.Status.equals("waiting") || !myTask.MemberName.equals(loadAccount)) {
+        if (myTask.Status.equals("Waiting") || !myTask.MemberName.equals(loadAccount)) {
             spinnerStatus.setEnabled(false);
             return;
         }
@@ -175,7 +192,7 @@ public class UpdateTask extends ActionBarActivity {
         spinner.setAdapter(adapter);
         spinner.setSelection(adapter.getCount());
 
-        if (myTask.Status.equals("waiting")) {
+        if (myTask.Status.equals("Waiting")) {
             spinner.setEnabled(false);
         }
     }
@@ -192,9 +209,9 @@ public class UpdateTask extends ActionBarActivity {
                 if (!taskMember.equals(taskMemberBefore)) {
                     if (taskMemberBefore.equals("")) {
                         if (taskMember.equals(loadAccount)) {
-                            dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "accepted");
+                            dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Accepted");
                         } else {
-                            dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "waiting");
+                            dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Waiting");
                             String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
                             mailSender = new MailSender(taskMember, "P2P assign task.", message, loadAccount, loadPassword, UpdateTask.this);
                             mailSender.send();
@@ -202,26 +219,26 @@ public class UpdateTask extends ActionBarActivity {
                     } else {
                         if (taskMemberBefore.equals(loadAccount)) {
                             if (taskMember.equals("")) {
-                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "new");
+                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "New");
                             } else {
-                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "waiting");
+                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Waiting");
                                 String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
                                 mailSender = new MailSender(taskMember, "P2P change status.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             }
                         } else {
                             if (taskMember.equals(loadAccount)) {
-                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "accepted");
+                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Accepted");
                                 String message = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                                 mailSender = new MailSender(taskMemberBefore, "P2P exclude task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             } else if (taskMember.equals("")) {
-                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "new");
+                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "New");
                                 String message = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                                 mailSender = new MailSender(taskMemberBefore, "P2P exclude task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             }else {
-                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "waiting");
+                                dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Waiting");
                                 String message = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                                 mailSender = new MailSender(taskMemberBefore, "P2P exclude task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
@@ -248,9 +265,9 @@ public class UpdateTask extends ActionBarActivity {
                 if (!taskMember.equals(taskMemberBefore)) {
                     if (taskMemberBefore.equals("")) {
                         if (taskMember.equals(loadAccount)) {
-                            dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "accepted");
+                            dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "Accepted");
                         } else {
-                            dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "waiting");
+                            dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Waiting");
                             String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
                             mailSender = new MailSender(taskMember, "P2P assign task.", message, loadAccount, loadPassword, UpdateTask.this);
                             mailSender.send();
@@ -259,21 +276,21 @@ public class UpdateTask extends ActionBarActivity {
                     } else {
                         if (taskMemberBefore.equals(loadAccount)) {
                             if (taskMember.equals("")) {
-                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "new");
+                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "New");
                             } else {
-                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "waiting");
+                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "Waiting");
                                 String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
                                 mailSender = new MailSender(taskMember, "P2P assign task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             }
                         } else {
                             if (taskMember.equals(loadAccount)) {
-                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "accepted");
+                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "Accepted");
                                 String message = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                                 mailSender = new MailSender(taskMemberBefore, "P2P exclude task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             } else if (!taskMember.equals("")){
-                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "waiting");
+                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "Waiting");
                                 String message = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                                 mailSender = new MailSender(taskMemberBefore, "P2P exclude task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
@@ -281,7 +298,7 @@ public class UpdateTask extends ActionBarActivity {
                                 mailSender = new MailSender(taskMember, "P2P assign task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             } else {
-                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "new");
+                                dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "New");
                                 String message = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                                 mailSender = new MailSender(taskMemberBefore, "P2P exclude task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();

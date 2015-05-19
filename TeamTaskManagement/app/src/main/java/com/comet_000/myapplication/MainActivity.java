@@ -112,7 +112,7 @@ public class MainActivity extends ActionBarActivity {
                         e.printStackTrace();
                     }
                     if (result.equals("Ok")) {
-                        Toast.makeText(getApplicationContext(), "Ok", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Sign-in successfully!", Toast.LENGTH_SHORT).show();
                         addUser();
                         intent.putExtra("account", tUser.getText().toString());
                         intent.putExtra("password", ePass.getText().toString());
