@@ -495,11 +495,12 @@ int layout activity_task 0x7f030020
 int layout activity_task_member 0x7f030021
 int layout activity_update_task 0x7f030022
 int layout app_bar 0x7f030023
-int layout fragment_navigation_drawer 0x7f030024
-int layout item 0x7f030025
-int layout project_items_layout 0x7f030026
-int layout support_simple_spinner_dropdown_item 0x7f030027
-int layout test 0x7f030028
+int layout dialog_newproject 0x7f030024
+int layout fragment_navigation_drawer 0x7f030025
+int layout item 0x7f030026
+int layout project_items_layout 0x7f030027
+int layout support_simple_spinner_dropdown_item 0x7f030028
+int layout test 0x7f030029
 int menu menu_change_password 0x7f0d0000
 int menu menu_home 0x7f0d0001
 int menu menu_main 0x7f0d0002

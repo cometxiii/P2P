@@ -1467,11 +1467,12 @@ containing a value of this type.
         public static final int activity_task_member=0x7f030021;
         public static final int activity_update_task=0x7f030022;
         public static final int app_bar=0x7f030023;
-        public static final int fragment_navigation_drawer=0x7f030024;
-        public static final int item=0x7f030025;
-        public static final int project_items_layout=0x7f030026;
-        public static final int support_simple_spinner_dropdown_item=0x7f030027;
-        public static final int test=0x7f030028;
+        public static final int dialog_newproject=0x7f030024;
+        public static final int fragment_navigation_drawer=0x7f030025;
+        public static final int item=0x7f030026;
+        public static final int project_items_layout=0x7f030027;
+        public static final int support_simple_spinner_dropdown_item=0x7f030028;
+        public static final int test=0x7f030029;
     }
     public static final class menu {
         public static final int menu_change_password=0x7f0d0000;

@@ -2,6 +2,7 @@ package com.comet_000.myapplication;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,9 +10,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -412,7 +415,8 @@ public class Project extends ActionBarActivity {
 
         //add new project
         if(id==R.id.addNew){
-            
+            DialogAddProject dialogAddProject = new DialogAddProject();
+            dialogAddProject.show(getFragmentManager(), "ProjectFragment");
         }
 
         /////////////////////////////////////////////////////////////////
