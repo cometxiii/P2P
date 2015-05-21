@@ -140,7 +140,7 @@ public class MailSender {
                 message.setFrom(new InternetAddress(author));
                 message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiver));
                 message.setSubject(subject);
-                message.setContent(textMessage, "text/plain");
+                message.setContent(textMessage, "text/plain; charset=utf-8");
                 Transport.send(message);
             } catch (AuthenticationFailedException e) {
                 e.printStackTrace();
