@@ -217,7 +217,7 @@ public class Project extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "accepted"));
+                                    dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "Accepted"));
                                     String message = mailManager.makeAccetpTask(projectName1, taskName, loadAccount);
                                     MailSender myMailSender = new MailSender(owner, "P2P assignment acceptance", message, loadAccount, loadPassword, Project.this);
                                     myMailSender.send();
@@ -238,8 +238,8 @@ public class Project extends ActionBarActivity {
                 break;
             case MailManager.acceptTaskTag:
                 String[] result3 = mailManager.readAcceptTask(message);
-                if (!dataProvider.checkTaskAssignment(result3[1], result3[0], loadAccount, result3[2], "waiting")) {
-                    dataProvider.updateTaskAssignment(result3[0], result3[1], result3[2], "accepted");
+                if (!dataProvider.checkTaskAssignment(result3[1], result3[0], loadAccount, result3[2], "Waiting")) {
+                    dataProvider.updateTaskAssignment(result3[0], result3[1], result3[2], "Accepted");
                     DialogInterface.OnClickListener dialogClickListener3 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
@@ -317,7 +317,7 @@ public class Project extends ActionBarActivity {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 if(!dataProvider.checkTaskMember(result7[1], result7[0], loadAccount, result7[2])){
-                                    dataProvider.updateTaskDeny(result7[0], result7[1], loadAccount, "new", result7[2]);
+                                    dataProvider.updateTaskDeny(result7[0], result7[1], loadAccount, "New", result7[2]);
                                 }
                                 else{
                                     toastMaker.makeToast("This task does not exist!");
