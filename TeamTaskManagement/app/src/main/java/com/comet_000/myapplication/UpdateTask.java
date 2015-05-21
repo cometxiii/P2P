@@ -198,7 +198,7 @@ public class UpdateTask extends ActionBarActivity {
         adapter.add(taskMemberBefore);
         spinner.setAdapter(adapter);
         spinner.setSelection(adapter.getCount());
-        if (myTask.Status.equals("Waiting")) {
+        if (myTask.Status.equals("Waiting") || !myTask.Owner.equals(loadAccount)) {
             spinner.setEnabled(false);
         }
     }
