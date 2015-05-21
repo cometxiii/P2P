@@ -66,21 +66,46 @@
                                 android:text="Descriptions"
                                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-                            <Button
-                                android:id="@+id/btnAddTask"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/txtDes"
-                                android:layout_centerHorizontal="true"
-                                android:layout_gravity="center_horizontal"
-                                android:text="Add new task" />
+                            <!--<Button-->
+                                <!--android:id="@+id/btnAddTask"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@+id/txtDes"-->
+                                <!--android:layout_centerHorizontal="true"-->
+                                <!--android:layout_gravity="center_horizontal"-->
+                                <!--android:text="Add new task" />-->
 
                             <ListView
                                 android:id="@+id/listViewTask"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/btnAddTask"
-                                android:layout_centerHorizontal="true" />
+                                android:layout_below="@+id/textView12"
+                                android:layout_centerHorizontal="true"
+                                android:background="#ffe7e7e7" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Note: Since you are not project owner then you are unable to create task."
+                                android:id="@+id/txtNote1"
+                                android:visibility="invisible"
+                                android:layout_centerHorizontal="true"
+                                android:layout_alignParentBottom="true"
+                                android:textColor="#ffff3a59"
+                                android:gravity="bottom|center"
+                                android:layout_below="@+id/listViewTask" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="List of tasks"
+                                android:id="@+id/textView12"
+                                android:layout_centerHorizontal="true"
+                                android:layout_below="@+id/txtDes"
+                                android:paddingTop="10dp"
+                                android:paddingBottom="10dp" />
 
                         </RelativeLayout>
 
@@ -90,13 +115,13 @@
                             android:layout_height="fill_parent"
                             android:orientation="vertical">
 
-                            <Button
-                                android:id="@+id/btnAddMember"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/txtDes2"
-                                android:layout_centerHorizontal="true"
-                                android:text="Add new member" />
+                            <!--<Button-->
+                                <!--android:id="@+id/btnAddMember"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@+id/txtDes2"-->
+                                <!--android:layout_centerHorizontal="true"-->
+                                <!--android:text="Invite member" />-->
 
                             <TextView
                                 android:id="@+id/txtProjectName2"
@@ -122,8 +147,33 @@
                                 android:id="@+id/listViewMember"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/btnAddMember"
-                                android:layout_centerHorizontal="true" />
+                                android:layout_below="@+id/textView13"
+                                android:layout_centerHorizontal="true"
+                                android:background="#ffe7e7e7" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Note: Since you are not project owner then you are unable to invite member to project."
+                                android:id="@+id/txtNote2"
+                                android:layout_alignParentBottom="true"
+                                android:layout_centerHorizontal="true"
+                                android:gravity="bottom|center"
+                                android:textColor="#ffff3a59"
+                                android:visibility="invisible"
+                                android:layout_below="@+id/listViewMember" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="List of members"
+                                android:id="@+id/textView13"
+                                android:layout_centerHorizontal="true"
+                                android:layout_below="@+id/txtDes2"
+                                android:paddingBottom="10dp"
+                                android:paddingTop="10dp" />
                         </RelativeLayout>
 
                     </FrameLayout>
@@ -131,13 +181,13 @@
             </TabHost>
             </FrameLayout>
 
-        <fragment
-            android:id="@+id/fragment_navigation_drawer"
-            android:name="com.comet_000.myapplication.NavigationDrawerFragment"
-            android:layout_width="@dimen/nav_drawer_width"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:layout="@layout/fragment_navigation_drawer"
-            tools:layout="@layout/fragment_navigation_drawer" />
+        <!--<fragment-->
+            <!--android:id="@+id/fragment_navigation_drawer"-->
+            <!--android:name="com.comet_000.myapplication.NavigationDrawerFragment"-->
+            <!--android:layout_width="@dimen/nav_drawer_width"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_gravity="start"-->
+            <!--app:layout="@layout/fragment_navigation_drawer"-->
+            <!--tools:layout="@layout/fragment_navigation_drawer" />-->
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

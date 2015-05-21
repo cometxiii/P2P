@@ -4,17 +4,16 @@
     android:layout_height="wrap_content">
     <EditText
         android:id="@+id/txtProjectName"
-        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="Project name" />
+        android:hint="Project name (max 20 characters)"
+        android:singleLine="true" />
     <EditText
         android:id="@+id/txtDescriptions"
-        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -22,5 +21,7 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif"
-        android:hint="Description"/>
+        android:hint="Description (max 200 characters)"
+        android:singleLine="false"
+        android:maxLines="3" />
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -88,8 +89,16 @@ public class UpdateTask extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (eDes.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter task descriptions", Toast.LENGTH_SHORT).show();
-                } else {
+                    Toast toast = Toast.makeText(getApplicationContext(),"Please enter task descriptions.", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+                else if(eDes.getText().toString().length()>100){
+                    Toast toast = Toast.makeText(getApplicationContext(),"Descriptions can not be longer than 100 characters.", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                }
+                else {
                     updateTask();
                     //Reload information after updating task
                     loadTaskDescriptions();

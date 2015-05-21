@@ -80,17 +80,46 @@ public class Task extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (eName.getText().toString().trim().isEmpty() && eDes.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter task name and descriptions", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(),"Please enter task name and descriptions", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 } else if (eName.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter task name", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(),"Please enter task name", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 } else if (eDes.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter task descriptions", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(getApplicationContext(),"Please enter task descriptions", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                 } else {
-                    if (dataProvider.checkTask((eName.getText()).toString(), loadProjectName, loadOwner)) {
-                        addTask();
-                        Toast.makeText(getApplicationContext(), "Add new task successfully!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "This task has already been existing in project!", Toast.LENGTH_SHORT).show();
+                    if(eName.getText().toString().length()>20 && eDes.getText().toString().length()>100){
+                        Toast toast = Toast.makeText(getApplicationContext(),"Project name can not be longer than 20 characters. Descriptions can not be longer than 100 characters.", Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
+                    }
+                    else if(eName.getText().toString().length()>20 || eDes.getText().toString().length()>100){
+                        if(eName.getText().toString().length()>20){
+                            Toast toast = Toast.makeText(getApplicationContext(),"Project name can not be longer than 20 characters.", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        }
+                        else{
+                            Toast toast = Toast.makeText(getApplicationContext(),"Descriptions can not be longer than 100 characters.", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        }
+                    }
+                    else{
+                        if (dataProvider.checkTask((eName.getText()).toString(), loadProjectName, loadOwner)) {
+                            addTask();
+                            Toast toast = Toast.makeText(getApplicationContext(),"Add new task successfully!", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        } else {
+                            Toast toast = Toast.makeText(getApplicationContext(),"This task has already been existing in project!", Toast.LENGTH_LONG);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        }
                     }
                 }
             }
@@ -119,11 +148,6 @@ public class Task extends ActionBarActivity {
             Intent intentToChangePass=new Intent(Task.this, ChangePassword.class);
             intentToChangePass.putExtra("accountID", loadAccount);
             startActivity(intentToChangePass);
-        }
-        /////////////////////////////////////////////////////////////////
-        //REFRESH here
-        if(id==R.id.synchronize){
-
         }
         return super.onOptionsItemSelected(item);
     }

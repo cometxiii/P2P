@@ -108,11 +108,6 @@ public class Member extends ActionBarActivity
             intentToChangePass.putExtra("accountID", loadAccount);
             startActivity(intentToChangePass);
         }
-        /////////////////////////////////////////////////////////////////
-        //REFRESH here
-        if(id==R.id.synchronize){
-
-        }
         return super.onOptionsItemSelected(item);
     }
 }

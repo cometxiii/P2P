@@ -8,4 +8,4 @@
                 android:id="@+id/txtProjectName"
                 android:text="Name"
                 android:textAppearance="?android:attr/textAppearanceMedium"/>
-</LinearLayout><!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/layout/project_items_layout.xml -->
+</LinearLayout><!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/project_items_layout.xml -->

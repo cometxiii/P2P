@@ -59,7 +59,7 @@
         android:id="@+id/txtDescriptions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter description"
+        android:hint="max 100 characters"
         android:layout_below="@+id/txtName"
         android:layout_alignLeft="@+id/txtName"
         android:layout_alignRight="@+id/txtName"

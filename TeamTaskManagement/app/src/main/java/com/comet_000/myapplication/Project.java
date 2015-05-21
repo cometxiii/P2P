@@ -60,8 +60,8 @@ public class Project extends ActionBarActivity {
     public String loadAccount = null;
     public String loadPassword = null;
     String loadCallingActivity = null;
-    Button add;
-    EditText eName, eDes;
+//    Button add;
+//    EditText eName, eDes;
     ListView listView;
     TextView display;
     ProgressDialog PD;
@@ -83,8 +83,8 @@ public class Project extends ActionBarActivity {
         loadAccount = intent.getStringExtra("intentAccount");
         checkMail = new CheckMail(loadAccount, loadPassword, Project.this);
         loadCallingActivity = intent.getStringExtra("CallingActivity");
-        eName = (EditText) findViewById(R.id.txtTitle);
-        eDes = (EditText) findViewById(R.id.txtDes);
+//        eName = (EditText) findViewById(R.id.txtTitle);
+//        eDes = (EditText) findViewById(R.id.txtDes);
         //connect to database using ORMLite
         dbHelper = OpenHelperManager.getHelper(Project.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
@@ -98,29 +98,29 @@ public class Project extends ActionBarActivity {
         myAccount = dataProvider.getAccountById(1);
         loadPassword = myAccount.Password;
         //Add new project
-        add = (Button) findViewById(R.id.btnAdd);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (eName.getText().toString().trim().isEmpty() && eDes.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter project name and descriptions", Toast.LENGTH_SHORT).show();
-                } else if (eName.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter project name", Toast.LENGTH_SHORT).show();
-                } else if (eDes.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter project descriptions", Toast.LENGTH_SHORT).show();
-                } else {
-                    if (dataProvider.checkProject((eName.getText()).toString(), loadAccount)) {
-                        String name = eName.getText().toString();
-                        String des = eDes.getText().toString();
-                        String owner = loadAccount;
-                        addProject(name, des, owner);
-                    }
-                    else {
-                        Toast.makeText(getApplicationContext(), "This project has already been created by you!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            }
-        });
+//        add = (Button) findViewById(R.id.btnAdd);
+//        add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (eName.getText().toString().trim().isEmpty() && eDes.getText().toString().trim().isEmpty()) {
+//                    Toast.makeText(getApplicationContext(), "Please enter project name and descriptions", Toast.LENGTH_SHORT).show();
+//                } else if (eName.getText().toString().trim().isEmpty()) {
+//                    Toast.makeText(getApplicationContext(), "Please enter project name", Toast.LENGTH_SHORT).show();
+//                } else if (eDes.getText().toString().trim().isEmpty()) {
+//                    Toast.makeText(getApplicationContext(), "Please enter project descriptions", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    if (dataProvider.checkProject((eName.getText()).toString(), loadAccount)) {
+//                        String name = eName.getText().toString();
+//                        String des = eDes.getText().toString();
+//                        String owner = loadAccount;
+//                        addProject(name, des, owner);
+//                    }
+//                    else {
+//                        Toast.makeText(getApplicationContext(), "This project has already been created by you!", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
+//            }
+//        });
 
 
         //Select a project
@@ -429,31 +429,31 @@ public class Project extends ActionBarActivity {
     }
 
     //Load project names to ListView
-    private void loadProjects() {
+    public void loadProjects() {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataProvider.getAllProjectString());
         listView.setAdapter(adapter);
     }
 
-    protected Void addProject(String name, String des, String user) {
-        if (!dataProvider.checkProject(name, user)) {
-            Toast.makeText(getApplicationContext(), "This project is already exist!", Toast.LENGTH_SHORT).show();
-            return null;
-        }
-        if (loadAccount.equals(user)) {
-            dataProvider.addProject(new TableProject(name, des, user));
-            dataProvider.addProjectMember(new TableProjectMember(name, user, user));
-        } else {
-            dataProvider.addProject(new TableProject(name, des, user));
-            dataProvider.addProjectMember(new TableProjectMember(name, user, user));
-            dataProvider.addProjectMember(new TableProjectMember(name, user, loadAccount));
-        }
-        loadProjects();
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(eName.getWindowToken(), 0);
-        imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
-        eName.setText("");
-        eDes.setText("");
-        Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
-        return null;
-    }
+//    protected Void addProject(String name, String des, String user) {
+//        if (!dataProvider.checkProject(name, user)) {
+//            Toast.makeText(getApplicationContext(), "This project is already exist!", Toast.LENGTH_SHORT).show();
+//            return null;
+//        }
+//        if (loadAccount.equals(user)) {
+//            dataProvider.addProject(new TableProject(name, des, user));
+//            dataProvider.addProjectMember(new TableProjectMember(name, user, user));
+//        } else {
+//            dataProvider.addProject(new TableProject(name, des, user));
+//            dataProvider.addProjectMember(new TableProjectMember(name, user, user));
+//            dataProvider.addProjectMember(new TableProjectMember(name, user, loadAccount));
+//        }
+//        loadProjects();
+//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(eName.getWindowToken(), 0);
+//        imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
+//        eName.setText("");
+//        eDes.setText("");
+//        Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
+//        return null;
+//    }
 }
