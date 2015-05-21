@@ -3,20 +3,12 @@ package com.comet_000.myapplication;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
@@ -30,6 +22,8 @@ public class DialogAddProject extends DialogFragment{
     EditText eName, eDes;
     TableAccount myAccount;
     String loadAccount;
+    ToastMaker toastMaker;
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         dbHelper = OpenHelperManager.getHelper(getActivity(), DatabaseHelper.class);
@@ -41,6 +35,7 @@ public class DialogAddProject extends DialogFragment{
         dataProvider.setTableProjectMember(myTableProjectMember);
         myAccount = dataProvider.getAccountById(1);
         loadAccount = myAccount.Account;
+        toastMaker = new ToastMaker(getActivity());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         setCancelable(false);
         LayoutInflater inflate = getActivity().getLayoutInflater();
@@ -68,7 +63,7 @@ public class DialogAddProject extends DialogFragment{
     @Override
     public void onStart()
     {
-        super.onStart();    //super.onStart() is where dialog.show() is actually called on the underlying dialog, so we have to do it after this point
+        super.onStart();
         final AlertDialog d = (AlertDialog)getDialog();
         if(d != null)
         {
@@ -81,33 +76,21 @@ public class DialogAddProject extends DialogFragment{
                     Boolean wantToCloseDialog = false;
                     //Do stuff, possibly set wantToCloseDialog to true then...
                     if (eName.getText().toString().trim().isEmpty() && eDes.getText().toString().trim().isEmpty()) {
-                        Toast toast = Toast.makeText(getActivity(),"Please enter project name and descriptions", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        toastMaker.makeToastMiddle("Please enter project name and descriptions");
                     } else if (eName.getText().toString().trim().isEmpty()) {
-                        Toast toast = Toast.makeText(getActivity(),"Please enter project name", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        toastMaker.makeToastMiddle("Please enter project name");
                     } else if (eDes.getText().toString().trim().isEmpty()) {
-                        Toast toast = Toast.makeText(getActivity(),"Please enter project descriptions", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        toastMaker.makeToastMiddle("Please enter project descriptions");
                     } else {
                         if(eName.getText().toString().length()>20 && eDes.getText().toString().length()>200){
-                            Toast toast = Toast.makeText(getActivity(),"Project name can not be longer than 20 characters. Descriptions can not be longer than 200 characters.", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            toastMaker.makeToastMiddle("Project name can not be longer than 20 characters. Descriptions can not be longer than 200 characters.");
                         }
                         else if(eName.getText().toString().length()>20 || eDes.getText().toString().length()>200){
                             if(eName.getText().toString().length()>20){
-                                Toast toast = Toast.makeText(getActivity(),"Project name can not be longer than 20 characters.", Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
+                                toastMaker.makeToastMiddle("Project name can not be longer than 20 characters.");
                             }
                             else{
-                                Toast toast = Toast.makeText(getActivity(),"Descriptions can not be longer than 200 characters.", Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
+                                toastMaker.makeToastMiddle("Descriptions can not be longer than 200 characters.");
                             }
                         }
                         else{
@@ -119,15 +102,12 @@ public class DialogAddProject extends DialogFragment{
                                 wantToCloseDialog = true;
                             }
                             else {
-                                Toast toast = Toast.makeText(getActivity(),"This project has already been created by you!", Toast.LENGTH_LONG);
-                                toast.setGravity(Gravity.CENTER, 0, 0);
-                                toast.show();
+                                toastMaker.makeToastMiddle("This project has already been created!");
                             }
                         }
                     }
                     if(wantToCloseDialog)
                         d.dismiss();
-                    //else dialog stays open. Make sure you have an obvious way to close the dialog especially if you set cancellable to false.
                 }
             });
         }
@@ -135,19 +115,14 @@ public class DialogAddProject extends DialogFragment{
 
     protected Void addProject(String name, String des, String user) {
         if (!dataProvider.checkProject(name, user)) {
-            Toast.makeText(getActivity(), "This project is already exist!", Toast.LENGTH_SHORT).show();
+            toastMaker.makeToast("This project is already exist!");
             return null;
         }
-        if (loadAccount.equals(user)) {
-            dataProvider.addProject(new TableProject(name, des, user));
-            dataProvider.addProjectMember(new TableProjectMember(name, user, user));
-        } else {
             dataProvider.addProject(new TableProject(name, des, user));
             dataProvider.addProjectMember(new TableProjectMember(name, user, user));
             dataProvider.addProjectMember(new TableProjectMember(name, user, loadAccount));
-        }
         ((Project)getActivity()).loadProjects();
-        Toast.makeText(getActivity(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
+        toastMaker.makeToast("Add new project successfully!");
         return null;
     }
 }

@@ -98,7 +98,7 @@
         android:layout_alignStart="@+id/tvStatus"
         android:text="Assigned to"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="30dp"
         android:layout_alignBaseline="@+id/spinner" />
 
     <Spinner
@@ -110,7 +110,7 @@
         android:layout_alignStart="@+id/txtDescriptions"
         android:layout_below="@+id/status"
         android:layout_alignRight="@+id/txtDescriptions"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="20dp" />
 
     <Button
         android:id="@+id/btnUpdate"

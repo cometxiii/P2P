@@ -1,47 +1,28 @@
 package com.comet_000.myapplication;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.PopupMenu;
-import android.widget.SimpleCursorAdapter;
-import android.widget.Switch;
-import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
 
-import javax.mail.Address;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
@@ -60,8 +41,6 @@ public class Project extends ActionBarActivity {
     public String loadAccount = null;
     public String loadPassword = null;
     String loadCallingActivity = null;
-//    Button add;
-//    EditText eName, eDes;
     ListView listView;
     TextView display;
     ProgressDialog PD;
@@ -69,6 +48,8 @@ public class Project extends ActionBarActivity {
     DataProvider dataProvider = new DataProvider();
     ProgressDialog progressDialog;
     TableAccount myAccount;
+    ToastMaker toastMaker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,31 +78,7 @@ public class Project extends ActionBarActivity {
         dataProvider.setTableProjectMember(myTableProjectMember);
         myAccount = dataProvider.getAccountById(1);
         loadPassword = myAccount.Password;
-        //Add new project
-//        add = (Button) findViewById(R.id.btnAdd);
-//        add.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (eName.getText().toString().trim().isEmpty() && eDes.getText().toString().trim().isEmpty()) {
-//                    Toast.makeText(getApplicationContext(), "Please enter project name and descriptions", Toast.LENGTH_SHORT).show();
-//                } else if (eName.getText().toString().trim().isEmpty()) {
-//                    Toast.makeText(getApplicationContext(), "Please enter project name", Toast.LENGTH_SHORT).show();
-//                } else if (eDes.getText().toString().trim().isEmpty()) {
-//                    Toast.makeText(getApplicationContext(), "Please enter project descriptions", Toast.LENGTH_SHORT).show();
-//                } else {
-//                    if (dataProvider.checkProject((eName.getText()).toString(), loadAccount)) {
-//                        String name = eName.getText().toString();
-//                        String des = eDes.getText().toString();
-//                        String owner = loadAccount;
-//                        addProject(name, des, owner);
-//                    }
-//                    else {
-//                        Toast.makeText(getApplicationContext(), "This project has already been created by you!", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//        });
-
+        toastMaker = new ToastMaker(getApplicationContext());
 
         //Select a project
         listView = (ListView) findViewById(R.id.listView);
@@ -141,6 +98,8 @@ public class Project extends ActionBarActivity {
             }
         });
     }
+
+    //check mail
 
     private class MailChecker extends AsyncTask<Void, Void, String[]> {
         @Override
@@ -188,11 +147,13 @@ public class Project extends ActionBarActivity {
             super.onPostExecute(result);
             progressDialog.dismiss();
             for (String message : result)
-                alertMessage(message);
+                readMessage(message);
         }
     }
 
-    public void alertMessage(String message) {
+    //read mail
+
+    public void readMessage(String message) {
         String mailType = mailManager.classifyMail(message);
         switch (mailType) {
             case MailManager.invitationTag:
@@ -209,13 +170,13 @@ public class Project extends ActionBarActivity {
                                         dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner));
                                         dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount));
                                         loadProjects();
-                                        Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
+                                        toastMaker.makeToast("Add new project successfully!");
                                         String message1 = mailManager.makeAcceptInvitation(projectName, loadAccount);
                                         MailSender myMailSender = new MailSender(projectOwner, "P2P invitation acceptance", message1, loadAccount, loadPassword, Project.this);
                                         myMailSender.send();
                                     }
                                     else {
-                                        Toast.makeText(getApplicationContext(), "This project already exist!", Toast.LENGTH_SHORT).show();
+                                        toastMaker.makeToast("This project already exist!");
                                     }
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
@@ -359,7 +320,7 @@ public class Project extends ActionBarActivity {
                                     dataProvider.updateTaskDeny(result7[0], result7[1], loadAccount, "new", result7[2]);
                                 }
                                 else{
-                                    Toast.makeText(getApplicationContext(), "This task does not exist!", Toast.LENGTH_SHORT).show();
+                                    toastMaker.makeToast("This task does not exist!");
                                 }
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -377,14 +338,14 @@ public class Project extends ActionBarActivity {
 
     private Void addProjectFromInvitation(String projectName, String projectDes, String projectOwner) {
         if (!dataProvider.checkProject(projectName, projectOwner)) {
-            Toast.makeText(getApplicationContext(), "This project is already exist!", Toast.LENGTH_SHORT).show();
+            toastMaker.makeToast("This project is already exist!");
             return null;
         }
         dataProvider.addProject(new TableProject(projectName, projectDes, projectOwner));
         dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner));
         dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount));
         loadProjects();
-        Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
+        toastMaker.makeToast("Add new project successfully!");
         String message = mailManager.makeAcceptInvitation(projectName, loadAccount);
         MailSender myMailSender = new MailSender(projectOwner, "P2P invitation acceptance", message, loadAccount, loadPassword, Project.this);
         myMailSender.send();
@@ -433,27 +394,4 @@ public class Project extends ActionBarActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, dataProvider.getAllProjectString());
         listView.setAdapter(adapter);
     }
-
-//    protected Void addProject(String name, String des, String user) {
-//        if (!dataProvider.checkProject(name, user)) {
-//            Toast.makeText(getApplicationContext(), "This project is already exist!", Toast.LENGTH_SHORT).show();
-//            return null;
-//        }
-//        if (loadAccount.equals(user)) {
-//            dataProvider.addProject(new TableProject(name, des, user));
-//            dataProvider.addProjectMember(new TableProjectMember(name, user, user));
-//        } else {
-//            dataProvider.addProject(new TableProject(name, des, user));
-//            dataProvider.addProjectMember(new TableProjectMember(name, user, user));
-//            dataProvider.addProjectMember(new TableProjectMember(name, user, loadAccount));
-//        }
-//        loadProjects();
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(eName.getWindowToken(), 0);
-//        imm.hideSoftInputFromWindow(eDes.getWindowToken(), 0);
-//        eName.setText("");
-//        eDes.setText("");
-//        Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
-//        return null;
-//    }
 }

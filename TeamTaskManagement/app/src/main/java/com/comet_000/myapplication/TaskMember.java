@@ -1,15 +1,12 @@
 package com.comet_000.myapplication;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,17 +14,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -48,10 +42,12 @@ public class TaskMember extends ActionBarActivity {
     TextView tPName1, tPName2, tDes1, tDes2, note1, note2;
     DatabaseHelper dbHelper;
     DataProvider dataProvider = new DataProvider();
-    public String loadProjectName, loadAccount, loadPassword, loadOwner;
+    public String loadProjectName, loadAccount, loadPassword, loadOwner, loadProjectDes;
     MailManager mailManager = new MailManager();
     ProgressDialog progressDialog;
     TableAccount myAccount;
+    ToastMaker toastMaker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +76,8 @@ public class TaskMember extends ActionBarActivity {
         myAccount = dataProvider.getAccountById(1);
         loadPassword = myAccount.Password;
         loadOwner = intent.getStringExtra("intentOwner");
+
+        toastMaker = new ToastMaker(getApplicationContext());
 
         tabHost.setup();
         TabHost.TabSpec tabSpec=tabHost.newTabSpec("tab task");
@@ -224,6 +222,7 @@ public class TaskMember extends ActionBarActivity {
     //Load project descriptions
     private void loadProjectDescriptions(){
         TableProject myProject = dataProvider.getProject(loadProjectName, loadOwner);
+        loadProjectDes = myProject.getProjectDescriptions();
         tDes1.setText("Project description: "+myProject.getProjectDescriptions());
         tDes2.setText("Project description: "+myProject.getProjectDescriptions());
     }
@@ -300,13 +299,14 @@ public class TaskMember extends ActionBarActivity {
                                     dataProvider.addProject(new TableProject(projectName, projectDes, projectOwner));
                                     dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner));
                                     dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount));
-                                    Toast.makeText(getApplicationContext(), "Add new project successfully!", Toast.LENGTH_SHORT).show();
+                                    toastMaker.makeToast("Add new project successfully!");
+
                                     String message1 = mailManager.makeAcceptInvitation(projectName, loadAccount);
                                     MailSender myMailSender = new MailSender(projectOwner, "P2P invitation acceptance", message1, loadAccount, loadPassword, TaskMember.this);
                                     myMailSender.send();
                                 }
                                 else {
-                                    Toast.makeText(getApplicationContext(), "This project already exist!", Toast.LENGTH_SHORT).show();
+                                    toastMaker.makeToast("This project already exist!");
                                 }
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -453,7 +453,7 @@ public class TaskMember extends ActionBarActivity {
                                     dataProvider.updateTaskDeny(result7[0], result7[1], loadAccount, "new", result7[2]);
                                 }
                                 else{
-                                    Toast.makeText(getApplicationContext(), "This task does not exist!", Toast.LENGTH_SHORT).show();
+                                    toastMaker.makeToast("This task does not exist!");
                                 }
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:

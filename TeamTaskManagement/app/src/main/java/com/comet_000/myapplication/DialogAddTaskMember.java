@@ -14,7 +14,7 @@ import android.widget.EditText;
  * Created by comet_000 on 21/05/2015.
  */
 public class DialogAddTaskMember extends DialogFragment {
-    String loadProjectName, loadOwner, loadAccount;
+    String loadProjectName, loadOwner, loadAccount, loadProjectDes;
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -36,6 +36,7 @@ public class DialogAddTaskMember extends DialogFragment {
                         } else {
                             Intent intentMember=new Intent(getActivity(), Member.class);
                             intentMember.putExtra("intentProjectName", loadProjectName);
+                            intentMember.putExtra("intentProjectDes", loadProjectDes);
                             startActivity(intentMember);
                         }
                     }
@@ -53,5 +54,6 @@ public class DialogAddTaskMember extends DialogFragment {
         loadAccount = ((TaskMember)getActivity()).loadAccount;
         loadOwner = ((TaskMember)getActivity()).loadOwner;
         loadProjectName = ((TaskMember)getActivity()).loadProjectName;
+        loadProjectDes = ((TaskMember)getActivity()).loadProjectDes;
     }
 }

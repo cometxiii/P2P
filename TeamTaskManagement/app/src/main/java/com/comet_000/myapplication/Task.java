@@ -46,6 +46,8 @@ public class Task extends ActionBarActivity {
     MailSender mailSender;
     MailManager mailManager = new MailManager();
     TableAccount myAccount;
+    ToastMaker toastMaker;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +71,7 @@ public class Task extends ActionBarActivity {
         myAccount = dataProvider.getAccountById(1);
         loadPassword = myAccount.Password;
         loadOwner = intent.getStringExtra("intentOwner");
+        toastMaker = new ToastMaker(getApplicationContext());
         txtMsg = (TextView) findViewById(R.id.txtMsg);
         txtMsg.setText("Your selected project: " + loadProjectName);
         eName = (EditText) findViewById(R.id.txtName);
@@ -80,45 +83,29 @@ public class Task extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (eName.getText().toString().trim().isEmpty() && eDes.getText().toString().trim().isEmpty()) {
-                    Toast toast = Toast.makeText(getApplicationContext(),"Please enter task name and descriptions", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    toastMaker.makeToastMiddle("Please enter task name and descriptions");
                 } else if (eName.getText().toString().trim().isEmpty()) {
-                    Toast toast = Toast.makeText(getApplicationContext(),"Please enter task name", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    toastMaker.makeToastMiddle("Please enter task name");
                 } else if (eDes.getText().toString().trim().isEmpty()) {
-                    Toast toast = Toast.makeText(getApplicationContext(),"Please enter task descriptions", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    toastMaker.makeToastMiddle("Please enter task descriptions");
                 } else {
                     if(eName.getText().toString().length()>20 && eDes.getText().toString().length()>100){
-                        Toast toast = Toast.makeText(getApplicationContext(),"Project name can not be longer than 20 characters. Descriptions can not be longer than 100 characters.", Toast.LENGTH_LONG);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                        toastMaker.makeToastMiddle("Project name can not be longer than 20 characters. Descriptions can not be longer than 100 characters.");
                     }
                     else if(eName.getText().toString().length()>20 || eDes.getText().toString().length()>100){
                         if(eName.getText().toString().length()>20){
-                            Toast toast = Toast.makeText(getApplicationContext(),"Project name can not be longer than 20 characters.", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            toastMaker.makeToastMiddle("Project name can not be longer than 20 characters.");
                         }
                         else{
-                            Toast toast = Toast.makeText(getApplicationContext(),"Descriptions can not be longer than 100 characters.", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            toastMaker.makeToastMiddle("Descriptions can not be longer than 100 characters.");
                         }
                     }
                     else{
                         if (dataProvider.checkTask((eName.getText()).toString(), loadProjectName, loadOwner)) {
                             addTask();
-                            Toast toast = Toast.makeText(getApplicationContext(),"Add new task successfully!", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            toastMaker.makeToast("Add new task successfully!");
                         } else {
-                            Toast toast = Toast.makeText(getApplicationContext(),"This task has already been existing in project!", Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
+                            toastMaker.makeToastMiddle("This task has already been created in project!");
                         }
                     }
                 }
@@ -164,7 +151,7 @@ public class Task extends ActionBarActivity {
             String message = mailManager.makeAssignment(project, loadAccount, name,des);
             mailSender = new MailSender(member, "P2P task assignment", message, loadAccount, loadPassword, Task.this);
             mailSender.send();
-            Toast.makeText(getApplicationContext(), "Assignment has been sent.", Toast.LENGTH_SHORT).show();
+            toastMaker.makeToast("Assignment has been sent.");
         } else {
             dataProvider.addTask(new TableTask(project, loadAccount, name, des, member, "New"));
         }
@@ -184,13 +171,13 @@ public class Task extends ActionBarActivity {
                 View v = super.getView(position, convertView, parent);
                 if (position == getCount()) {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
-                    ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
+                    ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount()));
                 }
                 return v;
             }
             @Override
             public int getCount() {
-                return super.getCount() - 1; // you don't display last item. It is used as hint.
+                return super.getCount() - 1;
             }
         };
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);

@@ -48,6 +48,7 @@ public class UpdateTask extends ActionBarActivity {
     MailSender mailSender;
     MailManager mailManager = new MailManager();
     TableAccount myAccount;
+    ToastMaker toastMaker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class UpdateTask extends ActionBarActivity {
         dataProvider.setTableTask(myTableTask);
         myAccount = dataProvider.getAccountById(1);
         loadPassword = myAccount.Password;
+        toastMaker = new ToastMaker(getApplicationContext());
         loadTaskDescriptions();
         //Load members of project
         loadSpinnerStatus();
@@ -89,14 +91,10 @@ public class UpdateTask extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 if (eDes.getText().toString().trim().isEmpty()) {
-                    Toast toast = Toast.makeText(getApplicationContext(),"Please enter task descriptions.", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    toastMaker.makeToastMiddle("Please enter task descriptions.");
                 }
                 else if(eDes.getText().toString().length()>100){
-                    Toast toast = Toast.makeText(getApplicationContext(),"Descriptions can not be longer than 100 characters.", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
+                    toastMaker.makeToastMiddle("Descriptions can not be longer than 100 characters.");
                 }
                 else {
                     updateTask();
@@ -104,7 +102,7 @@ public class UpdateTask extends ActionBarActivity {
                     loadTaskDescriptions();
                     loadSpinnerStatus();
                     loadSpinner();
-                    Toast.makeText(getApplicationContext(), "Update task successfully!", Toast.LENGTH_LONG).show();
+                    toastMaker.makeToast("Update task successfully!");
                 }
             }
         });
@@ -183,14 +181,14 @@ public class UpdateTask extends ActionBarActivity {
                 View v = super.getView(position, convertView, parent);
                 if (position == getCount()) {
                     ((TextView) v.findViewById(android.R.id.text1)).setText("");
-                    ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount())); //"Hint to be displayed"
+                    ((TextView) v.findViewById(android.R.id.text1)).setHint(getItem(getCount()));
                 }
                 return v;
             }
 
             @Override
             public int getCount() {
-                return super.getCount() - 1; // you don't display last item. It is used as hint.
+                return super.getCount() - 1;
             }
         };
         TableTask myTask = dataProvider.get1Task(loadTaskName, loadProjectName, loadOwner);
@@ -200,7 +198,6 @@ public class UpdateTask extends ActionBarActivity {
         adapter.add(taskMemberBefore);
         spinner.setAdapter(adapter);
         spinner.setSelection(adapter.getCount());
-
         if (myTask.Status.equals("Waiting")) {
             spinner.setEnabled(false);
         }
@@ -209,7 +206,6 @@ public class UpdateTask extends ActionBarActivity {
     //Update new task
     //Save new task to database
     protected Void updateTask() {
-        String taskName = tName.getText().toString();
         String taskDes = eDes.getText().toString();
         String taskMember = spinner.getSelectedItem().toString();
         String taskStatus = spinnerStatus.getSelectedItem().toString();

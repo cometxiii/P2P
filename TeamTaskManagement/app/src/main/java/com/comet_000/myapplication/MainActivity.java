@@ -45,8 +45,10 @@ public class MainActivity extends ActionBarActivity {
     ProgressDialog PD;
     DataProvider dataProvider = new DataProvider();
     String result = null;
+    ToastMaker toastMaker;
     public static final String ACCOUNT_INTENT = "com.comet_000.myapplication.MESSAGE";
     public static final String NAME_INTENT = "com.comet_000.myapplication.MESSAGE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +57,7 @@ public class MainActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
         final Intent intent = new Intent(this, Home.class);
+        toastMaker = new ToastMaker(getApplicationContext());
         dbHelper = OpenHelperManager.getHelper(MainActivity.this, DatabaseHelper.class);
         ListView lv = (ListView) findViewById(R.id.listView);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getUsername());
@@ -95,12 +98,8 @@ public class MainActivity extends ActionBarActivity {
         reg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                BackgroundTask task = new BackgroundTask(MainActivity.this);
-//                task.execute();
                 if (ePass.getText().toString().trim().isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Please enter password", Toast.LENGTH_SHORT).show();
-
-
+                    toastMaker.makeToast("Please enter password");
                     return;
                 } else {
                     MailSender myMailSender = new MailSender(MainActivity.this);
@@ -112,7 +111,7 @@ public class MainActivity extends ActionBarActivity {
                         e.printStackTrace();
                     }
                     if (result.equals("Ok")) {
-                        Toast.makeText(getApplicationContext(), "Sign-in successfully!", Toast.LENGTH_SHORT).show();
+                        toastMaker.makeToast("Sign-in successfully!");
                         addUser();
                         intent.putExtra("account", tUser.getText().toString());
                         intent.putExtra("password", ePass.getText().toString());
@@ -120,11 +119,11 @@ public class MainActivity extends ActionBarActivity {
                         startActivity(intent);
                     }
                     if (result.equals("foo")) {
-                        Toast.makeText(getApplicationContext(), "foo", Toast.LENGTH_SHORT).show();
+                        toastMaker.makeToast("foo");
                         return;
                     }
                     if (result.equals("Wrong password")) {
-                        Toast.makeText(getApplicationContext(), "Wrong password", Toast.LENGTH_SHORT).show();
+                        toastMaker.makeToast("Wrong password");
                         return;
                     }
                 }

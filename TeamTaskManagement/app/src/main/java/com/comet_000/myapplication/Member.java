@@ -1,8 +1,6 @@
 package com.comet_000.myapplication;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
@@ -14,12 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
 import com.j256.ormlite.dao.RuntimeExceptionDao;
-
-import java.util.concurrent.ExecutionException;
 
 
 public class Member extends ActionBarActivity
@@ -36,6 +31,7 @@ public class Member extends ActionBarActivity
     DataProvider dataProvider = new DataProvider();
     MailManager mailManager = new MailManager();
     TableAccount myAccount;
+    ToastMaker toastMaker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +51,12 @@ public class Member extends ActionBarActivity
         Intent intent = getIntent();
         loadProjectName = intent.getStringExtra("intentProjectName");
         loadProjectDes = intent.getStringExtra("intentProjectDes");
-        loadAccount = intent.getStringExtra("intentAccount");
         myAccount = dataProvider.getAccountById(1);
+        loadAccount = myAccount.Account;
         loadPassword = myAccount.Password;
         msg=(TextView)findViewById(R.id.txtMsg);
         msg.setText("Invite new member to project: "+loadProjectName);
+        toastMaker = new ToastMaker(getApplicationContext());
 
         eMail=(EditText)findViewById(R.id.txtUser);
         add=(Button)findViewById(R.id.btnAdd);
@@ -69,7 +66,7 @@ public class Member extends ActionBarActivity
                 String member = eMail.getText().toString();
                 member += "@gmail.com";
                 if(eMail.getText().toString().trim().isEmpty()){
-                    Toast.makeText(getApplicationContext(), "Please enter Google account to invite", Toast.LENGTH_SHORT).show();
+                    toastMaker.makeToast("Please enter Google account to invite");
                 }
                 else{
                     if(dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
@@ -78,7 +75,7 @@ public class Member extends ActionBarActivity
                         myMailSender.send();
                     }
                     else {
-                        Toast.makeText(getApplicationContext(), "This user has already been invited to project!", Toast.LENGTH_SHORT).show();
+                        toastMaker.makeToast("This user has already been invited to project!");
                     }
                 }
             }
