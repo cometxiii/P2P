@@ -87,14 +87,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:text="Note: Since you are not project owner then you are unable to create task."
+                                android:text=""
                                 android:id="@+id/txtNote1"
                                 android:visibility="invisible"
                                 android:layout_centerHorizontal="true"
-                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentBottom="false"
                                 android:textColor="#ffff3a59"
-                                android:gravity="bottom|center"
-                                android:layout_below="@+id/listViewTask" />
+                                android:gravity="center"
+                                android:layout_below="@+id/txtDes" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -103,8 +103,8 @@
                                 android:text="List of tasks"
                                 android:id="@+id/textView12"
                                 android:layout_centerHorizontal="true"
-                                android:layout_below="@+id/txtDes"
-                                android:paddingTop="10dp"
+                                android:layout_below="@+id/txtNote1"
+                                android:paddingTop="0dp"
                                 android:paddingBottom="10dp" />
 
                         </RelativeLayout>
@@ -155,14 +155,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:text="Note: Since you are not project owner then you are unable to invite member to project."
+                                android:text=""
                                 android:id="@+id/txtNote2"
-                                android:layout_alignParentBottom="true"
+                                android:layout_alignParentBottom="false"
                                 android:layout_centerHorizontal="true"
-                                android:gravity="bottom|center"
+                                android:gravity="center"
                                 android:textColor="#ffff3a59"
                                 android:visibility="invisible"
-                                android:layout_below="@+id/listViewMember" />
+                                android:layout_below="@+id/txtDes2" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -171,9 +171,8 @@
                                 android:text="List of members"
                                 android:id="@+id/textView13"
                                 android:layout_centerHorizontal="true"
-                                android:layout_below="@+id/txtDes2"
-                                android:paddingBottom="10dp"
-                                android:paddingTop="10dp" />
+                                android:layout_below="@+id/txtNote2"
+                                android:paddingBottom="10dp" />
                         </RelativeLayout>
 
                     </FrameLayout>

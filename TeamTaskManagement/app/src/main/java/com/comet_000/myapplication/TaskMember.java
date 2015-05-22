@@ -178,7 +178,9 @@ public class TaskMember extends ActionBarActivity {
 
         if(!loadAccount.equals(loadOwner)){
             note1.setVisibility(View.VISIBLE);
+            note1.setText("Note: Since you are not project owner then you are unable to create task.");
             note2.setVisibility(View.VISIBLE);
+            note2.setText("Note: Since you are not project owner then you are unable to invite member to project.");
         }
 
         listViewTask=(ListView)findViewById(R.id.listViewTask);

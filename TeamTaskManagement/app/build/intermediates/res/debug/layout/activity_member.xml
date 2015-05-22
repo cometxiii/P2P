@@ -23,8 +23,8 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:hint="Enter GMail account"
-        android:inputType="textEmailAddress"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:inputType="textEmailAddress" />
 
     <Button
         android:id="@+id/btnAdd"
@@ -39,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Note: Enter account ID only - do not include &quot;@gmail.com&quot; at the end of username (e.g example)."
+        android:text="Note: Application supports only Google Mail ID."
         android:id="@+id/textView11"
         android:layout_below="@+id/btnAdd"
         android:layout_centerHorizontal="true"
@@ -47,4 +47,4 @@
         android:gravity="center"
         android:layout_alignParentBottom="true" />
 </RelativeLayout>
-<!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/layout/activity_member.xml -->
+<!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_member.xml -->

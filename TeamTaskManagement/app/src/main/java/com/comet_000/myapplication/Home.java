@@ -35,7 +35,7 @@ public class Home extends ActionBarActivity {
             @Override
             public void run() {
                 try{
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                     dbHelper = OpenHelperManager.getHelper(Home.this, DatabaseHelper.class);
                     RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
                     dataProvider.setTableAccount(myTableAccount);

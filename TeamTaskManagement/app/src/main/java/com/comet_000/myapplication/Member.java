@@ -64,18 +64,36 @@ public class Member extends ActionBarActivity
             @Override
             public void onClick(View v) {
                 String member = eMail.getText().toString();
-                member += "@gmail.com";
-                if(eMail.getText().toString().trim().isEmpty()){
-                    toastMaker.makeToast("Please enter Google account to invite");
+
+                //Validate email input
+                if(member.contains("@")){
+                    if(member.contains("@gmail.com"))
+                            if(dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
+                                String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
+                                MailSender myMailSender = new MailSender(member, "P2P invitation", message, loadAccount, loadPassword, Member.this);
+                                myMailSender.send();
+                            }
+                            else {
+                                toastMaker.makeToast("This user has already been invited to project!");
+                            }
+                    else{
+                        toastMaker.makeToast("Application supports only Google Mail account.");
+                    }
                 }
                 else{
-                    if(dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
-                        String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
-                        MailSender myMailSender = new MailSender(member, "P2P invitation", message, loadAccount, loadPassword, Member.this);
-                        myMailSender.send();
+                    member += "@gmail.com";
+                    if(eMail.getText().toString().trim().isEmpty()){
+                        toastMaker.makeToast("Please enter Google account to invite");
                     }
-                    else {
-                        toastMaker.makeToast("This user has already been invited to project!");
+                    else{
+                        if(dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
+                            String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
+                            MailSender myMailSender = new MailSender(member, "P2P invitation", message, loadAccount, loadPassword, Member.this);
+                            myMailSender.send();
+                        }
+                        else {
+                            toastMaker.makeToast("This user has already been invited to project!");
+                        }
                     }
                 }
             }
