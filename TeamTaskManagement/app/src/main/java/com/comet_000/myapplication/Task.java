@@ -89,23 +89,28 @@ public class Task extends ActionBarActivity {
                 } else if (eDes.getText().toString().trim().isEmpty()) {
                     toastMaker.makeToastMiddle("Please enter task descriptions");
                 } else {
-                    if(eName.getText().toString().length()>20 && eDes.getText().toString().length()>100){
-                        toastMaker.makeToastMiddle("Project name can not be longer than 20 characters. Descriptions can not be longer than 100 characters.");
-                    }
-                    else if(eName.getText().toString().length()>20 || eDes.getText().toString().length()>100){
-                        if(eName.getText().toString().length()>20){
-                            toastMaker.makeToastMiddle("Project name can not be longer than 20 characters.");
-                        }
-                        else{
-                            toastMaker.makeToastMiddle("Descriptions can not be longer than 100 characters.");
-                        }
+                    if(eName.getText().toString().contains("'")){
+                        toastMaker.makeToastMiddle("Task name can not have ' symbol.");
                     }
                     else{
-                        if (dataProvider.checkTask((eName.getText()).toString(), loadProjectName, loadOwner)) {
-                            addTask();
-                            toastMaker.makeToast("Add new task successfully!");
-                        } else {
-                            toastMaker.makeToastMiddle("This task has already been created in project!");
+                        if(eName.getText().toString().length()>20 && eDes.getText().toString().length()>100){
+                            toastMaker.makeToastMiddle("Project name can not be longer than 20 characters. Descriptions can not be longer than 100 characters.");
+                        }
+                        else if(eName.getText().toString().length()>20 || eDes.getText().toString().length()>100){
+                            if(eName.getText().toString().length()>20){
+                                toastMaker.makeToastMiddle("Project name can not be longer than 20 characters.");
+                            }
+                            else{
+                                toastMaker.makeToastMiddle("Descriptions can not be longer than 100 characters.");
+                            }
+                        }
+                        else{
+                            if (dataProvider.checkTask((eName.getText()).toString(), loadProjectName, loadOwner)) {
+                                addTask();
+                                toastMaker.makeToast("Add new task successfully!");
+                            } else {
+                                toastMaker.makeToastMiddle("This task has already been created in project!");
+                            }
                         }
                     }
                 }

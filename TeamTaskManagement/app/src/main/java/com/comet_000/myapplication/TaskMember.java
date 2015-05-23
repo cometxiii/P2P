@@ -153,7 +153,7 @@ public class TaskMember extends ActionBarActivity {
                 DialogDeleteTask dialogDeleteTask = new DialogDeleteTask();
                 dialogDeleteTask.show(getFragmentManager(), "DeleteTaskFragment");
             } else {
-                toastMaker.makeToast("There are no tasks in this project.");
+                toastMaker.makeToast("No task exists in this project.");
             }
         }
 
@@ -183,7 +183,7 @@ public class TaskMember extends ActionBarActivity {
 
         if(!loadAccount.equals(loadOwner)){
             note1.setVisibility(View.VISIBLE);
-            note1.setText("Note: Since you are not project owner then you are unable to create task.");
+            note1.setText("Note: Since you are not project owner then you are unable to create task or delete task.");
             note2.setVisibility(View.VISIBLE);
             note2.setText("Note: Since you are not project owner then you are unable to invite member to project.");
         }

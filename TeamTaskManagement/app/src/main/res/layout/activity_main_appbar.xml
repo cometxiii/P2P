@@ -147,7 +147,7 @@
                                 android:id="@+id/listViewMember"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/textView13"
+                                android:layout_below="@+id/textView14"
                                 android:layout_centerHorizontal="true"
                                 android:background="#ffe7e7e7" />
 
@@ -171,7 +171,16 @@
                                 android:text="List of members"
                                 android:id="@+id/textView13"
                                 android:layout_centerHorizontal="true"
-                                android:layout_below="@+id/txtNote2"
+                                android:layout_below="@+id/txtNote2" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Member - Status"
+                                android:id="@+id/textView14"
+                                android:layout_below="@+id/textView13"
+                                android:layout_centerHorizontal="true"
                                 android:paddingBottom="10dp" />
                         </RelativeLayout>
 

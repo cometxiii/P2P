@@ -82,27 +82,32 @@ public class DialogAddProject extends DialogFragment{
                     } else if (eDes.getText().toString().trim().isEmpty()) {
                         toastMaker.makeToastMiddle("Please enter project descriptions");
                     } else {
-                        if(eName.getText().toString().length()>20 && eDes.getText().toString().length()>200){
-                            toastMaker.makeToastMiddle("Project name can not be longer than 20 characters. Descriptions can not be longer than 200 characters.");
-                        }
-                        else if(eName.getText().toString().length()>20 || eDes.getText().toString().length()>200){
-                            if(eName.getText().toString().length()>20){
-                                toastMaker.makeToastMiddle("Project name can not be longer than 20 characters.");
-                            }
-                            else{
-                                toastMaker.makeToastMiddle("Descriptions can not be longer than 200 characters.");
-                            }
+                        if(eName.getText().toString().contains("'")){
+                            toastMaker.makeToastMiddle("Project name can not have ' symbol.");
                         }
                         else{
-                            if (dataProvider.checkProject((eName.getText()).toString(), loadAccount)) {
-                                String name = eName.getText().toString();
-                                String des = eDes.getText().toString();
-                                String owner = loadAccount;
-                                addProject(name, des, owner);
-                                wantToCloseDialog = true;
+                            if(eName.getText().toString().length()>20 && eDes.getText().toString().length()>200){
+                                toastMaker.makeToastMiddle("Project name can not be longer than 20 characters. Descriptions can not be longer than 200 characters.");
                             }
-                            else {
-                                toastMaker.makeToastMiddle("This project has already been created!");
+                            else if(eName.getText().toString().length()>20 || eDes.getText().toString().length()>200){
+                                if(eName.getText().toString().length()>20){
+                                    toastMaker.makeToastMiddle("Project name can not be longer than 20 characters.");
+                                }
+                                else{
+                                    toastMaker.makeToastMiddle("Descriptions can not be longer than 200 characters.");
+                                }
+                            }
+                            else{
+                                if (dataProvider.checkProject((eName.getText()).toString(), loadAccount)) {
+                                    String name = eName.getText().toString();
+                                    String des = eDes.getText().toString();
+                                    String owner = loadAccount;
+                                    addProject(name, des, owner);
+                                    wantToCloseDialog = true;
+                                }
+                                else {
+                                    toastMaker.makeToastMiddle("This project has already been created!");
+                                }
                             }
                         }
                     }
