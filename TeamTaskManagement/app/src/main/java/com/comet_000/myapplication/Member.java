@@ -113,7 +113,7 @@ public class Member extends ActionBarActivity
     }
     //invite member
     private void inviteMember(String member) {
-        if(dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
+        if(!dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
             dataProvider.addProjectMember(new TableProjectMember(loadProjectName, loadAccount, member, "Waiting"));
             String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
             MailSender myMailSender = new MailSender(member, "P2P invitation", message, loadAccount, loadPassword, Member.this);
