@@ -10,6 +10,7 @@ public class MailManager {
     final String keyTag = "<zfgHsj6Uyk>";
     static final String invitationTag = "<Invitation>";
     static final String acceptIviTag = "<AcceptInvitation>";
+    static final String denyInviTag = "DenyInvitation";
     static final String assignTaskTag = "<AssignTask>";
     static final String acceptTaskTag = "<AcceptTask>";
     static final String changeStaTag = "<ChangeStatus>";
@@ -63,6 +64,18 @@ public class MailManager {
         return message;
     }
     public String[] readAcceptInvitation(String message) {
+        String[] result = new String[2];
+        result[0] = readTag(message, projectTag);
+        result[1] = readTag(message, senderTag);
+        return result;
+    }
+    public String makeDenyInvitation(String projectName, String sender) {
+        String message = addHeader(denyInviTag);
+        message += addTag(projectName, projectTag);
+        message += addTag(sender, senderTag);
+        return message;
+    }
+    public String[] readDenyInvitation(String message) {
         String[] result = new String[2];
         result[0] = readTag(message, projectTag);
         result[1] = readTag(message, senderTag);

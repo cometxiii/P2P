@@ -643,12 +643,29 @@ public class DataProvider {
                     .eq("Owner", owner)
                     .and()
                     .eq("MemberName", memberName)
+                    .and()
+                    .eq("Status", "Waiting")
                     .query();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (memberList.isEmpty())
-            return true;
-        return false;
+            return false;
+        return true;
+    }
+
+    public void deleteProjectMember(String projectName, String memberName, String owner) {
+        DeleteBuilder<TableProjectMember, Integer> deleteBuilder = myProjectMemberTable.deleteBuilder();
+        try {
+            deleteBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("MemberName", memberName)
+                    .and()
+                    .eq("Owner", owner);
+            deleteBuilder.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

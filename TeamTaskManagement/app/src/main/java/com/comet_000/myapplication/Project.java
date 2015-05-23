@@ -227,6 +227,9 @@ public class Project extends ActionBarActivity {
                                     }
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
+                                    String message1 = mailManager.makeDenyInvitation(projectName, loadAccount);
+                                    MailSender myMailSender = new MailSender(projectOwner, "P2P invitation deny", message1, loadAccount, loadPassword, Project.this);
+                                    myMailSender.send();
                                     break;
                             }
                         }
@@ -250,6 +253,23 @@ public class Project extends ActionBarActivity {
                     };
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                     builder1.setMessage("User " + result1[1] + " has accepted your invitation to project " + result1[0] + ".")
+                            .setPositiveButton("Ok", dialogClickListener1).show();
+                }
+                break;
+            case MailManager.denyInviTag:
+                String[] resultDenyInvi = mailManager.readAcceptInvitation(message);
+                if (dataProvider.checkProjectMember(resultDenyInvi[0], resultDenyInvi[1], loadAccount)) {
+                    dataProvider.deleteProjectMember(resultDenyInvi[0], resultDenyInvi[1], loadAccount);
+                    DialogInterface.OnClickListener dialogClickListener1 = new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    break;
+                            }
+                        }
+                    };
+                    AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+                    builder1.setMessage("User " + resultDenyInvi[1] + " has denied your invitation to project " + resultDenyInvi[0] + ".")
                             .setPositiveButton("Ok", dialogClickListener1).show();
                 }
                 break;
