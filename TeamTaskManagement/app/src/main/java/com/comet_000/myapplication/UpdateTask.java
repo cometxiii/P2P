@@ -170,6 +170,7 @@ public class UpdateTask extends ActionBarActivity {
             spinnerStatus.setEnabled(false);
             return;
         }
+        spinnerStatus.setEnabled(true);
     }
 
     //Load member of a project to spinner
