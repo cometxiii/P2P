@@ -17,13 +17,16 @@ public class TableProjectMember {
     String MemberName;
     @DatabaseField
     String Owner;
+    @DatabaseField
+    String Status;
 
 
 
-    public TableProjectMember(String projectName, String owner, String memberName) {
+    public TableProjectMember(String projectName, String owner, String memberName, String status) {
         ProjectName = projectName;
         MemberName = memberName;
         Owner = owner;
+        Status = status;
     }
 
     public TableProjectMember(){}

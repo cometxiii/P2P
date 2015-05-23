@@ -119,6 +119,10 @@
         android:text="Update"
         android:layout_below="@+id/spinner"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button"
+        android:textColor="@color/buttonTextColor"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" />
 
 </RelativeLayout>

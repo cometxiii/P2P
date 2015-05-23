@@ -68,14 +68,7 @@ public class Member extends ActionBarActivity
                 //Validate email input
                 if(member.contains("@")){
                     if(member.contains("@gmail.com"))
-                            if(dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
-                                String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
-                                MailSender myMailSender = new MailSender(member, "P2P invitation", message, loadAccount, loadPassword, Member.this);
-                                myMailSender.send();
-                            }
-                            else {
-                                toastMaker.makeToast("This user has already been invited to project!");
-                            }
+                            inviteMember(member);
                     else{
                         toastMaker.makeToast("Application supports only Google Mail account.");
                     }
@@ -86,14 +79,7 @@ public class Member extends ActionBarActivity
                         toastMaker.makeToast("Please enter Google account to invite");
                     }
                     else{
-                        if(dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
-                            String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
-                            MailSender myMailSender = new MailSender(member, "P2P invitation", message, loadAccount, loadPassword, Member.this);
-                            myMailSender.send();
-                        }
-                        else {
-                            toastMaker.makeToast("This user has already been invited to project!");
-                        }
+                        inviteMember(member);
                     }
                 }
             }
@@ -124,5 +110,17 @@ public class Member extends ActionBarActivity
             startActivity(intentToChangePass);
         }
         return super.onOptionsItemSelected(item);
+    }
+    //invite member
+    private void inviteMember(String member) {
+        if(dataProvider.checkProjectMember(loadProjectName, member, loadAccount)){
+            dataProvider.addProjectMember(new TableProjectMember(loadProjectName, loadAccount, member, "Waiting"));
+            String message = mailManager.makeInvitation(loadProjectName, loadProjectDes, loadAccount);
+            MailSender myMailSender = new MailSender(member, "P2P invitation", message, loadAccount, loadPassword, Member.this);
+            myMailSender.send();
+        }
+        else {
+            toastMaker.makeToast("This user has already been invited to project!");
+        }
     }
 }

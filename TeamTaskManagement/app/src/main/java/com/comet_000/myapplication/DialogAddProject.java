@@ -119,7 +119,7 @@ public class DialogAddProject extends DialogFragment{
             return null;
         }
             dataProvider.addProject(new TableProject(name, des, user));
-            dataProvider.addProjectMember(new TableProjectMember(name, user, loadAccount));
+            dataProvider.addProjectMember(new TableProjectMember(name, user, loadAccount, "Accepted"));
         ((Project)getActivity()).loadProjects();
         toastMaker.makeToast("Add new project successfully!");
         return null;

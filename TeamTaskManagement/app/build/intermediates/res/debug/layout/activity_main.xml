@@ -21,7 +21,7 @@
     <ListView
         android:id="@+id/listView"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:layout_below="@+id/textView10"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -78,7 +78,11 @@
         android:layout_centerHorizontal="true"
         android:layout_span="2"
         android:enabled="false"
-        android:text="Sign-in" />
+        android:text="Sign-in"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="@drawable/button"
+        android:textColor="@color/buttonTextColor" />
 
 </RelativeLayout>
-<!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_main.xml -->
+<!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/layout/activity_main.xml -->

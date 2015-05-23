@@ -149,7 +149,12 @@ public class TaskMember extends ActionBarActivity {
 
         //delete task
         if(id==R.id.delete){
-
+            if (listViewTask.getAdapter().getCount()>0) {
+                DialogDeleteTask dialogDeleteTask = new DialogDeleteTask();
+                dialogDeleteTask.show(getFragmentManager(), "DeleteTaskFragment");
+            } else {
+                toastMaker.makeToast("There are no tasks in this project.");
+            }
         }
 
         if(id==android.R.id.home){
@@ -214,10 +219,13 @@ public class TaskMember extends ActionBarActivity {
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getTaskProject(loadProjectName, loadOwner));
         listViewTask.setAdapter(adapter);
     }
-
+    //Load string list of task
+    public String[] loadTaskString() {
+        return dataProvider.getTaskString(loadProjectName, loadOwner);
+    }
     //Load list of members in ListView
     private void loadMembers(){
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getProjectMember(loadProjectName, loadOwner));
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getAllProjectMember(loadProjectName, loadOwner));
         listViewMember.setAdapter(adapter);
     }
 
@@ -299,8 +307,8 @@ public class TaskMember extends ActionBarActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 if (dataProvider.checkProject(projectName, projectOwner)) {
                                     dataProvider.addProject(new TableProject(projectName, projectDes, projectOwner));
-                                    dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner));
-                                    dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount));
+                                    dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner, "Accepted"));
+                                    dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount, "Accepted"));
                                     toastMaker.makeToast("Add new project successfully!");
 
                                     String message1 = mailManager.makeAcceptInvitation(projectName, loadAccount);
@@ -324,7 +332,7 @@ public class TaskMember extends ActionBarActivity {
             case MailManager.acceptIviTag:
                 String[] result1 = mailManager.readAcceptInvitation(message);
                 if (dataProvider.checkProjectMember(result1[0], result1[1], loadAccount)) {
-                    dataProvider.addProjectMember(new TableProjectMember(result1[0], loadAccount, result1[1]));
+                    dataProvider.updateProjectMember(result1[0], result1[1], loadAccount, "Accepted");
                     loadMembers();
                     DialogInterface.OnClickListener dialogClickListener1 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
@@ -469,5 +477,22 @@ public class TaskMember extends ActionBarActivity {
                 break;
 
         }
+    }
+    //Delete tasks
+    public void deleteTask(String[] taskList, Boolean[] checkList) {
+        for (int i=0; i<taskList.length; i++) {
+            String member = dataProvider.get1Task(taskList[i], loadProjectName, loadOwner).MemberName;
+            if (checkList[i]) {
+                if (member.equals("") || member.equals(loadOwner)) {
+                    dataProvider.deleteTask(loadProjectName, taskList[i], loadOwner);
+                } else {
+                    String message = mailManager.makeExcludeTask(loadProjectName, taskList[i], loadOwner);
+                    dataProvider.deleteTask(loadProjectName, taskList[i], loadOwner);
+                    MailSender mailSender = new MailSender(member, "P2P exclude task", message, loadAccount, loadPassword, TaskMember.this);
+                    mailSender.send();
+                }
+            }
+        }
+        loadTasks();
     }
 }

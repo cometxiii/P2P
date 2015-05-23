@@ -214,8 +214,8 @@ public class Project extends ActionBarActivity {
                                 case DialogInterface.BUTTON_POSITIVE:
                                     if (dataProvider.checkProject(projectName, projectOwner)) {
                                         dataProvider.addProject(new TableProject(projectName, projectDes, projectOwner));
-                                        dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner));
-                                        dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount));
+                                        dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner, "Accepted"));
+                                        dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount, "Accepted"));
                                         loadProjects();
                                         toastMaker.makeToast("Add new project successfully!");
                                         String message1 = mailManager.makeAcceptInvitation(projectName, loadAccount);
@@ -239,7 +239,7 @@ public class Project extends ActionBarActivity {
             case MailManager.acceptIviTag:
                 String[] result1 = mailManager.readAcceptInvitation(message);
                 if (dataProvider.checkProjectMember(result1[0], result1[1], loadAccount)) {
-                    dataProvider.addProjectMember(new TableProjectMember(result1[0], loadAccount, result1[1]));
+                    dataProvider.updateProjectMember(result1[0], result1[1], loadAccount, "Accepted");
                     DialogInterface.OnClickListener dialogClickListener1 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
@@ -382,23 +382,6 @@ public class Project extends ActionBarActivity {
 
         }
     }
-
-    private Void addProjectFromInvitation(String projectName, String projectDes, String projectOwner) {
-        if (!dataProvider.checkProject(projectName, projectOwner)) {
-            toastMaker.makeToast("This project is already exist!");
-            return null;
-        }
-        dataProvider.addProject(new TableProject(projectName, projectDes, projectOwner));
-        dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, projectOwner));
-        dataProvider.addProjectMember(new TableProjectMember(projectName, projectOwner, loadAccount));
-        loadProjects();
-        toastMaker.makeToast("Add new project successfully!");
-        String message = mailManager.makeAcceptInvitation(projectName, loadAccount);
-        MailSender myMailSender = new MailSender(projectOwner, "P2P invitation acceptance", message, loadAccount, loadPassword, Project.this);
-        myMailSender.send();
-        return null;
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

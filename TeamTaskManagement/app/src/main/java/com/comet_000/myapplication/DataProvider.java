@@ -318,6 +318,25 @@ public class DataProvider {
         return listString;
     }
 
+    public String[] getTaskString(String projectName, String owner) {
+        QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
+        List<TableTask> taskList = null;
+        try {
+            taskList = queryBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<String> listString = new ArrayList<String>();
+        for (TableTask n : taskList) listString.add(n.getTaskName());
+        String[] arrayString = new String[listString.size()];
+        for (int i=0; i<listString.size(); i++) arrayString[i] = listString.get(i);
+        return arrayString;
+    }
+
     public TableTask getTaskById(int id) {
         return myTaskTable.queryForId(id);
     }
@@ -537,11 +556,15 @@ public class DataProvider {
         return myProjectMemberTable.queryForAll();
     }
 
-    public void updateProjectMemberById(Integer id, String fieldName, String arg) {
+    public void updateProjectMember(String projectName, String memberName, String owner, String status) {
         UpdateBuilder<TableProjectMember, Integer> updateBuilder = myProjectMemberTable.updateBuilder();
         try {
-            updateBuilder.where().eq("id", id);
-            updateBuilder.updateColumnValue(fieldName, arg);
+            updateBuilder.where().eq("ProjectName", projectName)
+                    .and()
+                    .eq("MemberName", memberName)
+                    .and()
+                    .eq("Owner", owner);
+            updateBuilder.updateColumnValue("Status", status);
             updateBuilder.update();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -564,12 +587,31 @@ public class DataProvider {
                     .eq("ProjectName", projectName)
                     .and()
                     .eq("Owner", owner)
+                    .and()
+                    .eq("Status", "Accepted")
                     .query();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         List<String> listString = new ArrayList<String>();
         for (TableProjectMember n : memberList) listString.add(n.getMemberName());
+        return listString;
+    }
+
+    public List<String> getAllProjectMember(String projectName, String owner) {
+        QueryBuilder<TableProjectMember, Integer> queryBuilder =  myProjectMemberTable.queryBuilder();
+        List<TableProjectMember> memberList = null;
+        try {
+            memberList = queryBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<String> listString = new ArrayList<String>();
+        for (TableProjectMember n : memberList) listString.add(n.getMemberName() + " - " + n.Status);
         return listString;
     }
 

@@ -104,9 +104,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add new task"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:layout_below="@+id/spinnerMember"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/button"
+        android:textColor="@color/buttonTextColor" />
 
 
 </RelativeLayout>
-<!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_task.xml -->
+<!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/layout/activity_task.xml -->

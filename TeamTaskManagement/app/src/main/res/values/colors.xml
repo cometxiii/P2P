@@ -8,4 +8,8 @@
     <color name="primaryTextColor">#212121</color>
     <color name="secondaryTextColor">#727272</color>
     <color name="dividerColor">#B6B6B6</color>
+    <color name="buttonTextColor">#ff6f6f6f</color>
+    <color name="buttonColor">#ffe6e6e6</color>
+    <color name="buttonPressColor">#ffd1d1d1</color>
+    <color name="buttonShadowColor">#ffd1d1d1</color>
 </resources>
