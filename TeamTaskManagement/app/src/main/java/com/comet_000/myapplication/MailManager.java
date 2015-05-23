@@ -10,7 +10,7 @@ public class MailManager {
     final String keyTag = "<zfgHsj6Uyk>";
     static final String invitationTag = "<Invitation>";
     static final String acceptIviTag = "<AcceptInvitation>";
-    static final String denyInviTag = "DenyInvitation";
+    static final String denyInviTag = "<DenyInvitation>";
     static final String assignTaskTag = "<AssignTask>";
     static final String acceptTaskTag = "<AcceptTask>";
     static final String changeStaTag = "<ChangeStatus>";

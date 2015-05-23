@@ -257,7 +257,7 @@ public class Project extends ActionBarActivity {
                 }
                 break;
             case MailManager.denyInviTag:
-                String[] resultDenyInvi = mailManager.readAcceptInvitation(message);
+                String[] resultDenyInvi = mailManager.readDenyInvitation(message);
                 if (dataProvider.checkProjectMember(resultDenyInvi[0], resultDenyInvi[1], loadAccount)) {
                     dataProvider.deleteProjectMember(resultDenyInvi[0], resultDenyInvi[1], loadAccount);
                     DialogInterface.OnClickListener dialogClickListener1 = new DialogInterface.OnClickListener() {
