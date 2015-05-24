@@ -149,12 +149,8 @@ public class TaskMember extends ActionBarActivity {
 
         //delete task
         if(id==R.id.delete){
-            if (listViewTask.getAdapter().getCount()>0) {
-                DialogDeleteTask dialogDeleteTask = new DialogDeleteTask();
-                dialogDeleteTask.show(getFragmentManager(), "DeleteTaskFragment");
-            } else {
-                toastMaker.makeToast("No task exists in this project.");
-            }
+            DialogDeleteTaskMember dialogDeleteTaskMember = new DialogDeleteTaskMember();
+            dialogDeleteTaskMember.show(getFragmentManager(), "DeleteTaskMemberFragment");
         }
 
         if(id==android.R.id.home){
@@ -239,6 +235,58 @@ public class TaskMember extends ActionBarActivity {
     private String getProjectDescriptions(){
         TableProject myProject = dataProvider.getProject(loadProjectName, loadOwner);
         return myProject.getProjectDescriptions();
+    }
+    //Show dialog delete task
+    public void showDialogDeleteTask() {
+        if (listViewTask.getAdapter().getCount() > 0) {
+            DialogDeleteTask dialogDeleteTask = new DialogDeleteTask();
+            dialogDeleteTask.show(getFragmentManager(), "DeleteTaskFragment");
+        } else {
+            toastMaker.makeToast("No task exists in this project.");
+        }
+    }
+    //Delete tasks
+    public void deleteTask(String[] taskList, Boolean[] checkList) {
+        for (int i=0; i<taskList.length; i++) {
+            String member = dataProvider.get1Task(taskList[i], loadProjectName, loadOwner).MemberName;
+            if (checkList[i]) {
+                if (member.equals("") || member.equals(loadOwner)) {
+                    dataProvider.deleteTask(loadProjectName, taskList[i], loadOwner);
+                } else {
+                    String message = mailManager.makeExcludeTask(loadProjectName, taskList[i], loadOwner);
+                    dataProvider.deleteTask(loadProjectName, taskList[i], loadOwner);
+                    MailSender mailSender = new MailSender(member, "P2P exclude task", message, loadAccount, loadPassword, TaskMember.this);
+                    mailSender.send();
+                }
+            }
+        }
+        loadTasks();
+    }
+    //Show dialog delete member
+    public void showDialogDeleteMember() {
+        if (listViewMember.getAdapter().getCount() > 1) {
+            DialogDeleteMember dialogDeleteMember = new DialogDeleteMember();
+            dialogDeleteMember.show(getFragmentManager(), "DeleteTaskFragment");
+        } else {
+            toastMaker.makeToast("There are no member is this project.");
+        }
+    }
+    //Get list of member in project
+    public String[] loadMemberString() {
+        return dataProvider.getAllProjectMember1(loadProjectName, loadOwner);
+    }
+    //Delete member from project
+    public void deleteMember(String[] memberList, Boolean[] checkList) {
+        for (int i=0; i < memberList.length; i++) {
+            if (checkList[i]) {
+                dataProvider.updateDeleteMember(loadProjectName, loadOwner, memberList[i]);
+                dataProvider.deleteProjectMember(loadProjectName, memberList[i], loadOwner);
+                String message = mailManager.makeExcludeProject(loadProjectName, loadOwner);
+                MailSender mailSender = new MailSender(memberList[i], "P2P exclude project", message, loadAccount, loadPassword, TaskMember.this);
+                mailSender.send();
+            }
+        }
+        loadMembers();
     }
 
     //Check mail
@@ -496,24 +544,25 @@ public class TaskMember extends ActionBarActivity {
                 builder7.setMessage("User " + result7[2] + " has denied request from task " + result7[1]+ ".")
                         .setPositiveButton("Ok", dialogClickListener7).show();
                 break;
-
-        }
-    }
-    //Delete tasks
-    public void deleteTask(String[] taskList, Boolean[] checkList) {
-        for (int i=0; i<taskList.length; i++) {
-            String member = dataProvider.get1Task(taskList[i], loadProjectName, loadOwner).MemberName;
-            if (checkList[i]) {
-                if (member.equals("") || member.equals(loadOwner)) {
-                    dataProvider.deleteTask(loadProjectName, taskList[i], loadOwner);
-                } else {
-                    String message = mailManager.makeExcludeTask(loadProjectName, taskList[i], loadOwner);
-                    dataProvider.deleteTask(loadProjectName, taskList[i], loadOwner);
-                    MailSender mailSender = new MailSender(member, "P2P exclude task", message, loadAccount, loadPassword, TaskMember.this);
-                    mailSender.send();
+            case MailManager.excludeProTag:
+                final String[] resultExcludePro = mailManager.readExcludeProject(message);
+                if(!dataProvider.checkProject(resultExcludePro[0], resultExcludePro[1])){
+                    dataProvider.deleteProject(resultExcludePro[0], resultExcludePro[1]);
                 }
-            }
+                DialogInterface.OnClickListener dialogClickListener8 = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder8 = new AlertDialog.Builder(this);
+                builder8.setMessage("You have been excluded from project" + resultExcludePro[0]+ ".")
+                        .setPositiveButton("Ok", dialogClickListener8).show();
+                break;
         }
-        loadTasks();
     }
 }

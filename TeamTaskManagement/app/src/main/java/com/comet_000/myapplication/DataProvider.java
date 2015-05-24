@@ -206,14 +206,13 @@ public class DataProvider {
         return myProjectTable.queryForEq(fieldName, arg);
     }
 
-    public void deleteProjectById(int id) {
-        myProjectTable.deleteById(id);
-    }
-
-    public void deleteProjectByFieldName(String fieldName, String arg) {
+    public void deleteProject(String projectName, String owner) {
         DeleteBuilder<TableProject, Integer> deleteBuilder = myProjectTable.deleteBuilder();
         try {
-            deleteBuilder.where().eq(fieldName, arg);
+            deleteBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner);
             deleteBuilder.delete();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -664,6 +663,42 @@ public class DataProvider {
                     .and()
                     .eq("Owner", owner);
             deleteBuilder.delete();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String[] getAllProjectMember1(String projectName, String owner) {
+        QueryBuilder<TableProjectMember, Integer> queryBuilder =  myProjectMemberTable.queryBuilder();
+        List<TableProjectMember> memberList = null;
+        try {
+            memberList = queryBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .and()
+                    .not().eq("MemberName", owner)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        String[] arrayString = new String[memberList.size()];
+        for (int i=0; i<memberList.size(); i++) arrayString[i] = memberList.get(i).getMemberName();
+        return arrayString;
+    }
+
+    public void updateDeleteMember(String projectName, String owner, String memberName) {
+        UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
+        try {
+            updateBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("MemberName", memberName)
+                    .and()
+                    .eq("Owner", owner);
+            updateBuilder.updateColumnValue("Status", "New");
+            updateBuilder.updateColumnValue("MemberName", "");
+            updateBuilder.update();
         } catch (SQLException e) {
             e.printStackTrace();
         }

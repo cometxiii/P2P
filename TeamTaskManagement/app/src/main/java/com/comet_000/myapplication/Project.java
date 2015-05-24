@@ -399,7 +399,26 @@ public class Project extends ActionBarActivity {
                 builder7.setMessage("User " + result7[2] + " has denied request from task " + result7[1]+ ".")
                         .setPositiveButton("Ok", dialogClickListener7).show();
                 break;
-
+            case MailManager.excludeProTag:
+                final String[] resultExcludePro = mailManager.readExcludeProject(message);
+                if(!dataProvider.checkProject(resultExcludePro[0], resultExcludePro[1])){
+                    dataProvider.deleteProject(resultExcludePro[0], resultExcludePro[1]);
+                }
+                loadProjects();
+                DialogInterface.OnClickListener dialogClickListener8 = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+                AlertDialog.Builder builder8 = new AlertDialog.Builder(this);
+                builder8.setMessage("You have been excluded from project" + resultExcludePro[0]+ ".")
+                        .setPositiveButton("Ok", dialogClickListener8).show();
+                break;
         }
     }
 

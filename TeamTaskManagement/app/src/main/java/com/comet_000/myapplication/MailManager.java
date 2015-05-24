@@ -16,7 +16,8 @@ public class MailManager {
     static final String changeStaTag = "<ChangeStatus>";
     static final String excludeTaskTag = "<ExcludeTask>";
     static final String changeDesTag = "<ChangeDes>";
-    static final String denyTaskTag= "<DenyTask>";
+    static final String denyTaskTag = "<DenyTask>";
+    static final String excludeProTag = "<ExcludeProject>";
 
     final String projectTag = "<ProjectName>";
     final String pDesTag = "<ProjectDes>";
@@ -173,8 +174,18 @@ public class MailManager {
         result[2]=readTag(message, senderTag);
         return result;
     }
-//    public static void main(String[] args) {
-//        String message = "<zfgHsj6Uyk><AcceptInvitation><ProjectName>";
-//        System.out.println(classifyMail(message));
-//    }
+
+    public String makeExcludeProject(String projectName, String owner) {
+        String message = addHeader(excludeProTag);
+        message += addTag(projectName, projectTag);
+        message += addTag(owner, ownerTag);
+        return message;
+    }
+
+    public String[] readExcludeProject(String message) {
+        String[] result = new String[2];
+        result[0] = readTag(message, projectTag);
+        result[1] = readTag(message, ownerTag);
+        return result;
+    }
 }
