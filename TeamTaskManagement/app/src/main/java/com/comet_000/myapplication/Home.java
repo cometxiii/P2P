@@ -46,6 +46,8 @@ public class Home extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
+        toastMaker = new ToastMaker(Home.this);
+
         dbHelper = OpenHelperManager.getHelper(Home.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
         dataProvider.setTableAccount(myTableAccount);
