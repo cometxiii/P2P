@@ -129,7 +129,8 @@ public class Home extends ActionBarActivity {
             }
             if (result.equals("Wrong password")) {
                 toastMaker.makeToast("Please enter your new gmail password!");
-                intent3.putExtra("AccountID", account);
+                intent3.putExtra("accountID", account);
+                startActivity(intent3);
                 return;
             }
         }

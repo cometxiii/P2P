@@ -112,11 +112,6 @@ public class ChangePassword extends ActionBarActivity {
         });
     }
 
-
-//    private void getSupportActionBar(Toolbar toolbar) {
-//    }
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
