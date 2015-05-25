@@ -553,6 +553,9 @@ public class TaskMember extends ActionBarActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
+                                if (resultExcludePro[0].equals(loadProjectName) && resultExcludePro[1].equals(loadOwner)) {
+                                    TaskMember.this.finish();
+                                }
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
                                 break;

@@ -23,10 +23,12 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
+import javax.mail.AuthenticationFailedException;
 import javax.mail.Flags;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.search.AndTerm;
@@ -49,6 +51,8 @@ public class Project extends ActionBarActivity {
     ProgressDialog progressDialog;
     TableAccount myAccount;
     ToastMaker toastMaker;
+    Session emailSession = null;
+    Intent intent2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +62,7 @@ public class Project extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
 
+        intent2 = new Intent(this, ChangePassword.class);
         final Intent intentToTaskMember = new Intent(this, TaskMember.class);
         Intent intent = getIntent();
         progressDialog = new ProgressDialog(Project.this);
@@ -146,8 +151,62 @@ public class Project extends ActionBarActivity {
         });
     }
 
+    //check password
+//    class CheckPassword extends AsyncTask<String, Void, String> {
+//        ProgressDialog dialog;
+//        @Override
+//        protected void onPreExecute() {
+//            dialog = new ProgressDialog(Project.this);
+//            dialog.setMessage("Loading...");
+//            dialog.show();
+//        }
+//        @Override
+//        protected String doInBackground(String... params) {
+//            Store store = null;
+//            try {
+//                Properties properties = new Properties();
+//                properties.put("mail.pop3.host", "pop.gmail.com");
+//                properties.put("mail.pop3.port", "995");
+//                properties.put("mail.pop3.starttls.enable", "true");
+//                emailSession = Session.getDefaultInstance(properties);
+//                store = emailSession.getStore("pop3s");
+//                store.connect("pop.gmail.com", params[0], params[1]);
+//                Folder emailFolder = store.getFolder("INBOX");
+//                emailFolder.open(Folder.READ_ONLY);
+//                Message[] messages = emailFolder.getMessages();
+//                emailFolder.close(false);
+//                store.close();
+//            } catch (AuthenticationFailedException e) {
+//                e.printStackTrace();
+//                return "Wrong password";
+//            } catch (NoSuchProviderException e) {
+//                e.printStackTrace();
+//            } catch (MessagingException e) {
+//                e.printStackTrace();
+//            }
+//            return "Ok";
+//        }
+//        @Override
+//        protected void onPostExecute(String result) {
+//            if (dialog.isShowing()) {
+//                dialog.dismiss();
+//            }
+//            if (result.equals("Ok")) {
+//                MailChecker checkMailTask = new MailChecker();
+//                checkMailTask.execute();
+//            }
+//            if (result.equals("foo")) {
+//                toastMaker.makeToast("foo");
+//                return;
+//            }
+//            if (result.equals("Wrong password")) {
+//                toastMaker.makeToast("Please enter your new gmail password!");
+//                intent2.putExtra("AccountID", loadAccount);
+//                return;
+//            }
+//        }
+//    }
     //check mail
-
     private class MailChecker extends AsyncTask<Void, Void, String[]> {
         @Override
         protected void onPreExecute() {
