@@ -79,7 +79,7 @@
                                 android:id="@+id/listViewTask"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/textView12"
+                                android:layout_below="@+id/textView15"
                                 android:layout_centerHorizontal="true"
                                 android:background="#ffe7e7e7" />
 
@@ -103,8 +103,16 @@
                                 android:text="List of tasks"
                                 android:id="@+id/textView12"
                                 android:layout_centerHorizontal="true"
-                                android:layout_below="@+id/txtNote1"
-                                android:paddingTop="0dp"
+                                android:layout_below="@+id/txtNote1" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceMedium"
+                                android:text="Task name - assignee"
+                                android:id="@+id/textView15"
+                                android:layout_centerHorizontal="true"
+                                android:layout_below="@+id/textView12"
                                 android:paddingBottom="10dp" />
 
                         </RelativeLayout>
