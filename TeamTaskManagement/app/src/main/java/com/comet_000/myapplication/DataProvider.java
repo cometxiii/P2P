@@ -317,6 +317,29 @@ public class DataProvider {
         return listString;
     }
 
+    public List<String> getTaskProjectMem(String projectName, String owner) {
+        QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
+        List<TableTask> taskList = null;
+        try {
+            taskList = queryBuilder.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<String> listString = new ArrayList<String>();
+        for (TableTask n : taskList) {
+            if (!n.MemberName.equals("")) {
+                listString.add(n.getTaskName() + " - " + n.MemberName);
+            } else {
+                listString.add(n.getTaskName());
+            }
+        }
+        return listString;
+    }
+
     public String[] getTaskString(String projectName, String owner) {
         QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
         List<TableTask> taskList = null;

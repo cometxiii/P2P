@@ -43,23 +43,33 @@
     <favorites_list name="TeamTaskManagement" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.3895425">
+    <splitter split-orientation="horizontal" split-proportion="0.62633264">
       <split-first>
         <leaf>
           <file leaf-file-name="TaskMember.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/TaskMember.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="9265" max-vertical-offset="9809">
-                  <caret line="545" column="22" selection-start-line="545" selection-start-column="22" selection-end-line="545" selection-end-column="22" />
+                <state vertical-scroll-proportion="-6.785714" vertical-offset="2836" max-vertical-offset="8857">
+                  <caret line="214" column="124" selection-start-line="214" selection-start-column="124" selection-end-line="214" selection-end-column="124" />
                   <folding />
                 </state>
               </provider>
             </entry>
           </file>
-          <file leaf-file-name="ChangePassword.java" pinned="false" current="true" current-in-tab="true">
+          <file leaf-file-name="DataProvider.java" pinned="false" current="true" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/DataProvider.java">
+              <provider selected="true" editor-type-id="text-editor">
+                <state vertical-scroll-proportion="0.575" vertical-offset="4540" max-vertical-offset="11509">
+                  <caret line="333" column="17" selection-start-line="333" selection-start-column="17" selection-end-line="333" selection-end-column="17" />
+                  <folding />
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file leaf-file-name="ChangePassword.java" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/ChangePassword.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.46617916" vertical-offset="238" max-vertical-offset="1972">
+                <state vertical-scroll-proportion="0.0" vertical-offset="493" max-vertical-offset="1972">
                   <caret line="52" column="58" selection-start-line="52" selection-start-column="58" selection-end-line="52" selection-end-column="58" />
                   <folding />
                 </state>
@@ -103,7 +113,7 @@
           <file leaf-file-name="Home.java" pinned="false" current="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/Home.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.5642857" vertical-offset="1401" max-vertical-offset="2295">
+                <state vertical-scroll-proportion="0.89945155" vertical-offset="1225" max-vertical-offset="2295">
                   <caret line="131" column="35" selection-start-line="131" selection-start-column="35" selection-end-line="131" selection-end-column="35" />
                   <folding />
                 </state>
@@ -113,7 +123,7 @@
           <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
               <provider selected="true" editor-type-id="text-editor">
-                <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1632">
+                <state vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="1632">
                   <caret line="19" column="68" selection-start-line="19" selection-start-column="68" selection-end-line="19" selection-end-column="68" />
                   <folding />
                 </state>
@@ -1253,14 +1263,14 @@
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_main_activity2.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/DialogDeleteMember.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/MailManager.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/DataProvider.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_change_password.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/TaskMember.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/Project.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/ChangePassword.java" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/Home.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/TaskMember.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/DataProvider.java" />
       </list>
     </option>
   </component>
@@ -1318,26 +1328,7 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamTaskManagement" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamTaskManagement" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="TeamTaskManagement" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
+      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1462,7 +1453,26 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TeamTaskManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TeamTaskManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="TeamTaskManagement" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -1778,7 +1788,7 @@
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34666666" sideWeight="0.26333332" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.7719054" sideWeight="0.5" order="13" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.18443497" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.18443497" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Memory Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.23044097" sideWeight="0.8175676" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32969153" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1885,7 +1895,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="664">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2069,7 +2078,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="533">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2133,14 +2141,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="408">
           <caret line="15" column="68" selection-start-line="15" selection-start-column="68" selection-end-line="15" selection-end-column="68" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/DataProvider.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="2498" max-vertical-offset="11118">
-          <caret line="215" column="35" selection-start-line="215" selection-start-column="35" selection-end-line="215" selection-end-column="35" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -2216,14 +2216,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/TaskMember.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="8032" max-vertical-offset="8891">
-          <caret line="545" column="22" selection-start-line="545" selection-start-column="22" selection-end-line="545" selection-end-column="22" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="918" max-vertical-offset="3638">
@@ -2250,7 +2242,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/Home.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5642857" vertical-offset="1401" max-vertical-offset="2295">
+        <state vertical-scroll-proportion="0.89945155" vertical-offset="1225" max-vertical-offset="2295">
           <caret line="131" column="35" selection-start-line="131" selection-start-column="35" selection-end-line="131" selection-end-column="35" />
           <folding />
         </state>
@@ -2258,8 +2250,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/ChangePassword.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46617916" vertical-offset="238" max-vertical-offset="1972">
+        <state vertical-scroll-proportion="0.0" vertical-offset="493" max-vertical-offset="1972">
           <caret line="52" column="58" selection-start-line="52" selection-start-column="58" selection-end-line="52" selection-end-column="58" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/TaskMember.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-6.785714" vertical-offset="2836" max-vertical-offset="8857">
+          <caret line="214" column="124" selection-start-line="214" selection-start-column="124" selection-end-line="214" selection-end-column="124" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/comet_000/myapplication/DataProvider.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.575" vertical-offset="4540" max-vertical-offset="11509">
+          <caret line="333" column="17" selection-start-line="333" selection-start-column="17" selection-end-line="333" selection-end-column="17" />
           <folding />
         </state>
       </provider>

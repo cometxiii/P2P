@@ -212,7 +212,7 @@ public class TaskMember extends ActionBarActivity {
 
     //Load list of task names in ListView
     private void loadTasks(){
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getTaskProject(loadProjectName, loadOwner));
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, dataProvider.getTaskProjectMem(loadProjectName, loadOwner));
         listViewTask.setAdapter(adapter);
     }
     //Load string list of task
