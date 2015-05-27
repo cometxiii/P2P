@@ -12,6 +12,7 @@ public class MailManager {
     static final String acceptIviTag = "<AcceptInvitation>";
     static final String denyInviTag = "<DenyInvitation>";
     static final String assignTaskTag = "<AssignTask>";
+    static final String priorityTag = "<Priority>";
     static final String acceptTaskTag = "<AcceptTask>";
     static final String changeStaTag = "<ChangeStatus>";
     static final String excludeTaskTag = "<ExcludeTask>";
@@ -82,12 +83,13 @@ public class MailManager {
         result[1] = readTag(message, senderTag);
         return result;
     }
-    public String makeAssignment(String projectName, String projectOwner, String taskName, String taskDes) {
+    public String makeAssignment(String projectName, String projectOwner, String taskName, String taskDes, String priority) {
         String message = addHeader(assignTaskTag);
         message += addTag(projectName, projectTag);
         message += addTag(projectOwner, ownerTag);
         message += addTag(taskName, taskTag);
         message += addTag(taskDes, taskDesTag);
+        message += addTag(priority, priorityTag);
         return message;
     }
     public String[] readAssignment(String message) {
@@ -96,6 +98,7 @@ public class MailManager {
         result[1] = readTag(message, ownerTag);
         result[2] = readTag(message, taskTag);
         result[3] = readTag(message, taskDesTag);
+        result[4] = readTag(message, priorityTag);
         return result;
     }
     public String makeAccetpTask(String projectName, String taskName, String sender) {

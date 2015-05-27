@@ -20,14 +20,17 @@ public class TableTask {
     String Owner;
     @DatabaseField
     String Status;
+    @DatabaseField
+    String Priority;
 
-    public TableTask(String projectName , String owner, String taskName, String taskDescriptions, String memberName, String status) {
+    public TableTask(String projectName , String owner, String taskName, String taskDescriptions, String memberName, String status, String priority) {
         TaskName = taskName;
         Owner = owner;
         MemberName = memberName;
         TaskDescriptions = taskDescriptions;
         ProjectName = projectName;
         Status = status;
+        Priority = priority;
     }
 
     public TableTask(){}

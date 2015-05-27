@@ -35,7 +35,7 @@ import java.util.List;
 
 public class UpdateTask extends ActionBarActivity {
     private Toolbar toolbar;
-    TextView txtMsg, tName;
+    TextView txtMsg, tName, tPriority;
     Button update;
     EditText eDes;
     Spinner spinner, spinnerStatus;
@@ -62,6 +62,7 @@ public class UpdateTask extends ActionBarActivity {
 
         txtMsg = (TextView) findViewById(R.id.txtMsg);
         tName = (TextView) findViewById(R.id.txtName);
+        tPriority = (TextView) findViewById(R.id.tvPriority1);
         eDes = (EditText) findViewById(R.id.txtDescriptions);
         spinnerStatus = (Spinner) findViewById(R.id.status);
         spinner = (Spinner) findViewById(R.id.spinner);
@@ -131,13 +132,13 @@ public class UpdateTask extends ActionBarActivity {
             intentToChangePass.putExtra("accountID", loadAccount);
             startActivity(intentToChangePass);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     //Load task descriptions
     private void loadTaskDescriptions() {
         myTask = dataProvider.get1Task(loadTaskName, loadProjectName, loadOwner);
+        tPriority.setText(myTask.Priority);
         taskDesBefore = myTask.getTaskDescriptions();
         eDes.setText(myTask.getTaskDescriptions());
         if (!myTask.Owner.equals(loadAccount) || myTask.Status.equals("Waiting")) {
@@ -210,6 +211,7 @@ public class UpdateTask extends ActionBarActivity {
         String taskDes = eDes.getText().toString();
         String taskMember = spinner.getSelectedItem().toString();
         String taskStatus = spinnerStatus.getSelectedItem().toString();
+        String taskPriority = myTask.Priority;
         if (loadAccount.equals(loadOwner)) {
             if (!taskDes.equals(taskDesBefore)) {
                 if (!taskMember.equals(taskMemberBefore)) {
@@ -218,7 +220,7 @@ public class UpdateTask extends ActionBarActivity {
                             dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Accepted");
                         } else {
                             dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Waiting");
-                            String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
+                            String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes, taskPriority);
                             mailSender = new MailSender(taskMember, "P2P assign task.", message, loadAccount, loadPassword, UpdateTask.this);
                             mailSender.send();
                         }
@@ -228,7 +230,7 @@ public class UpdateTask extends ActionBarActivity {
                                 dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "New");
                             } else {
                                 dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Waiting");
-                                String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
+                                String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes, taskPriority);
                                 mailSender = new MailSender(taskMember, "P2P change status.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             }
@@ -248,7 +250,7 @@ public class UpdateTask extends ActionBarActivity {
                                 String message = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                                 mailSender = new MailSender(taskMemberBefore, "P2P exclude task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
-                                message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
+                                message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes, taskPriority);
                                 mailSender = new MailSender(taskMember, "P2P change status.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             }
@@ -274,7 +276,7 @@ public class UpdateTask extends ActionBarActivity {
                             dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "Accepted");
                         } else {
                             dataProvider.updateTask(loadProjectName, loadTaskName, taskDes, taskMember, "Waiting");
-                            String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
+                            String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes, taskPriority);
                             mailSender = new MailSender(taskMember, "P2P assign task.", message, loadAccount, loadPassword, UpdateTask.this);
                             mailSender.send();
                         }
@@ -285,7 +287,7 @@ public class UpdateTask extends ActionBarActivity {
                                 dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "New");
                             } else {
                                 dataProvider.updateTaskMemSta(loadProjectName, loadTaskName, taskMember, "Waiting");
-                                String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
+                                String message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes, taskPriority);
                                 mailSender = new MailSender(taskMember, "P2P assign task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             }
@@ -300,7 +302,7 @@ public class UpdateTask extends ActionBarActivity {
                                 String message = mailManager.makeExcludeTask(loadProjectName, loadTaskName, loadOwner);
                                 mailSender = new MailSender(taskMemberBefore, "P2P exclude task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
-                                message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes);
+                                message = mailManager.makeAssignment(loadProjectName, loadOwner, loadTaskName, taskDes, taskPriority);
                                 mailSender = new MailSender(taskMember, "P2P assign task.", message, loadAccount, loadPassword, UpdateTask.this);
                                 mailSender.send();
                             } else {

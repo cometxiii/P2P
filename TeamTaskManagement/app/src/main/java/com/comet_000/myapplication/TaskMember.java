@@ -422,12 +422,13 @@ public class TaskMember extends ActionBarActivity {
                 final String owner = result2[1];
                 final String taskName = result2[2];
                 final String taskDes = result2[3];
+                final String taskPriority = result2[4];
                 if (dataProvider.checkTask(taskName, projectName1, owner)) {
                     DialogInterface.OnClickListener dialogClickListener2 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "Accepted"));
+                                    dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "Accepted", taskPriority));
                                     loadTasks();
                                     String message = mailManager.makeAccetpTask(projectName1, taskName, loadAccount);
                                     MailSender myMailSender = new MailSender(owner, "P2P assignment acceptance", message, loadAccount, loadPassword, TaskMember.this);

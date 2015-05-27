@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -22,6 +23,8 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.Flags;
@@ -51,7 +54,6 @@ public class Project extends ActionBarActivity {
     ProgressDialog progressDialog;
     TableAccount myAccount;
     ToastMaker toastMaker;
-    Session emailSession = null;
     Intent intent2;
 
     @Override
@@ -69,8 +71,6 @@ public class Project extends ActionBarActivity {
         loadAccount = intent.getStringExtra("intentAccount");
         checkMail = new CheckMail(loadAccount, loadPassword, Project.this);
         loadCallingActivity = intent.getStringExtra("CallingActivity");
-//        eName = (EditText) findViewById(R.id.txtTitle);
-//        eDes = (EditText) findViewById(R.id.txtDes);
         //connect to database using ORMLite
         dbHelper = OpenHelperManager.getHelper(Project.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
@@ -84,7 +84,6 @@ public class Project extends ActionBarActivity {
         myAccount = dataProvider.getAccountById(1);
         loadPassword = myAccount.Password;
         toastMaker = new ToastMaker(getApplicationContext());
-
         //Select a project
         listView = (ListView) findViewById(R.id.listView);
         loadProjects();
@@ -102,9 +101,10 @@ public class Project extends ActionBarActivity {
                 startActivity(intentToTaskMember);
             }
         });
+        callAsynchronousTask();
     }
 
-    @Override
+     @Override
     protected void onResume(){
         super.onResume();
         toolbar = (Toolbar) findViewById(R.id.app_bar);
@@ -116,8 +116,6 @@ public class Project extends ActionBarActivity {
         loadAccount = intent.getStringExtra("intentAccount");
         checkMail = new CheckMail(loadAccount, loadPassword, Project.this);
         loadCallingActivity = intent.getStringExtra("CallingActivity");
-//        eName = (EditText) findViewById(R.id.txtTitle);
-//        eDes = (EditText) findViewById(R.id.txtDes);
         //connect to database using ORMLite
         dbHelper = OpenHelperManager.getHelper(Project.this, DatabaseHelper.class);
         RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
@@ -149,63 +147,35 @@ public class Project extends ActionBarActivity {
                 startActivity(intentToTaskMember);
             }
         });
+        MailChecker checkMailTask = new MailChecker();
+        checkMailTask.execute();
     }
 
-    //check password
-//    class CheckPassword extends AsyncTask<String, Void, String> {
-//        ProgressDialog dialog;
-//        @Override
-//        protected void onPreExecute() {
-//            dialog = new ProgressDialog(Project.this);
-//            dialog.setMessage("Loading...");
-//            dialog.show();
-//        }
-//        @Override
-//        protected String doInBackground(String... params) {
-//            Store store = null;
-//            try {
-//                Properties properties = new Properties();
-//                properties.put("mail.pop3.host", "pop.gmail.com");
-//                properties.put("mail.pop3.port", "995");
-//                properties.put("mail.pop3.starttls.enable", "true");
-//                emailSession = Session.getDefaultInstance(properties);
-//                store = emailSession.getStore("pop3s");
-//                store.connect("pop.gmail.com", params[0], params[1]);
-//                Folder emailFolder = store.getFolder("INBOX");
-//                emailFolder.open(Folder.READ_ONLY);
-//                Message[] messages = emailFolder.getMessages();
-//                emailFolder.close(false);
-//                store.close();
-//            } catch (AuthenticationFailedException e) {
-//                e.printStackTrace();
-//                return "Wrong password";
-//            } catch (NoSuchProviderException e) {
-//                e.printStackTrace();
-//            } catch (MessagingException e) {
-//                e.printStackTrace();
-//            }
-//            return "Ok";
-//        }
-//        @Override
-//        protected void onPostExecute(String result) {
-//            if (dialog.isShowing()) {
-//                dialog.dismiss();
-//            }
-//            if (result.equals("Ok")) {
-//                MailChecker checkMailTask = new MailChecker();
-//                checkMailTask.execute();
-//            }
-//            if (result.equals("foo")) {
-//                toastMaker.makeToast("foo");
-//                return;
-//            }
-//            if (result.equals("Wrong password")) {
-//                toastMaker.makeToast("Please enter your new gmail password!");
-//                intent2.putExtra("AccountID", loadAccount);
-//                return;
-//            }
-//        }
-//    }
+
+    public void callAsynchronousTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask doAsynchronousTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {
+                            MailChecker performBackgroundTask = new MailChecker();
+                            // PerformBackgroundTask this class is the class that extends AsynchTask
+                            performBackgroundTask.execute();
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(doAsynchronousTask, 0, 1000 * 60 * 5); //execute in every 50000 ms
+    }
+
+
+
     //check mail
     private class MailChecker extends AsyncTask<Void, Void, String[]> {
         @Override
@@ -338,12 +308,13 @@ public class Project extends ActionBarActivity {
                 final String owner = result2[1];
                 final String taskName = result2[2];
                 final String taskDes = result2[3];
+                final String taskPriority = result2[4];
                 if (dataProvider.checkTask(taskName, projectName1, owner)) {
                     DialogInterface.OnClickListener dialogClickListener2 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "Accepted"));
+                                    dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "Accepted", taskPriority));
                                     String message = mailManager.makeAccetpTask(projectName1, taskName, loadAccount);
                                     MailSender myMailSender = new MailSender(owner, "P2P assignment acceptance", message, loadAccount, loadPassword, Project.this);
                                     myMailSender.send();

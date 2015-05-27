@@ -1,5 +1,5 @@
 #
-# generated on 2015/05/23 03:36:54
+# generated on 2015/05/27 04:10:25
 #
 # --table-start--
 dataClass=com.comet_000.myapplication.Note
@@ -83,6 +83,9 @@ fieldName=Owner
 # --field-end--
 # --field-start--
 fieldName=Status
+# --field-end--
+# --field-start--
+fieldName=Priority
 # --field-end--
 # --table-fields-end--
 # --table-end--

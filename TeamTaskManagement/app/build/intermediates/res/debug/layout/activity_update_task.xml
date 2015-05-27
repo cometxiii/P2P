@@ -62,9 +62,32 @@
         android:hint="max 100 characters"
         android:layout_below="@+id/txtName"
         android:layout_alignLeft="@+id/txtName"
-        android:layout_alignRight="@+id/txtName"
         android:layout_marginTop="5dp"
         android:maxLines="3" />
+
+    <TextView
+        android:id="@+id/tvPriority"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Priority"
+        android:layout_below="@+id/textView8"
+        android:layout_alignLeft="@+id/textView8"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignBaseline="@+id/tvPriority1" />
+
+    <TextView
+        android:id="@+id/tvPriority1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Priority"
+        android:layout_below="@+id/txtDescriptions"
+        android:layout_toEndOf="@+id/tvPriority"
+        android:layout_alignLeft="@+id/txtName"
+        android:layout_alignRight="@+id/txtDescriptions"
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/tvStatus"
@@ -72,44 +95,33 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Status"
-        android:layout_below="@+id/textView8"
-        android:layout_alignLeft="@+id/textView8"
-        android:layout_alignStart="@+id/textView8"
-        android:layout_marginTop="20dp"
+        android:layout_below="@+id/tvPriority"
+        android:layout_alignLeft="@+id/tvPriority"
         android:layout_alignBaseline="@+id/status" />
 
     <Spinner
         android:id="@+id/status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/txtDescriptions"
-        android:layout_toEndOf="@+id/tvStatus"
-        android:layout_alignLeft="@+id/txtDescriptions"
-        android:layout_alignStart="@+id/txtMsg"
-        android:layout_alignRight="@+id/txtDescriptions"
+        android:layout_below="@+id/tvPriority1"
+        android:layout_alignLeft="@+id/txtMsg"
         android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvStatus"
-        android:layout_alignLeft="@+id/tvStatus"
-        android:layout_alignStart="@+id/tvStatus"
         android:text="Assigned to"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_marginTop="30dp"
-        android:layout_alignBaseline="@+id/spinner" />
+        android:layout_alignTop="@+id/spinner"
+        android:layout_alignLeft="@+id/textView9" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/textView5"
         android:layout_alignLeft="@+id/status"
-        android:layout_alignStart="@+id/txtDescriptions"
         android:layout_below="@+id/status"
-        android:layout_alignRight="@+id/txtDescriptions"
         android:layout_marginTop="20dp" />
 
     <Button
