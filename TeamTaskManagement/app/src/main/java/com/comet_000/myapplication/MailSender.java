@@ -116,7 +116,6 @@ public class MailSender {
         props.put("mail.smtp.port", "465");
         session = Session.getInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-//                return new PasswordAuthentication("p2pteamtaskmanagement@gmail.com", "P2Pmanagement");
                 return new PasswordAuthentication(author, password);
             }
         });

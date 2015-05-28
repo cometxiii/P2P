@@ -12,7 +12,7 @@ import java.util.Date;
  * Created by King on 1/21/2015.
  */
 public class DatabaseConfigUtil extends OrmLiteConfigUtil{
-    private static final Class<?>[] classes = new Class[]{Note.class, TableAccount.class, TableProject.class, TableTask.class, TableProjectMember.class};
+    private static final Class<?>[] classes = new Class[]{TableAccount.class, TableProject.class, TableTask.class, TableProjectMember.class};
 
     public static void main(String[] args) throws IOException, SQLException
     {

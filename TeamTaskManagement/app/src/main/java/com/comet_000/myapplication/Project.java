@@ -104,54 +104,6 @@ public class Project extends ActionBarActivity {
         callAsynchronousTask();
     }
 
-     @Override
-    protected void onResume(){
-        super.onResume();
-        toolbar = (Toolbar) findViewById(R.id.app_bar);
-        setSupportActionBar(toolbar);
-
-        final Intent intentToTaskMember = new Intent(this, TaskMember.class);
-        Intent intent = getIntent();
-        progressDialog = new ProgressDialog(Project.this);
-        loadAccount = intent.getStringExtra("intentAccount");
-        checkMail = new CheckMail(loadAccount, loadPassword, Project.this);
-        loadCallingActivity = intent.getStringExtra("CallingActivity");
-        //connect to database using ORMLite
-        dbHelper = OpenHelperManager.getHelper(Project.this, DatabaseHelper.class);
-        RuntimeExceptionDao<TableProject, Integer> myTableProject = dbHelper.getTableProject();
-        RuntimeExceptionDao<TableProjectMember, Integer> myTableProjectMember = dbHelper.getTableProjectMember();
-        RuntimeExceptionDao<TableTask, Integer> myTableTask = dbHelper.getTableTask();
-        RuntimeExceptionDao<TableAccount, Integer> myTableAccount = dbHelper.getTableAccount();
-        dataProvider.setTableAccount(myTableAccount);
-        dataProvider.setTableTask(myTableTask);
-        dataProvider.setTableProject(myTableProject);
-        dataProvider.setTableProjectMember(myTableProjectMember);
-        myAccount = dataProvider.getAccountById(1);
-        loadPassword = myAccount.Password;
-        toastMaker = new ToastMaker(getApplicationContext());
-
-        //Select a project
-        listView = (ListView) findViewById(R.id.listView);
-        loadProjects();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                List<String> lItems = dataProvider.getAllProjectString();
-                String item = lItems.get(position);
-                int fistOwner = item.indexOf("-");
-                String projectName = item.substring(0, fistOwner - 1);
-                String owner = item.substring(fistOwner + 2);
-                intentToTaskMember.putExtra("intentProjectName", projectName);
-                intentToTaskMember.putExtra("intentAccount", loadAccount);
-                intentToTaskMember.putExtra("intentOwner", owner);
-                startActivity(intentToTaskMember);
-            }
-        });
-        MailChecker checkMailTask = new MailChecker();
-        checkMailTask.execute();
-    }
-
-
     public void callAsynchronousTask() {
         final Handler handler = new Handler();
         Timer timer = new Timer();
@@ -162,7 +114,6 @@ public class Project extends ActionBarActivity {
                     public void run() {
                         try {
                             MailChecker performBackgroundTask = new MailChecker();
-                            // PerformBackgroundTask this class is the class that extends AsynchTask
                             performBackgroundTask.execute();
                         } catch (Exception e) {
                             // TODO Auto-generated catch block
@@ -171,7 +122,7 @@ public class Project extends ActionBarActivity {
                 });
             }
         };
-        timer.schedule(doAsynchronousTask, 0, 1000 * 60 * 5); //execute in every 50000 ms
+        timer.schedule(doAsynchronousTask, 1000 * 60 * 5, 1000 * 60 * 5);
     }
 
 

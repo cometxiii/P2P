@@ -108,6 +108,8 @@ public class Task extends ActionBarActivity {
                         else{
                             if (dataProvider.checkTask((eName.getText()).toString(), loadProjectName, loadOwner)) {
                                 addTask();
+                                loadSpinnerPriority();
+                                loadSpinner();
                                 toastMaker.makeToast("Add new task successfully!");
                             } else {
                                 toastMaker.makeToastMiddle("This task has already been created in project!");

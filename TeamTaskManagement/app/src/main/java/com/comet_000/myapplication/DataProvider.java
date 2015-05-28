@@ -20,7 +20,6 @@ import java.util.List;
  * Created by King on 2/1/2015.
  */
 public class DataProvider {
-    public RuntimeExceptionDao<Note, Integer> myNoteDao = null;
     public RuntimeExceptionDao<TableAccount, Integer> myAccountTable = null;
     public RuntimeExceptionDao<TableProject, Integer> myProjectTable = null;
     public RuntimeExceptionDao<TableTask, Integer> myTaskTable = null;
@@ -28,62 +27,6 @@ public class DataProvider {
 
 
     public DataProvider() {
-    }
-
-    public void SetNoteDao(RuntimeExceptionDao<Note, Integer> noteDao) {
-        myNoteDao = noteDao;
-    }
-
-    public void AddNote(Note myNote) {
-        myNoteDao.create(myNote);
-    }
-
-    public List<Note> GetAllNote() {
-        return myNoteDao.queryForAll();
-    }
-
-    public List<String> GetAllNoteString() {
-        List<Note> listNote = this.GetAllNote();
-        List<String> listString = new ArrayList<String>();
-        for (Note n : listNote) listString.add(n.toString());
-        return listString;
-    }
-
-    public void UpdateNoteById(Integer id, String fieldName, String arg) {
-        UpdateBuilder<Note, Integer> updateBuilder = myNoteDao.updateBuilder();
-        try {
-            updateBuilder.where().eq("id", id);
-            updateBuilder.updateColumnValue(fieldName, arg);
-            updateBuilder.update();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public Note GetNoteById(int id) {
-        return myNoteDao.queryForId(id);
-    }
-
-    public List<Note> GetNodeByFieldName(String fieldName, String arg) {
-        return myNoteDao.queryForEq(fieldName, arg);
-    }
-
-    public void DeleteNoteById(int id) {
-        myNoteDao.deleteById(id);
-    }
-
-    public void DeleteNoteByFieldName(String fieldName, String arg) {
-        DeleteBuilder<Note, Integer> deleteBuilder = myNoteDao.deleteBuilder();
-        try {
-            deleteBuilder.where().eq(fieldName, arg);
-            deleteBuilder.delete();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int GetNumOfNote() {
-        return (int) myNoteDao.countOf();
     }
 
     /////////////////
@@ -97,17 +40,6 @@ public class DataProvider {
 
     public void addAccount(TableAccount myAccount) {
         myAccountTable.create(myAccount);
-    }
-
-    public List<TableAccount> getAllAccount() {
-        return myAccountTable.queryForAll();
-    }
-
-    public List<String> getAllAccountString() {
-        List<TableAccount> listAccount = this.getAllAccount();
-        List<String> listString = new ArrayList<String>();
-        for (TableAccount n : listAccount) listString.add(n.toString());
-        return listString;
     }
 
     public void updatePass(String pass) {
@@ -124,24 +56,6 @@ public class DataProvider {
 
     public TableAccount getAccountById(int id) {
         return myAccountTable.queryForId(id);
-    }
-
-    public List<TableAccount> getAccountByFieldName(String fieldName, String arg) {
-        return myAccountTable.queryForEq(fieldName, arg);
-    }
-
-    public void deleteAccountById(int id) {
-        myAccountTable.deleteById(id);
-    }
-
-    public void deleteAccountByFieldName(String fieldName, String arg) {
-        DeleteBuilder<TableAccount, Integer> deleteBuilder = myAccountTable.deleteBuilder();
-        try {
-            deleteBuilder.where().eq(fieldName, arg);
-            deleteBuilder.delete();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
     public int getNumOfAccount() {
@@ -187,25 +101,6 @@ public class DataProvider {
         return listString;
     }
 
-    public void updateProjectById(Integer id, String fieldName, String arg) {
-        UpdateBuilder<TableProject, Integer> updateBuilder = myProjectTable.updateBuilder();
-        try {
-            updateBuilder.where().eq("id", id);
-            updateBuilder.updateColumnValue(fieldName, arg);
-            updateBuilder.update();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public TableProject getProjectById(int id) {
-        return myProjectTable.queryForId(id);
-    }
-
-    public List<TableProject> getProjectByFieldName(String fieldName, String arg) {
-        return myProjectTable.queryForEq(fieldName, arg);
-    }
-
     public void deleteProject(String projectName, String owner) {
         DeleteBuilder<TableProject, Integer> deleteBuilder = myProjectTable.deleteBuilder();
         try {
@@ -217,10 +112,6 @@ public class DataProvider {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public int getNumOfProject() {
-        return (int) myProjectTable.countOf();
     }
 
     public boolean checkProject(String name, String owner) {
@@ -256,16 +147,6 @@ public class DataProvider {
         myTaskTable.create(myTask);
     }
 
-    public List<TableTask> getAllTask() {
-        return myTaskTable.queryForAll();
-    }
-
-    public List<String> getAllTaskString() {
-        List<TableTask> listTask = this.getAllTask();
-        List<String> listString = new ArrayList<String>();
-        for (TableTask n : listTask) listString.add(n.getTaskName());
-        return listString;
-    }
     public TableTask get1Task(String taskName, String projectName, String owner){
         QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
         List<TableTask> taskList = null;
@@ -280,24 +161,6 @@ public class DataProvider {
             e.printStackTrace();
         }
         return taskList.get(0);
-    }
-
-    public List<String> getTask(String projectName, String taskName, String owner) {
-        QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
-        List<TableTask> taskList = null;
-        try {
-            taskList = queryBuilder.where()
-                    .eq("TaskName", taskName)
-                    .eq("ProjectName", projectName)
-                    .and()
-                    .eq("Owner", owner)
-                    .query();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        List<String> listString = new ArrayList<String>();
-        for (TableTask n : taskList) listString.add(n.getTaskName());
-        return listString;
     }
 
     public List<String> getTaskProject(String projectName, String owner) {
@@ -359,14 +222,6 @@ public class DataProvider {
         return arrayString;
     }
 
-    public TableTask getTaskById(int id) {
-        return myTaskTable.queryForId(id);
-    }
-
-    public void deleteTaskById(int id) {
-        myTaskTable.deleteById(id);
-    }
-
     public void deleteTask(String projectName, String taskName, String owner) {
         DeleteBuilder<TableTask, Integer> deleteBuilder = myTaskTable.deleteBuilder();
         try {
@@ -382,9 +237,6 @@ public class DataProvider {
         }
     }
 
-    public int getNumOfTask() {
-        return (int) myTaskTable.countOf();
-    }
     public boolean checkTaskMember(String taskName, String projectName, String owner, String member) {
         QueryBuilder<TableTask, Integer> queryBuilder =  myTaskTable.queryBuilder();
         List<TableTask> taskList = null;
@@ -528,22 +380,6 @@ public class DataProvider {
         }
     }
 
-    public void updateTaskMember(String projectName, String taskName, String owner, String member) {
-        UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
-        try {
-            updateBuilder.where()
-                    .eq("TaskName", taskName)
-                    .and()
-                    .eq("ProjectName", projectName)
-                    .and()
-                    .eq("Owner", owner);
-            updateBuilder.updateColumnValue("MemberName", member);
-            updateBuilder.update();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void updateTaskAssignment(String projectName, String taskName, String member, String status){
         UpdateBuilder<TableTask, Integer> updateBuilder = myTaskTable.updateBuilder();
         try {
@@ -574,10 +410,6 @@ public class DataProvider {
         myProjectMemberTable.create(myProjectMember);
     }
 
-    public List<TableProjectMember> getAllProjectMember() {
-        return myProjectMemberTable.queryForAll();
-    }
-
     public void updateProjectMember(String projectName, String memberName, String owner, String status) {
         UpdateBuilder<TableProjectMember, Integer> updateBuilder = myProjectMemberTable.updateBuilder();
         try {
@@ -591,14 +423,6 @@ public class DataProvider {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public TableProjectMember getProjectMemberById(int id) {
-        return myProjectMemberTable.queryForId(id);
-    }
-
-    public List<TableProjectMember> getProjectMemberByFieldName(String fieldName, String arg) {
-        return myProjectMemberTable.queryForEq(fieldName, arg);
     }
 
     public List<String> getProjectMember(String projectName, String owner) {
@@ -635,24 +459,6 @@ public class DataProvider {
         List<String> listString = new ArrayList<String>();
         for (TableProjectMember n : memberList) listString.add(n.getMemberName() + " - " + n.Status);
         return listString;
-    }
-
-    public void deleteProjectMemberById(int id) {
-        myProjectMemberTable.deleteById(id);
-    }
-
-    public void deleteProjectMemberByFieldName(String fieldName, String arg) {
-        DeleteBuilder<TableProjectMember, Integer> deleteBuilder = myProjectMemberTable.deleteBuilder();
-        try {
-            deleteBuilder.where().eq(fieldName, arg);
-            deleteBuilder.delete();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public int getNumOfProjectMember() {
-        return (int) myProjectMemberTable.countOf();
     }
 
     public boolean checkProjectMember(String projectName, String memberName, String owner) {
