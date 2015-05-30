@@ -42,7 +42,8 @@
         android:layout_toEndOf="@+id/textView2"
         android:layout_marginLeft="50dp"
         android:layout_marginTop="5dp"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:paddingBottom="10dp" />
 
 
     <TextView
@@ -69,7 +70,8 @@
         android:layout_alignStart="@+id/txtName"
         android:layout_alignRight="@+id/txtName"
         android:layout_marginTop="5dp"
-        android:maxLines="3" />
+        android:maxLines="3"
+        android:paddingBottom="10dp" />
 
     <TextView
         android:id="@+id/textViewPriority"
@@ -77,9 +79,10 @@
         android:layout_height="wrap_content"
         android:text="Priority"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_alignTop="@+id/spinnerPriority"
         android:layout_alignLeft="@+id/textView3"
-        android:layout_alignStart="@+id/textView3" />
+        android:layout_alignStart="@+id/textView3"
+        android:layout_below="@+id/textView3"
+        android:layout_alignBaseline="@+id/spinnerPriority" />
 
     <Spinner
         android:id="@+id/spinnerPriority"
@@ -90,7 +93,8 @@
         android:layout_below="@+id/txtDes"
         android:layout_alignLeft="@+id/txtDes"
         android:layout_alignRight="@+id/txtDes"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="12dp"
+        android:paddingBottom="10dp" />
 
     <TextView
         android:id="@+id/textView4"
@@ -110,7 +114,8 @@
         android:layout_below="@+id/spinnerPriority"
         android:layout_alignLeft="@+id/spinnerPriority"
         android:layout_alignRight="@+id/spinnerPriority"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="12dp"
+        android:paddingBottom="10dp" />
 
 
     <Button
@@ -128,4 +133,4 @@
 
 
 </RelativeLayout>
-<!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/layout/activity_task.xml -->
+<!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_task.xml -->

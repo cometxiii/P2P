@@ -41,7 +41,8 @@
         android:layout_marginLeft="50dp"
         android:layout_below="@+id/txtMsg"
         android:layout_marginTop="5dp"
-        android:singleLine="false" />
+        android:singleLine="false"
+        android:paddingBottom="10dp" />
 
     <TextView
         android:id="@+id/textView8"
@@ -63,7 +64,8 @@
         android:layout_below="@+id/txtName"
         android:layout_alignLeft="@+id/txtName"
         android:layout_marginTop="5dp"
-        android:maxLines="3" />
+        android:maxLines="3"
+        android:paddingBottom="10dp" />
 
     <TextView
         android:id="@+id/tvPriority"
@@ -85,9 +87,9 @@
         android:text="Priority"
         android:layout_below="@+id/txtDescriptions"
         android:layout_toEndOf="@+id/tvPriority"
-        android:layout_alignLeft="@+id/txtName"
-        android:layout_alignRight="@+id/txtDescriptions"
-        android:layout_marginTop="5dp" />
+        android:layout_alignLeft="@+id/txtDescriptions"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="10dp" />
 
     <TextView
         android:id="@+id/tvStatus"
@@ -104,8 +106,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvPriority1"
-        android:layout_alignLeft="@+id/txtMsg"
-        android:layout_marginTop="5dp" />
+        android:layout_alignLeft="@+id/tvPriority1"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="10dp" />
 
     <TextView
         android:id="@+id/textView5"
@@ -113,8 +116,9 @@
         android:layout_height="wrap_content"
         android:text="Assigned to"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_alignTop="@+id/spinner"
-        android:layout_alignLeft="@+id/textView9" />
+        android:layout_alignLeft="@+id/tvStatus"
+        android:layout_below="@+id/tvStatus"
+        android:layout_alignBaseline="@+id/spinner" />
 
     <Spinner
         android:id="@+id/spinner"
@@ -122,7 +126,8 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/status"
         android:layout_below="@+id/status"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:paddingBottom="10dp" />
 
     <Button
         android:id="@+id/btnUpdate"

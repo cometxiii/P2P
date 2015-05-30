@@ -142,4 +142,4 @@
         app:layout="@layout/fragment_navigation_drawer"
         android:name="com.comet_000.myapplication.NavigationDrawerFragment"
         tools:layout="@layout/fragment_navigation_drawer" />
-</android.support.v4.widget.DrawerLayout><!-- From: file:/S:/Users/King/Desktop/P2P/TeamTaskManagement/app/src/main/res/layout/activity_task_member.xml -->
+</android.support.v4.widget.DrawerLayout><!-- From: file:/C:/Users/comet_000/AndroidStudioProjects/TeamTaskManagement/app/src/main/res/layout/activity_task_member.xml -->
