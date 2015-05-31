@@ -199,13 +199,14 @@ public class Task extends ActionBarActivity {
 
     private void loadSpinnerPriority() {
         List<String> priorities = new ArrayList<>();
-        priorities.add("1");
-        priorities.add("2");
-        priorities.add("3");
-        priorities.add("4");
-        priorities.add("5");
+        priorities.add("Urgent");
+        priorities.add("High");
+        priorities.add("Medium");
+        priorities.add("Normal");
+        priorities.add("Low");
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, priorities);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerPriority.setAdapter(dataAdapter);
+        spinnerPriority.setSelection(2);
     }
 }
