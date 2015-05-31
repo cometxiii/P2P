@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +25,8 @@ import com.j256.ormlite.dao.RuntimeExceptionDao;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.mail.Flags;
 import javax.mail.Folder;
@@ -105,7 +108,6 @@ public class TaskMember extends ActionBarActivity {
 
         //check if user is project owner or not
         if(!loadAccount.equals(loadOwner)){
-
             note1.setVisibility(View.VISIBLE);
             note2.setVisibility(View.VISIBLE);
         }
@@ -114,7 +116,30 @@ public class TaskMember extends ActionBarActivity {
         listViewMember=(ListView)findViewById(R.id.listViewMember);
         loadTasks();
         loadMembers();
+        callAsynchronousTask();
     }
+
+    public void callAsynchronousTask() {
+        final Handler handler = new Handler();
+        Timer timer = new Timer();
+        TimerTask doAsynchronousTask = new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        try {
+                            MailChecker performBackgroundTask = new MailChecker();
+                            performBackgroundTask.execute();
+                        } catch (Exception e) {
+                            // TODO Auto-generated catch block
+                        }
+                    }
+                });
+            }
+        };
+        timer.schedule(doAsynchronousTask, 1000 * 60 * 5, 1000 * 60 * 5);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
