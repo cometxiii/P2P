@@ -312,6 +312,7 @@ public class TaskMember extends ActionBarActivity {
             }
         }
         loadMembers();
+        loadTasks();
     }
 
     //Check mail
@@ -344,8 +345,8 @@ public class TaskMember extends ActionBarActivity {
                 Message[] foundMessages = inbox.search(andTerm);
                 String[] listMessage = new String[foundMessages.length];
                 System.out.println("Total P2P mails are = " + listMessage.length);
-                for (int i = foundMessages.length - 1; i >= 0; i--) {
-                    listMessage[i] = foundMessages[i].getContent().toString();
+                for (int i = 0; i < foundMessages.length; i++) {
+                    listMessage[i] = foundMessages[foundMessages.length-i-1].getContent().toString();
                 }
                 inbox.setFlags(foundMessages, new Flags(Flags.Flag.SEEN), true);
                 store.close();
@@ -390,7 +391,7 @@ public class TaskMember extends ActionBarActivity {
                                     myMailSender.send();
                                 }
                                 else {
-                                    toastMaker.makeToast("This project already exist!");
+                                    toastMaker.makeToast("This project already exists!");
                                 }
                                 break;
                             case DialogInterface.BUTTON_NEGATIVE:
@@ -407,14 +408,17 @@ public class TaskMember extends ActionBarActivity {
                         .setNegativeButton("No", dialogClickListener).show();
                 break;
             case MailManager.acceptIviTag:
-                String[] result1 = mailManager.readAcceptInvitation(message);
-                if (dataProvider.checkProjectMember(result1[0], result1[1], loadAccount)) {
-                    dataProvider.updateProjectMember(result1[0], result1[1], loadAccount, "Accepted");
-                    loadMembers();
+                final String[] result1 = mailManager.readAcceptInvitation(message);
                     DialogInterface.OnClickListener dialogClickListener1 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
+                                    if (dataProvider.checkProjectMember(result1[0], result1[1], loadAccount)) {
+                                        dataProvider.updateProjectMember(result1[0], result1[1], loadAccount, "Accepted");
+                                        loadMembers();
+                                    } else {
+                                        toastMaker.makeToast("This member does not exist.");
+                                    }
                                     break;
                             }
                         }
@@ -422,24 +426,25 @@ public class TaskMember extends ActionBarActivity {
                     AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
                     builder1.setMessage("User " + result1[1] + " has accepted your invitation to project " + result1[0] + ".")
                             .setPositiveButton("Ok", dialogClickListener1).show();
-                }
                 break;
             case MailManager.denyInviTag:
-                String[] resultDenyInvi = mailManager.readAcceptInvitation(message);
-                if (dataProvider.checkProjectMember(resultDenyInvi[0], resultDenyInvi[1], loadAccount)) {
-                    dataProvider.deleteProjectMember(resultDenyInvi[0], resultDenyInvi[1], loadAccount);
-                    DialogInterface.OnClickListener dialogClickListener1 = new DialogInterface.OnClickListener() {
+                final String[] resultDenyInvi = mailManager.readAcceptInvitation(message);
+                    DialogInterface.OnClickListener dialogClickListenerDenyInvi = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
+                                    if (dataProvider.checkProjectMember(resultDenyInvi[0], resultDenyInvi[1], loadAccount)) {
+                                        dataProvider.deleteProjectMember(resultDenyInvi[0], resultDenyInvi[1], loadAccount);
+                                    } else {
+                                        toastMaker.makeToast("This member does not exist.");
+                                    }
                                     break;
                             }
                         }
                     };
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-                    builder1.setMessage("User " + resultDenyInvi[1] + " has denied your invitation to project " + resultDenyInvi[0] + ".")
-                            .setPositiveButton("Ok", dialogClickListener1).show();
-                }
+                    AlertDialog.Builder builderDenyInvi = new AlertDialog.Builder(this);
+                    builderDenyInvi.setMessage("User " + resultDenyInvi[1] + " has denied your invitation to project " + resultDenyInvi[0] + ".")
+                            .setPositiveButton("Ok", dialogClickListenerDenyInvi).show();
                 break;
             case MailManager.assignTaskTag:
                 final String[] result2 = mailManager.readAssignment(message);
@@ -448,21 +453,28 @@ public class TaskMember extends ActionBarActivity {
                 final String taskName = result2[2];
                 final String taskDes = result2[3];
                 final String taskPriority = result2[4];
-                if (dataProvider.checkTask(taskName, projectName1, owner)) {
                     DialogInterface.OnClickListener dialogClickListener2 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
-                                    dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "Accepted", taskPriority));
-                                    loadTasks();
-                                    String message = mailManager.makeAccetpTask(projectName1, taskName, loadAccount);
-                                    MailSender myMailSender = new MailSender(owner, "P2P assignment acceptance", message, loadAccount, loadPassword, TaskMember.this);
-                                    myMailSender.send();
+                                    if (dataProvider.checkTask(taskName, projectName1, owner)) {
+                                        dataProvider.addTask(new TableTask(projectName1, owner, taskName, taskDes, loadAccount, "Accepted", taskPriority));
+                                        loadTasks();
+                                        String message = mailManager.makeAccetpTask(projectName1, taskName, loadAccount);
+                                        MailSender myMailSender = new MailSender(owner, "P2P assignment acceptance", message, loadAccount, loadPassword, TaskMember.this);
+                                        myMailSender.send();
+                                    } else {
+                                        toastMaker.makeToast("This task already exists.");
+                                    }
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
-                                    String messageDeny = mailManager.makeDenyTask(projectName1, taskName, loadAccount);
-                                    myMailSender = new MailSender(owner, "P2P assignment deny", messageDeny, loadAccount, loadPassword, TaskMember.this);
-                                    myMailSender.send();
+                                    if (dataProvider.checkTask(taskName, projectName1, owner)) {
+                                        String messageDeny = mailManager.makeDenyTask(projectName1, taskName, loadAccount);
+                                        MailSender myMailSender = new MailSender(owner, "P2P assignment deny", messageDeny, loadAccount, loadPassword, TaskMember.this);
+                                        myMailSender.send();
+                                    } else {
+                                        toastMaker.makeToast("This task already exists.");
+                                    }
                                     break;
                             }
                         }
@@ -471,16 +483,18 @@ public class TaskMember extends ActionBarActivity {
                     builder2.setMessage("You have been assigned to task " + taskName + " from project " + projectName1 + ", do you want to join?")
                             .setPositiveButton("Yes", dialogClickListener2)
                             .setNegativeButton("No", dialogClickListener2).show();
-                }
                 break;
             case MailManager.acceptTaskTag:
-                String[] result3 = mailManager.readAcceptTask(message);
-                if (!dataProvider.checkTaskAssignment(result3[1], result3[0], loadAccount, result3[2], "Waiting")) {
-                    dataProvider.updateTaskAssignment(result3[0], result3[1], result3[2], "Accepted");
+                final String[] result3 = mailManager.readAcceptTask(message);
                     DialogInterface.OnClickListener dialogClickListener3 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
+                                    if (!dataProvider.checkTaskAssignment(result3[1], result3[0], loadAccount, result3[2], "Waiting")) {
+                                        dataProvider.updateTaskAssignment(result3[0], result3[1], result3[2], "Accepted");
+                                    } else {
+                                        toastMaker.makeToast("This task does not exist.");
+                                    }
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
                                     break;
@@ -490,16 +504,18 @@ public class TaskMember extends ActionBarActivity {
                     AlertDialog.Builder builder3 = new AlertDialog.Builder(this);
                     builder3.setMessage("User " + result3[2] + " has accepted your assignment to task " + result3[1] + " of project " + result3[0] + ".")
                             .setPositiveButton("Ok", dialogClickListener3).show();
-                }
                 break;
             case MailManager.changeStaTag:
-                String[] result4 = mailManager.readChangeStatus(message);
-                if (!dataProvider.checkTaskMember(result4[1], result4[0], loadAccount, result4[2])) {
-                    dataProvider.updateTaskAssignment(result4[0], result4[1], result4[2], result4[3]);
+                final String[] result4 = mailManager.readChangeStatus(message);
                     DialogInterface.OnClickListener dialogClickListener4 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
+                                    if (!dataProvider.checkTaskMember(result4[1], result4[0], loadAccount, result4[2])) {
+                                        dataProvider.updateTaskAssignment(result4[0], result4[1], result4[2], result4[3]);
+                                    } else {
+                                        toastMaker.makeToast("This task does not exist.");
+                                    }
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
                                     break;
@@ -509,17 +525,19 @@ public class TaskMember extends ActionBarActivity {
                     AlertDialog.Builder builder4 = new AlertDialog.Builder(this);
                     builder4.setMessage("User " + result4[2] + " has changed status of task " + result4[1] + " of project " + result4[0] + " to " + result4[3] + ".")
                             .setPositiveButton("Ok", dialogClickListener4).show();
-                }
                 break;
             case MailManager.excludeTaskTag:
-                String[] result5 = mailManager.readExcludeTask(message);
-                if (!dataProvider.checkTaskMember(result5[1], result5[0], result5[2], loadAccount)) {
-                    dataProvider.deleteTask(result5[0], result5[1], result5[2]);
-                    loadTasks();
+                final String[] result5 = mailManager.readExcludeTask(message);
                     DialogInterface.OnClickListener dialogClickListener5 = new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int which) {
                             switch (which) {
                                 case DialogInterface.BUTTON_POSITIVE:
+                                    if (!dataProvider.checkTaskMember(result5[1], result5[0], result5[2], loadAccount)) {
+                                        dataProvider.deleteTask(result5[0], result5[1], result5[2]);
+                                        loadTasks();
+                                    } else {
+                                        toastMaker.makeToast("This task does not exist.");
+                                    }
                                     break;
                                 case DialogInterface.BUTTON_NEGATIVE:
                                     break;
@@ -529,17 +547,18 @@ public class TaskMember extends ActionBarActivity {
                     AlertDialog.Builder builder5 = new AlertDialog.Builder(this);
                     builder5.setMessage("You have been excluded from task " + result5[1] + " of project " + result5[0] + ".")
                             .setPositiveButton("Ok", dialogClickListener5).show();
-                }
                 break;
             case MailManager.changeDesTag:
-                String[] result6 = mailManager.readChangeDes(message);
-                dataProvider.updateTaskDes(result6[0], result6[1], result6[2], result6[3]);
+                final String[] result6 = mailManager.readChangeDes(message);
                 DialogInterface.OnClickListener dialogClickListener6 = new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
+                                if (dataProvider.checkTask(result6[1],result6[0],result6[2])) {
+                                    dataProvider.updateTaskDes(result6[0], result6[1], result6[2], result6[3]);
+                                } else {
+                                    toastMaker.makeToast("This task does not exist.");
+                                }
                                 break;
                         }
                     }
@@ -572,18 +591,18 @@ public class TaskMember extends ActionBarActivity {
                 break;
             case MailManager.excludeProTag:
                 final String[] resultExcludePro = mailManager.readExcludeProject(message);
-                if(!dataProvider.checkProject(resultExcludePro[0], resultExcludePro[1])){
-                    dataProvider.deleteProject(resultExcludePro[0], resultExcludePro[1]);
-                }
                 DialogInterface.OnClickListener dialogClickListener8 = new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
+                                if(!dataProvider.checkProject(resultExcludePro[0], resultExcludePro[1])){
+                                    dataProvider.deleteProject(resultExcludePro[0], resultExcludePro[1]);
+                                } else {
+                                    toastMaker.makeToast("This project does not exist.");
+                                }
                                 if (resultExcludePro[0].equals(loadProjectName) && resultExcludePro[1].equals(loadOwner)) {
                                     TaskMember.this.finish();
                                 }
-                                break;
-                            case DialogInterface.BUTTON_NEGATIVE:
                                 break;
                         }
                     }

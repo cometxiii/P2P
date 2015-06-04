@@ -93,7 +93,7 @@ public class MailManager {
         return message;
     }
     public String[] readAssignment(String message) {
-        String[] result = new String[4];
+        String[] result = new String[5];
         result[0] = readTag(message, projectTag);
         result[1] = readTag(message, ownerTag);
         result[2] = readTag(message, taskTag);
