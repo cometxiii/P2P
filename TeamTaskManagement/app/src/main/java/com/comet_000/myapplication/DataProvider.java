@@ -101,6 +101,34 @@ public class DataProvider {
         return listString;
     }
 
+    public List<String> getAllProjectStringDelete(String owner) {
+        QueryBuilder<TableProject, Integer> queryBuilder =  myProjectTable.queryBuilder();
+        List<TableProject> projectList = null;
+        List<TableProjectMember> memberList = null;
+        try {
+            projectList = queryBuilder.where()
+                    .eq("Owner", owner).query();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        List<String> listString = new ArrayList<String>();
+        for (TableProject n : projectList) {
+            QueryBuilder<TableProjectMember, Integer> queryBuilder1 = myProjectMemberTable.queryBuilder();
+            try {
+                memberList = queryBuilder1.where()
+                        .eq("ProjectName", n.getProjectName())
+                        .and()
+                        .eq("Owner", owner)
+                        .query();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (memberList.size() == 1)
+                listString.add(n.getProjectName());
+        }
+        return listString;
+    }
+
     public void deleteProject(String projectName, String owner) {
         DeleteBuilder<TableProject, Integer> deleteBuilder = myProjectTable.deleteBuilder();
         try {

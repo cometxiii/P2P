@@ -131,7 +131,21 @@ public class Project extends ActionBarActivity {
         timer.schedule(doAsynchronousTask, 1000 * 60 * 5, 1000 * 60 * 5);
     }
 
+    public String[] loadProjectString() {
+        List<String> projecList = dataProvider.getAllProjectStringDelete(loadAccount);
+        String[] projectArr = new String[projecList.size()];
+        projecList.toArray(projectArr);
+        return projectArr;
+    }
 
+    public void deleteProject(String[] projectList, Boolean[] checkList) {
+        for (int i=0; i < projectList.length; i++) {
+            if (checkList[i]) {
+                dataProvider.deleteProject(projectList[i], loadAccount);
+            }
+        }
+        loadProjects();
+    }
 
     //check mail
     private class MailChecker extends AsyncTask<Void, Void, String[]> {
@@ -459,6 +473,12 @@ public class Project extends ActionBarActivity {
         if(id==R.id.synchronize){
             MailChecker checkMailTask = new MailChecker();
             checkMailTask.execute();
+        }
+
+        if(id==R.id.delete) {
+            toastMaker.makeToast("You have to remove all members before delete a project.");
+            DialogDeleteProject dialogDeleteProject = new DialogDeleteProject();
+            dialogDeleteProject.show(getFragmentManager(), "DeleteProjectFragment");
         }
         return super.onOptionsItemSelected(item);
     }

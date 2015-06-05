@@ -16,6 +16,8 @@ public class DialogDeleteMember extends DialogFragment {
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         setCancelable(false);
         final String[] memberList = ((TaskMember)getActivity()).loadMemberString();
+        if (memberList.length == 0)
+            this.dismiss();
         checkList = new Boolean[memberList.length];
         for (int i=0; i<checkList.length; i++) {
             checkList[i] = false;
