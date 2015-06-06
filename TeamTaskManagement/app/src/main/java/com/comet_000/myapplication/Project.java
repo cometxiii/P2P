@@ -477,8 +477,10 @@ public class Project extends ActionBarActivity {
 
         if(id==R.id.delete) {
             toastMaker.makeToast("You have to remove all members before delete a project.");
-            DialogDeleteProject dialogDeleteProject = new DialogDeleteProject();
-            dialogDeleteProject.show(getFragmentManager(), "DeleteProjectFragment");
+            if (dataProvider.getAllProjectStringDelete(loadAccount).size() != 0) {
+                DialogDeleteProject dialogDeleteProject = new DialogDeleteProject();
+                dialogDeleteProject.show(getFragmentManager(), "DeleteProjectFragment");
+            }
         }
         return super.onOptionsItemSelected(item);
     }

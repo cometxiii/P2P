@@ -131,12 +131,26 @@ public class DataProvider {
 
     public void deleteProject(String projectName, String owner) {
         DeleteBuilder<TableProject, Integer> deleteBuilder = myProjectTable.deleteBuilder();
+        DeleteBuilder<TableTask, Integer> deleteBuilderTask = myTaskTable.deleteBuilder();
+        DeleteBuilder<TableProjectMember, Integer> deleteBuilderMember = myProjectMemberTable.deleteBuilder();
         try {
             deleteBuilder.where()
                     .eq("ProjectName", projectName)
                     .and()
                     .eq("Owner", owner);
             deleteBuilder.delete();
+            deleteBuilderTask.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner);
+            deleteBuilderTask.delete();
+            deleteBuilderTask.where()
+                    .eq("ProjectName", projectName)
+                    .and()
+                    .eq("Owner", owner)
+                    .and()
+                    .eq("MemberName", owner);
+            deleteBuilderMember.delete();
         } catch (SQLException e) {
             e.printStackTrace();
         }
