@@ -438,6 +438,7 @@ public class TaskMember extends ActionBarActivity {
                                     } else {
                                         toastMaker.makeToast("This member does not exist.");
                                     }
+                                    loadMembers();
                                     break;
                             }
                         }
@@ -554,7 +555,7 @@ public class TaskMember extends ActionBarActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
-                                if (dataProvider.checkTask(result6[1],result6[0],result6[2])) {
+                                if (!dataProvider.checkTask(result6[1],result6[0],result6[2])) {
                                     dataProvider.updateTaskDes(result6[0], result6[1], result6[2], result6[3]);
                                 } else {
                                     toastMaker.makeToast("This task does not exist.");
@@ -575,6 +576,7 @@ public class TaskMember extends ActionBarActivity {
                             case DialogInterface.BUTTON_POSITIVE:
                                 if(!dataProvider.checkTaskMember(result7[1], result7[0], loadAccount, result7[2])){
                                     dataProvider.updateTaskDeny(result7[0], result7[1], loadAccount, "New", result7[2]);
+                                    loadTasks();
                                 }
                                 else{
                                     toastMaker.makeToast("This task does not exist!");
