@@ -144,12 +144,10 @@ public class DataProvider {
                     .and()
                     .eq("Owner", owner);
             deleteBuilderTask.delete();
-            deleteBuilderTask.where()
+            deleteBuilderMember.where()
                     .eq("ProjectName", projectName)
                     .and()
-                    .eq("Owner", owner)
-                    .and()
-                    .eq("MemberName", owner);
+                    .eq("Owner", owner);
             deleteBuilderMember.delete();
         } catch (SQLException e) {
             e.printStackTrace();
